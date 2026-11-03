@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.0: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.1: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -22,7 +22,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.0 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.1 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
@@ -192,6 +192,73 @@ def collect(feeds, terms):
     return selected
 
 
+def translate_articles(articles):
+    """Best-effort Japanese translation using MyMemory public API.
+
+    No paid API key. Reuses translations from previous articles.json.
+    Public translation endpoints may rate-limit or change; originals are kept.
+    """
+    old = {}
+    previous = ROOT / 'articles.json'
+    if previous.exists():
+        try:
+            old = {a['url']: a for a in read_json(previous).get('articles', []) if isinstance(a, dict) and a.get('url')}
+        except (ValueError, OSError, TypeError):
+            pass
+
+    # Conservative daily request-size budget; the public API is not guaranteed.
+    budget = 4200
+    requests = 0
+    failures = 0
+    def translate(text):
+        nonlocal budget, requests, failures
+        text = text.strip()
+        if not text or not re.search(r'[A-Za-z]', text):
+            return text
+        if len(text) > 450 or len(text) > budget:
+            return None
+        params = urllib.parse.urlencode({'q': text, 'langpair': 'en|ja'})
+        req = urllib.request.Request('https://api.mymemory.translated.net/get?' + params,
+                                     headers={'User-Agent': USER_AGENT, 'Accept': 'application/json'})
+        try:
+            with urllib.request.urlopen(req, timeout=9) as response:
+                data = json.loads(response.read(100000))
+            translated = html.unescape(str(data.get('responseData', {}).get('translatedText', ''))).strip()
+            status = int(data.get('responseStatus', 0))
+            if status != 200 or not translated or translated.upper().startswith('MYMEMORY WARNING'):
+                failures += 1
+                return None
+            budget -= len(text)
+            requests += 1
+            return translated
+        except (OSError, ValueError, TypeError) as exc:
+            failures += 1
+            if failures <= 3:
+                print(f'WARN: translation unavailable: {type(exc).__name__}', file=sys.stderr)
+            return None
+
+    # Titles first: prioritize readable headlines for all 30 cards.
+    for a in articles:
+        old_a = old.get(a['url'], {})
+        if old_a.get('title') == a['title'] and old_a.get('title_ja'):
+            a['title_ja'] = old_a['title_ja']
+        else:
+            a['title_ja'] = translate(a['title'])
+    # Then summaries, within remaining free-tier budget.
+    for a in articles:
+        original = a['summary'][:180]
+        old_a = old.get(a['url'], {})
+        if old_a.get('summary', '')[:180] == original and old_a.get('summary_ja'):
+            a['summary_ja'] = old_a['summary_ja']
+        else:
+            a['summary_ja'] = translate(original)
+    translated_titles = sum(bool(a.get('title_ja')) for a in articles)
+    translated_summaries = sum(bool(a.get('summary_ja')) for a in articles)
+    print(f'INFO: Japanese translation: {translated_titles}/{len(articles)} titles, '
+          f'{translated_summaries}/{len(articles)} summaries; '
+          f'{requests} API requests, {failures} failures, {budget} character budget remaining')
+
+
 def render(articles, terms):
     esc = html.escape
 
@@ -204,8 +271,9 @@ def render(articles, terms):
             tags = ''.join(f'<span class="tag">{esc(x)}</span>' for x in article['matched'][:4])
             badge = '<span class="highlight">最重要キーワード</span>' if article['score'] == 2 else ('<span class="highlight">キーワード一致</span>' if article['matched'] else '')
             cards.append(f'''<article class="card"><div class="meta">{esc(article['category'])} · {esc(article['source'])} · {date}</div>
-<div>{badge}</div><h2><a href="{url}" target="_blank" rel="noopener noreferrer">{esc(article['title'])}</a></h2>
-<p>{esc(article['summary'][:240]) or '概要は元記事で確認してください。'}</p><div class="tags">{tags}</div>
+<div>{badge}</div><h2><a href="{url}" target="_blank" rel="noopener noreferrer">{esc(article.get('title_ja') or article['title'])}</a></h2>
+<div class="original">{esc(article['title']) if article.get('title_ja') else ''}</div>
+<p>{esc(article.get('summary_ja') or article['summary'][:240]) or '概要は元記事で確認してください。'}</p><div class="tags">{tags}</div>
 <a class="source" href="{url}" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>''')
         return '\n'.join(cards)
 
@@ -229,14 +297,14 @@ header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-t
 .stats{{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}}
 .grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}.card{{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}}
 .meta{{font-size:12px;color:var(--gold);font-weight:700}}.card h2{{font-size:21px;line-height:1.5;margin:12px 0}}a{{color:inherit;text-decoration:none}}.card h2 a:hover,.source:hover{{text-decoration:underline}}
-.card p{{color:var(--muted);font-size:15px;overflow-wrap:anywhere}}.tags{{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}}.tag{{font-size:11px;border:1px solid #47546b;padding:3px 9px;border-radius:99px}}
+.original{{color:#8f9db3;font-size:12px;line-height:1.5;margin:0 0 8px}}.card p{{color:var(--muted);font-size:15px;overflow-wrap:anywhere}}.tags{{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}}.tag{{font-size:11px;border:1px solid #47546b;padding:3px 9px;border-radius:99px}}
 .source{{font-size:13px;color:var(--gold);font-weight:700}}.empty{{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}}footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
 section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.section-title small{{font-size:13px;color:var(--muted);font-weight:400}}
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.0</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
-<main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。AIによる要約ではありません。</p>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.1</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語は公開翻訳サービスによる機械翻訳です。翻訳できない場合は英語原文を表示します。AIによる独自要約ではありません。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
 
@@ -244,6 +312,7 @@ def main():
     terms = keywords()
     feeds = read_json(ROOT / 'feeds.json')['feeds']
     articles = collect(feeds, terms)
+    translate_articles(articles)
     OUT.write_text(render(articles, terms), encoding='utf-8')
     (ROOT / 'articles.json').write_text(json.dumps({
         'generated_at': NOW.isoformat(), 'articles': articles
