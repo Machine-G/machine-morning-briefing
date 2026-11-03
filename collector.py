@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""MMB v0.8: free RSS collector, keyword filter and static HTML generator.
+"""Machine Morning Briefing v0.9: RSS collector with normalized keyword matching.
 
-No AI API or authentication secrets are required. Does not change existing index.html.
+Cloudflare keyword authentication and existing static output are preserved.
 """
 import datetime as dt
 import html
@@ -10,6 +10,7 @@ import os
 import pathlib
 import re
 import sys
+import unicodedata
 import urllib.parse
 import urllib.request
 from email.utils import parsedate_to_datetime
@@ -20,7 +21,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/0.8 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/0.9 (+RSS reader)'
 
 
 def read_json(path):
@@ -28,7 +29,7 @@ def read_json(path):
 
 
 def keywords():
-    """Prefer authenticated cloud settings; do not silently use samples on errors."""
+    """Prefer authenticated cloud settings; never silently fall back on API errors."""
     endpoint = os.environ.get('MMB_KEYWORDS_API', '').strip()
     if endpoint:
         token = os.environ.get('MMB_COLLECTOR_TOKEN', '').strip()
@@ -72,6 +73,33 @@ def clean(text):
     return re.sub(r'\s+', ' ', re.sub(r'<[^>]*>', ' ', text or '')).strip()
 
 
+def normalized_words(value):
+    """Normalize Unicode, case, and punctuation to comparable word tokens."""
+    value = unicodedata.normalize('NFKC', str(value)).casefold()
+    return re.findall(r'[^\W_]+', value, flags=re.UNICODE)
+
+
+def matches_keyword(term, text_tokens):
+    """Match exact token sequences or their joined spelling (NAM-A2 vs NAM A2).
+
+    This intentionally does not use fuzzy matching or synonym guessing.
+    """
+    tokens = normalized_words(term)
+    if not tokens:
+        return False
+    n = len(tokens)
+    joined = ''.join(tokens)
+    for i in range(len(text_tokens)):
+        if text_tokens[i:i + n] == tokens:
+            return True
+        # Allow punctuation/space variation within a short sequence, while
+        # retaining token boundaries so 'NAM' doesn't match 'DYNAMICS'.
+        for span in range(1, min(n + 2, 5)):
+            if ''.join(text_tokens[i:i + span]) == joined:
+                return True
+    return False
+
+
 def article_date(entry):
     for field in ('published_parsed', 'updated_parsed'):
         stamp = entry.get(field)
@@ -82,7 +110,10 @@ def article_date(entry):
 
 def fetch_feed(feed):
     try:
-        request = urllib.request.Request(feed['url'], headers={'User-Agent': USER_AGENT, 'Accept': 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*'})
+        request = urllib.request.Request(feed['url'], headers={
+            'User-Agent': USER_AGENT,
+            'Accept': 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
+        })
         with urllib.request.urlopen(request, timeout=18) as response:
             raw = response.read(2_000_000)
         parsed = feedparser.parse(raw)
@@ -97,8 +128,10 @@ def fetch_feed(feed):
 def normalize_url(url):
     try:
         parts = urllib.parse.urlsplit(url)
-        params = [(k, v) for k, v in urllib.parse.parse_qsl(parts.query) if not k.lower().startswith('utm_')]
-        return urllib.parse.urlunsplit((parts.scheme, parts.netloc.lower(), parts.path.rstrip('/'), urllib.parse.urlencode(params), ''))
+        params = [(k, v) for k, v in urllib.parse.parse_qsl(parts.query)
+                  if not k.lower().startswith('utm_')]
+        return urllib.parse.urlunsplit((parts.scheme, parts.netloc.lower(),
+                                       parts.path.rstrip('/'), urllib.parse.urlencode(params), ''))
     except Exception:
         return url
 
@@ -106,27 +139,38 @@ def normalize_url(url):
 def collect(feeds, terms):
     articles, seen = [], set()
     for feed in feeds:
-        for entry in fetch_feed(feed):
+        entries = fetch_feed(feed)
+        eligible = 0
+        matched_count = 0
+        for entry in entries:
             title = clean(entry.get('title', ''))
             summary = clean(entry.get('summary', entry.get('description', '')))[:450]
             url = entry.get('link', '')
             if not title or not url.startswith(('https://', 'http://')):
                 continue
-            normalized = normalize_url(url)
-            if normalized in seen:
-                continue
-            matches = [kw for kw in terms if kw['term'].casefold() in (title + ' ' + summary).casefold()]
-            if not matches:
-                continue
             published = article_date(entry)
             if published and published < NOW - dt.timedelta(days=7):
                 continue
+            eligible += 1
+            normalized = normalize_url(url)
+            if normalized in seen:
+                continue
+            text_tokens = normalized_words(title + ' ' + summary)
+            matches = [kw for kw in terms if matches_keyword(kw['term'], text_tokens)]
+            if not matches:
+                continue
+            matched_count += 1
             seen.add(normalized)
-            articles.append({'title': title, 'summary': summary, 'url': url, 'source': feed['name'],
-                             'category': feed['category'], 'published': published.isoformat() if published else None,
+            articles.append({'title': title, 'summary': summary, 'url': url,
+                             'source': feed['name'], 'category': feed['category'],
+                             'published': published.isoformat() if published else None,
                              'matched': [x['term'] for x in matches],
-                             'score': max(2 if x['priority'] in ('最重要', '高') else 1 for x in matches)})
+                             'score': max(2 if x['priority'] in ('最重要', '高') else 1
+                                          for x in matches)})
+        print(f"INFO: feed {feed['name']}: {len(entries)} entries, "
+              f"{eligible} within date window/undated, {matched_count} matched")
     articles.sort(key=lambda x: (x['score'], x['published'] or ''), reverse=True)
+    print(f'INFO: total matched {len(articles)}; publishing up to 45')
     return articles[:45]
 
 
@@ -158,7 +202,7 @@ header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-t
 .source{{font-size:13px;color:var(--gold);font-weight:700}}.empty{{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}}footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v0.8</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v0.9</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">公開RSSの見出し・概要を掲載しています。AIによる要約ではありません。掲載情報は元記事で確認してください。</p>
 <div class="grid">{body}</div></main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
