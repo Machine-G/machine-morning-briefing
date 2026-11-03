@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T21:10:18.761263+09:00",
+  "generated_at": "2026-11-03T21:13:53.883964+09:00",
   "articles": [
     {
       "title": "Fender confirms NAM A2 compatibility is coming to the Tone Master Pro for the modeler’s biggest update yet",
@@ -11,7 +11,9 @@
       "matched": [
         "NAM A2"
       ],
-      "score": 1
+      "score": 1,
+      "title_ja": "フェンダーは、モデラーの最大のアップデートのためにTone Master ProにNAM A 2の互換性が来ることを確認します",
+      "summary_ja": "Tone Master Proは、この技術を採用し、デジタルギアの状況を変えるオープンソーステクノロジーへのアクセスをユーザーに提供する最初の主要なモデラーの1つになるように見えます"
     },
     {
       "title": "ANTHRAX's SCOTT IAN: Why BON SCOTT-Era AC/DC Is 'My Favorite Band Of All Time'",
@@ -21,7 +23,9 @@
       "category": "メタル",
       "published": "2026-11-03T06:47:52+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "ANTHRAXのSCOTT IAN ：なぜBON SCOTT - Era AC/DCが「私の好きなバンド」なのか",
+      "summary_ja": "公式のBon Scott YouTubeチャンネルは、炭疽菌ギタリストのScott Ianが、AC/DCの「Powerage」アルバムでBon Scottの声を初めて聞いたときのことを覚えているビデオを共有しました。"
     },
     {
       "title": "Steve Lukather on making the 2003 Christmas album that united the world’s greatest guitarists",
@@ -31,7 +35,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T19:56:47+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "スティーブ・ルカサー、世界で最も偉大なギタリストたちを結びつける2003年のクリスマス・アルバムを制作",
+      "summary_ja": "Santamentalは、Eddie Van Halen、Steve Vai、Slashをフィーチャーしており、Totoのギタリストが権利を取り戻したことに驚いた後、再発行されています。今回は慈善事業です"
     },
     {
       "title": "Morning Bid: Midterms and mediation",
@@ -41,7 +47,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T20:43:26+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "午前の入札：中間審査と仲裁",
+      "summary_ja": ""
     },
     {
       "title": "VOTE: Better Rush Era - 1970s vs. 1980s?",
@@ -51,7 +59,9 @@
       "category": "メタル",
       "published": "2026-11-03T06:18:24+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "投票：より良いラッシュ時代- 1970年代対1980年代？",
+      "summary_ja": "Paul Natkin、Getty Images、Ebet Roberts/Redferns、Getty Images、Getty Images"
     },
     {
       "title": "How physical guitar stores survive in 2026 – and what you can do to help them thrive",
@@ -61,7 +71,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T03:20:10+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "2026年に物理的なギター店がどのように生き残るか–そしてそれらが繁栄するのを助けるために何ができるか",
+      "summary_ja": "GWは、非常に異なるビジネスの3人の所有者と話し合い、彼らがどのように生き残り、プレイヤーが実際の体験を維持するために何ができるかを調べます"
     },
     {
       "title": "War widens in the Black Sea in a test of NATO red lines",
@@ -71,7 +83,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T20:30:23+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "NATOのレッドラインのテストで黒海で戦争が拡大",
+      "summary_ja": ""
     },
     {
       "title": "CHRIS JERICHO On Singing FOZZY Songs That He Didn't Write: 'I Have To Figure Out What They Mean To Me To Really Deliver Them With Authority'",
@@ -81,7 +95,9 @@
       "category": "メタル",
       "published": "2026-11-03T05:32:50+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "クリス・ジェリコが書かなかったFOZZYの歌を歌う：「権威を持ってそれらを本当に届けるには、それらが私にとって何を意味するのかを理解しなければならない」",
+      "summary_ja": "Skratch N 'Sniffとの新しい独占インタビューで、FOZZYのフロントマンChris Jerichoは、FOZZYのギタリストRich Wardと長年のプロデューサーJohnny Andrとの仕事上の関係について話し合いました"
     },
     {
       "title": "Peterson gives Eddie Van Halen’s go-to tuner a modern upgrade and signature branding",
@@ -91,7 +107,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T02:21:40+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "ピーターソン、エディ・ヴァン・ヘイレンの人気チューナーにモダンなアップグレードとシグネチャーブランディングを提供",
+      "summary_ja": "Eddieの人気チューナーブランドは、Van Halenのデビューレコードから派生した13種類のEVH Sweetenersを搭載したStroboStompを発売しました"
     },
     {
       "title": "Oil rises as Iran says war deal remains distant, US strikes Qeshm",
@@ -101,7 +119,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T20:24:27+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "イランが戦争協定はまだ遠いと言い、米国がゲシュムを攻撃するにつれて石油が上昇する",
+      "summary_ja": ""
     },
     {
       "title": "More Than Misery",
@@ -111,7 +131,9 @@
       "category": "メタル",
       "published": "2026-11-03T05:26:21+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "悲惨以上のもの",
+      "summary_ja": "CARNIFEXは、しばしば見過ごされ、しばしば過小評価されてきましたが、20年の間、デスコアの主要な最前線に安定して信頼できる存在でした。"
     },
     {
       "title": "Joe Bonamassa says Josh Smith’s Two Rock amp has been found – and thankfully it hadn’t been stolen",
@@ -121,7 +143,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T01:42:27+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "ジョー・ボナマッサは、ジョシュ・スミスの2つのロックアンプが見つかったと言います–そして幸いにもそれは盗まれていませんでした",
+      "summary_ja": "アンプはそれほど遠くには行っていませんでしたが、Bonamassaのソーシャルメディアの呼び出しは、それをSmithのリグに戻すのに役立ったようです"
     },
     {
       "title": "Gold drops as oil prices climb, U.S. midterms loom large",
@@ -131,7 +155,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T20:02:23+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "原油価格の上昇に伴う金価格の下落、米国の中期決算が大きく迫っている",
+      "summary_ja": ""
     },
     {
       "title": "AVENGED SEVENFOLD's M. SHADOWS Believes 'The Stage' Has Become 'The Crown Jewel' In The Band's Catalog A Decade After Its Surprise Release",
@@ -141,7 +167,9 @@
       "category": "メタル",
       "published": "2026-11-03T04:17:11+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "アベンジド・セブンフォールドのM.シャドウズは、サプライズリリースの10年後にバンドのカタログで「ステージ」が「クラウンジュエル」になったと信じています",
+      "summary_ja": "Avenged Sevenfoldのアルバム「The Stage」の10周年を祝う新しいインタビューで、フロントマンのM. Shadowsは、LPの販売方法についてRyan J. Downeyに話しました。"
     },
     {
       "title": "“I’m impressed by how clearly it reproduces my layered parts, even as the arrangement becomes busier”: Boss RC-600 Loop Station review",
@@ -151,7 +179,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T01:07:17+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "「配置が忙しくなっても、レイヤーパーツがはっきりと再現されていることに感銘を受けました」：ボスRC -600ループステーションのレビュー",
+      "summary_ja": "32ビットオーディオと広範なFXを備えたこの6トラックフラッグシップルーパーペダルは、依然として究極のライブループツールですか？"
     },
     {
       "title": "Oil rises after reported U.S. strike on Iran’s Qeshm Island dents peace hopes",
@@ -161,7 +191,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T19:41:13+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "イランのケシュム島への米国の攻撃が報道された後、石油が上昇し、平和への希望が損なわれた",
+      "summary_ja": ""
     },
     {
       "title": "PHOTOS - See How Your Favorite Rockers Dressed for Halloween",
@@ -171,7 +203,9 @@
       "category": "メタル",
       "published": "2026-11-03T04:14:37+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "写真-ハロウィーンのお気に入りのロッカーの服装を見る",
+      "summary_ja": "Noam Galai、Getty Images、Mike Coppola、Getty Images、Cindy Ord、Getty Images"
     },
     {
       "title": "“Page and Plant said they really liked our performance. That was a big deal”: Ann Wilson’s tales of guitar royalty",
@@ -181,7 +215,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T00:55:41+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "「ペイジとプラントは、私たちのパフォーマンスが本当に気に入っていると言いました。それは大変なことでした」：アン・ウィルソンのギター王族の物語",
+      "summary_ja": null
     },
     {
       "title": "Dollar subdued as U.S. midterms get underway; Aussie Hits 2-week low",
@@ -191,7 +227,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T19:32:18+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "米国の中間選挙が始まるにつれてドルは落ち着き、オージーヒットは2週間ぶりの低水準",
+      "summary_ja": ""
     },
     {
       "title": "SCORPIONS Announce Spring/Summer 2027 European Tour",
@@ -201,7 +239,9 @@
       "category": "メタル",
       "published": "2026-11-03T03:21:17+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "スコーピオンズが2027年春夏ヨーロッパツアーを発表",
+      "summary_ja": null
     },
     {
       "title": "The biggest bass gear launches of the month – from a Fender Mark Hoppus signature to Iron Maiden pickups and a one-of-one Spector",
@@ -211,7 +251,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T00:46:12+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "フェンダーマークホップスのシグネチャーからアイアンメイデンのピックアップ、ワンオブワンのスペクターまで、今月発売された最大のベースギア",
+      "summary_ja": null
     },
     {
       "title": "Tesla’s China-made EV sales rise 10.3% y/y in October",
@@ -221,7 +263,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T19:24:37+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "10月の中国製EV販売台数は前年同期比10.3 ％増",
+      "summary_ja": ""
     },
     {
       "title": "DEEP PURPLE Cancels Remainder Of Fall 2026 European Tour On Advice Of IAN GILLAN's Medical Team",
@@ -231,7 +275,9 @@
       "category": "メタル",
       "published": "2026-11-03T02:35:23+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "イアン・ギランの医療チームの助言により、ディープパープルは2026年秋の残りのヨーロッパツアーをキャンセル",
+      "summary_ja": null
     },
     {
       "title": "“A great way to build textural ambience into astandard guitar chain”: Walrus Audio Lüm Texture Engine review",
@@ -241,7 +287,9 @@
       "category": "ギター機材",
       "published": "2026-11-03T00:00:00+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "「テクスチャの雰囲気を標準的なギターチェーンに組み込む素晴らしい方法」： Walrus Audio Lüm Texture Engineレビュー",
+      "summary_ja": null
     },
     {
       "title": "Hong Kong economy grows 5.2% in third quarter",
@@ -251,7 +299,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T19:23:18+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "香港経済は第3四半期に5.2 ％成長",
+      "summary_ja": ""
     },
     {
       "title": "STEVE VAI On Debut SATCHVAI Album 'The Sea Of Emotion': 'It Was My Favorite Collaboration'",
@@ -261,7 +311,9 @@
       "category": "メタル",
       "published": "2026-11-03T02:17:32+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "STEVE VAIがSATCHVAIアルバム『The Sea of Emotion』でデビュー：「It Was My Favorite Collaboration」",
+      "summary_ja": null
     },
     {
       "title": "Behringer is planning a range of $10 stompboxes that could flip the budget pedal market on its head",
@@ -271,7 +323,9 @@
       "category": "ギター機材",
       "published": "2026-11-02T22:51:12+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "Behringerは、予算のペダル市場をひっくり返す可能性のある$ 10のストンプボックスのシリーズを計画しています",
+      "summary_ja": null
     },
     {
       "title": "Sterling today: Pound edges up as dollar eases, BoE hike in view",
@@ -281,7 +335,9 @@
       "category": "経済・トレード",
       "published": "2026-11-03T19:12:09+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "今日のスターリング：ドル安に伴いポンドが上昇、BoEのハイキングが見えてくる",
+      "summary_ja": ""
     },
     {
       "title": "Guns N' Roses Play Different Setlist at Second Aerosmith' Show",
@@ -291,7 +347,9 @@
       "category": "メタル",
       "published": "2026-11-03T02:07:28+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "ガンズ・アンド・ローゼズがセカンド・エアロスミス・ショーで異なるセットリストを披露",
+      "summary_ja": null
     },
     {
       "title": "Metallica wanted to take Turnstile on tour but got turned down, according to James Hetfield",
@@ -301,7 +359,9 @@
       "category": "ギター機材",
       "published": "2026-11-02T21:56:54+09:00",
       "matched": [],
-      "score": 0
+      "score": 0,
+      "title_ja": "ジェームズ・ヘットフィールドによると、メタリカはターンスタイルのツアーを希望していたが、断られたという。",
+      "summary_ja": null
     }
   ]
 }
