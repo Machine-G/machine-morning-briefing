@@ -1,4 +1,17 @@
 {
-  "generated_at": "2026-11-03T20:58:06.009296+09:00",
-  "articles": []
+  "generated_at": "2026-11-03T21:02:32.630534+09:00",
+  "articles": [
+    {
+      "title": "Fender confirms NAM A2 compatibility is coming to the Tone Master Pro for the modeler’s biggest update yet",
+      "summary": "The Tone Master Pro looks set to be one of the first major modelers to embrace the tech and give users access to the open-source tech that’s changing the digital gear landscape",
+      "url": "https://www.guitarworld.com/gear/amp-modeler-pedals/tone-master-pro-nam-a2-tease",
+      "source": "Guitar World",
+      "category": "ギター機材",
+      "published": "2026-10-30T22:18:25+09:00",
+      "matched": [
+        "NAM A2"
+      ],
+      "score": 1
+    }
+  ]
 }
