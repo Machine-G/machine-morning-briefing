@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.1: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.2: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -22,7 +22,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.1 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.2 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
@@ -192,34 +192,65 @@ def collect(feeds, terms):
     return selected
 
 
-def translate_articles(articles):
-    """Best-effort Japanese translation using MyMemory public API.
+# Canonical names and common machine-translation variations. Keep the glossary
+# deliberately small and deterministic; this is not an AI editorial rewrite.
+GLOSSARY = {
+    'NAM A2': [r'NAM\s*[-－]?\s*A\s*[-－]?\s*2'],
+    'Quad Cortex': [r'Quad[ -]?Cortex', r'クアッド[・ ]?コーテックス'],
+    'Tone Master Pro': [r'Tone\s+Master\s+Pro'],
+    'TONEX': [r'TONE\s*X'],
+    'Neural DSP': [r'Neural\s+DSP'],
+    'AC/DC': [r'AC\s*/\s*DC'],
+    'ANTHRAX': [r'ANTHRAX', r'アンスラックス'],
+    'SABER TIGER': [r'SABER\s+TIGER', r'セイバー[・ ]?タイガー'],
+    'M-VAVE': [r'M[ -]?VAVE'],
+    'NAM': [r'(?<![A-Za-z])NAM(?![A-Za-z])'],
+}
 
-    No paid API key. Reuses translations from previous articles.json.
-    Public translation endpoints may rate-limit or change; originals are kept.
+
+def normalize_glossary(text):
+    if not text:
+        return text
+    for canonical, patterns in GLOSSARY.items():
+        for pattern in patterns:
+            text = re.sub(pattern, lambda match: canonical, text, flags=re.IGNORECASE)
+    return text
+
+
+def translate_articles(articles):
+    """Translate public RSS snippets, retaining originals and cached translations.
+
+    Best effort: public MyMemory quotas/quality are outside our control.
+    Summaries are shorter to fit more translations in a conservative budget.
     """
     old = {}
     previous = ROOT / 'articles.json'
     if previous.exists():
         try:
-            old = {a['url']: a for a in read_json(previous).get('articles', []) if isinstance(a, dict) and a.get('url')}
+            old = {a['url']: a for a in read_json(previous).get('articles', [])
+                   if isinstance(a, dict) and a.get('url')}
         except (ValueError, OSError, TypeError):
             pass
 
-    # Conservative daily request-size budget; the public API is not guaranteed.
-    budget = 4200
+    # Character budget is local, not the provider's published daily allowance.
+    # Keep modest to avoid unexpectedly heavy use of a free public endpoint.
+    budget = 4800
     requests = 0
     failures = 0
+    cache_hits = 0
+    SUMMARY_LIMIT = 110
+
     def translate(text):
         nonlocal budget, requests, failures
         text = text.strip()
         if not text or not re.search(r'[A-Za-z]', text):
-            return text
+            return text or None
         if len(text) > 450 or len(text) > budget:
             return None
         params = urllib.parse.urlencode({'q': text, 'langpair': 'en|ja'})
         req = urllib.request.Request('https://api.mymemory.translated.net/get?' + params,
                                      headers={'User-Agent': USER_AGENT, 'Accept': 'application/json'})
+        requests += 1
         try:
             with urllib.request.urlopen(req, timeout=9) as response:
                 data = json.loads(response.read(100000))
@@ -229,34 +260,41 @@ def translate_articles(articles):
                 failures += 1
                 return None
             budget -= len(text)
-            requests += 1
-            return translated
+            return normalize_glossary(translated)
         except (OSError, ValueError, TypeError) as exc:
             failures += 1
             if failures <= 3:
                 print(f'WARN: translation unavailable: {type(exc).__name__}', file=sys.stderr)
             return None
 
-    # Titles first: prioritize readable headlines for all 30 cards.
+    # Preserve v1.1 translations and apply the glossary even to cached content.
     for a in articles:
         old_a = old.get(a['url'], {})
         if old_a.get('title') == a['title'] and old_a.get('title_ja'):
-            a['title_ja'] = old_a['title_ja']
+            a['title_ja'] = normalize_glossary(old_a['title_ja'])
+            cache_hits += 1
         else:
             a['title_ja'] = translate(a['title'])
-    # Then summaries, within remaining free-tier budget.
+
+    # Translate short snippets for every article before spending the remaining
+    # budget on longer snippets. Avoid reusing an old translation for changed RSS.
     for a in articles:
-        original = a['summary'][:180]
+        original = a['summary'][:SUMMARY_LIMIT].strip()
         old_a = old.get(a['url'], {})
-        if old_a.get('summary', '')[:180] == original and old_a.get('summary_ja'):
-            a['summary_ja'] = old_a['summary_ja']
+        if not original:
+            a['summary_ja'] = None
+        elif old_a.get('summary') == a['summary'] and old_a.get('summary_ja'):
+            a['summary_ja'] = normalize_glossary(old_a['summary_ja'])
+            cache_hits += 1
         else:
             a['summary_ja'] = translate(original)
+
     translated_titles = sum(bool(a.get('title_ja')) for a in articles)
     translated_summaries = sum(bool(a.get('summary_ja')) for a in articles)
     print(f'INFO: Japanese translation: {translated_titles}/{len(articles)} titles, '
           f'{translated_summaries}/{len(articles)} summaries; '
-          f'{requests} API requests, {failures} failures, {budget} character budget remaining')
+          f'{requests} API requests, {failures} failures, {cache_hits} cache hits, '
+          f'{budget} local character budget remaining')
 
 
 def render(articles, terms):
@@ -303,7 +341,7 @@ section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.se
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.1</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.2</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語は公開翻訳サービスによる機械翻訳です。翻訳できない場合は英語原文を表示します。AIによる独自要約ではありません。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
