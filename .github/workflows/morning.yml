@@ -18,7 +18,7 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Run Python collector
         env:
-          MMB_API_URL: https://machine-morning-briefing-api.tnk929.workers.dev
+          MMB_KEYWORDS_API: https://machine-morning-briefing-api.tnk929.workers.dev/api/collector/keywords
           MMB_COLLECTOR_TOKEN: ${{ secrets.MMB_COLLECTOR_TOKEN }}
         run: python collector.py
       - name: Commit generated edition
