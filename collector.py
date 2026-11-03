@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MMB v0.7: free RSS collector, keyword filter and static HTML generator.
+"""MMB v0.8: free RSS collector, keyword filter and static HTML generator.
 
 No AI API or authentication secrets are required. Does not change existing index.html.
 """
@@ -20,7 +20,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/0.7 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/0.8 (+RSS reader)'
 
 
 def read_json(path):
@@ -28,21 +28,40 @@ def read_json(path):
 
 
 def keywords():
-    """Read exported keyword JSON. Never require or publish login tokens."""
-    path = pathlib.Path(os.environ.get('MMB_KEYWORDS_FILE', str(ROOT / 'keywords.json')))
-    if not path.exists():
-        print('INFO: keywords.json missing; using keywords.example.json (sample only)')
-        path = ROOT / 'keywords.example.json'
-    data = read_json(path)
-    if isinstance(data, dict):
-        data = data.get('keywords', [])
+    """Prefer authenticated cloud settings; do not silently use samples on errors."""
+    endpoint = os.environ.get('MMB_KEYWORDS_API', '').strip()
+    if endpoint:
+        token = os.environ.get('MMB_COLLECTOR_TOKEN', '').strip()
+        if not token or not re.fullmatch(r'[a-f0-9]{64}', token):
+            raise RuntimeError('MMB_COLLECTOR_TOKEN missing or invalid')
+        if not endpoint.startswith('https://'):
+            raise RuntimeError('MMB_KEYWORDS_API must use HTTPS')
+        request = urllib.request.Request(endpoint, headers={
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json', 'User-Agent': USER_AGENT,
+        })
+        with urllib.request.urlopen(request, timeout=20) as response:
+            data = json.loads(response.read(100_000))
+        if not isinstance(data, dict) or not isinstance(data.get('items'), list):
+            raise RuntimeError('Cloud keyword response is invalid')
+        items = data['items']
+        print(f'INFO: loaded {len(items)} keyword records from Cloudflare')
+    else:
+        path = pathlib.Path(os.environ.get('MMB_KEYWORDS_FILE', str(ROOT / 'keywords.json')))
+        if not path.exists():
+            print('INFO: local test mode: using keywords.example.json')
+            path = ROOT / 'keywords.example.json'
+        data = read_json(path)
+        items = data.get('items', data.get('keywords', [])) if isinstance(data, dict) else data
+    if not isinstance(items, list):
+        raise RuntimeError('Keyword data must be a list')
     result = []
-    for item in data:
+    for item in items:
         if isinstance(item, str):
-            item = {'keyword': item, 'enabled': True}
+            item = {'word': item, 'enabled': True}
         if not isinstance(item, dict):
             continue
-        term = str(item.get('keyword', item.get('name', item.get('term', '')))).strip()
+        term = str(item.get('word', item.get('keyword', item.get('name', item.get('term', ''))))).strip()
         if term and item.get('enabled', item.get('active', True)) is not False:
             result.append({'term': term, 'category': str(item.get('category', 'その他')),
                            'priority': str(item.get('priority', '通常'))})
@@ -139,7 +158,7 @@ header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-t
 .source{{font-size:13px;color:var(--gold);font-weight:700}}.empty{{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}}footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v0.7</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v0.8</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">公開RSSの見出し・概要を掲載しています。AIによる要約ではありません。掲載情報は元記事で確認してください。</p>
 <div class="grid">{body}</div></main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
