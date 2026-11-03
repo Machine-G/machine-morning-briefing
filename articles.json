@@ -1,17 +1,4 @@
 {
-  "generated_at": "2026-11-03T20:55:03.534879+09:00",
-  "articles": [
-    {
-      "title": "Federal Reserve issues FOMC statement",
-      "summary": "Federal Reserve issues FOMC statement",
-      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
-      "source": "Federal Reserve",
-      "category": "経済・トレード",
-      "published": "2026-10-29T03:00:00+09:00",
-      "matched": [
-        "FOMC"
-      ],
-      "score": 2
-    }
-  ]
+  "generated_at": "2026-11-03T20:58:06.009296+09:00",
+  "articles": []
 }
