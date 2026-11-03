@@ -452,7 +452,7 @@
       <div class="note">
         これは動作確認用の試作版です。
         ニュースはレイアウト見本で、リアルタイム収集は行いません。
-        キーワード設定のクラウド同期も今後実装します。
+        キーワード設定はGitHubログイン後にクラウド同期できます。
       </div>
     </section>
 
@@ -551,6 +551,15 @@
     </div>
 
     <div id="settingsView" class="view" hidden>
+      <div class="panel" style="margin-top:20px">
+        <h2>☁️ クラウド同期</h2>
+        <p class="status" id="syncStatus" role="status">ログイン状態を確認しています…</p>
+        <div class="bottom">
+          <button class="secondary" id="syncRefreshBtn" type="button">クラウドから再読み込み</button>
+          <button class="primary" id="syncUploadBtn" type="button" hidden>この端末の設定をクラウドへ初回移行</button>
+        </div>
+        <p class="status">初回移行時以外、クラウドに既存設定がある場合はそちらを優先します。端末間の同時編集は避けてください。</p>
+      </div>
       <div class="settings">
 
         <section class="panel">
@@ -635,8 +644,8 @@
           </div>
 
           <p class="status">
-            設定はこのブラウザに自動保存されます。
-            別端末へ移す場合はJSON保存・読み込みを使用してください。
+            ログイン中はクラウドに保存します。未ログイン時はこのブラウザに保存します。
+            初回のクラウド移行は確認ボタンから実行してください。
           </p>
         </section>
 
@@ -647,7 +656,7 @@
 
   <footer class="footer">
     <div class="wrap">
-      MACHINE MORNING BRIEFING · UI Prototype v0.4
+      MACHINE MORNING BRIEFING · UI Prototype v0.6
     </div>
   </footer>
 
@@ -693,7 +702,7 @@
         authHelp.textContent =
           'GitHubで認証できます。' +
           'ログイン状態はこのタブ内で保持します。' +
-          'キーワードのクラウド同期はまだ未実装です。';
+          '未ログイン時は端末内に保存します。';
       }
 
       function showLoggedIn(name) {
@@ -703,14 +712,18 @@
 
         authHelp.textContent =
           '認証済みです。セッションは最大24時間有効です。' +
-          'キーワード設定は引き続きブラウザ内に保存されます。';
+          'キーワード設定をクラウドから読み込みます。';
       }
+
+      let onAuthenticated = async () => {};
+      let onSignedOut = () => {};
 
       async function checkAuth() {
         const token = getToken();
 
         if (!token) {
           showLoggedOut();
+          onSignedOut();
           return;
         }
 
@@ -730,6 +743,7 @@
           if (response.status === 401 || response.status === 403) {
             clearToken();
             showLoggedOut('セッションが無効または期限切れです');
+            onSignedOut();
             return;
           }
 
@@ -741,9 +755,11 @@
 
           if (result.authenticated) {
             showLoggedIn(result.login);
+            await onAuthenticated();
           } else {
             clearToken();
             showLoggedOut();
+            onSignedOut();
           }
         } catch (error) {
           authStatus.textContent =
@@ -847,6 +863,7 @@
 
           clearToken();
           showLoggedOut('ログアウトしました');
+          onSignedOut();
         } catch (error) {
           alert('ログアウトに失敗しました。再度お試しください。');
           console.error(error);
@@ -903,13 +920,122 @@
         data = structuredClone(defaults);
       }
 
-      function persist() {
-        try {
-          localStorage.setItem(KEY, JSON.stringify(data));
-        } catch {
-          $('formStatus').textContent =
-            '自動保存できません。JSONで保存してください。';
+      let cloudInitialized = false;
+      let cloudRevision = null;
+      let cloudMode = false;
+      let saveChain = Promise.resolve();
+      let mutationLocked = false;
+
+      function syncMessage(message) {
+        $('syncStatus').textContent = message;
+      }
+
+      function persistLocal() {
+        try { localStorage.setItem(KEY, JSON.stringify(data)); }
+        catch { $('formStatus').textContent = '端末への保存に失敗しました。JSONでバックアップしてください。'; }
+      }
+
+      function setBusy(busy) {
+        mutationLocked = busy;
+        $('syncRefreshBtn').disabled = busy;
+        $('syncUploadBtn').disabled = busy;
+        $('saveBtn').disabled = busy;
+        $('importBtn').disabled = busy;
+        $('resetBtn').disabled = busy;
+        $('list').style.pointerEvents = busy ? 'none' : '';
+      }
+
+      async function cloudRequest(method, payload) {
+        const token = getToken();
+        if (!token) throw new Error('ログインが必要です');
+        const response = await fetch(API + '/api/keywords', {
+          method, mode: 'cors', credentials: 'omit', cache: 'no-store',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            ...(payload ? { 'Content-Type': 'application/json' } : {})
+          },
+          ...(payload ? { body: JSON.stringify(payload) } : {})
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          if (response.status === 409) throw new Error('別端末で設定が更新されています。再読み込みして確認してください。');
+          if (response.status === 401) throw new Error('ログイン期限が切れました。再ログインしてください。');
+          throw new Error(result.error || 'HTTP ' + response.status);
         }
+        return result;
+      }
+
+      async function loadCloud() {
+        setBusy(true);
+        syncMessage('クラウドの設定を確認しています…');
+        try {
+          const remote = await cloudRequest('GET');
+          cloudRevision = remote.updatedAt || null;
+          cloudInitialized = Boolean(remote.initialized);
+          cloudMode = true;
+          if (cloudInitialized) {
+            data = remote.items;
+            persistLocal();
+            cancelEdit();
+            render();
+            $('syncUploadBtn').hidden = true;
+            syncMessage('クラウド同期中：保存済みの ' + data.length + ' 件を読み込みました。');
+          } else {
+            $('syncUploadBtn').hidden = false;
+            syncMessage('クラウドは未設定です。端末内の ' + data.length + ' 件を移行するには「初回移行」を押してください。');
+          }
+        } catch (error) {
+          cloudMode = false;
+          syncMessage('クラウド接続エラー：' + error.message + '（端末内の設定は保持しています）');
+        } finally { setBusy(false); }
+      }
+
+      onAuthenticated = loadCloud;
+      onSignedOut = () => {
+        cloudMode = false;
+        cloudInitialized = false;
+        cloudRevision = null;
+        $('syncUploadBtn').hidden = true;
+        syncMessage('未ログイン：このブラウザ内に保存します。');
+      };
+
+      $('syncRefreshBtn').onclick = async () => {
+        if (!getToken()) { syncMessage('先にGitHubでログインしてください。'); return; }
+        if (!confirm('クラウドから再読み込みします。未同期の端末内変更があれば失われます。続行しますか？')) return;
+        await loadCloud();
+      };
+
+      $('syncUploadBtn').onclick = async () => {
+        if (!cloudMode || cloudInitialized || mutationLocked) return;
+        if (!confirm('この端末の ' + data.length + ' 件をクラウドへ初回保存しますか？')) return;
+        setBusy(true);
+        try {
+          const saved = await cloudRequest('PUT', { items: data, updatedAt: cloudRevision });
+          cloudRevision = saved.updatedAt;
+          cloudInitialized = true;
+          $('syncUploadBtn').hidden = true;
+          syncMessage('初回移行が完了しました。PCとiPhoneで同期できます。');
+        } catch (error) { syncMessage('初回移行失敗：' + error.message); }
+        finally { setBusy(false); }
+      };
+
+      function persist() {
+        persistLocal();
+        if (!cloudMode || !cloudInitialized) {
+          $('formStatus').textContent = '端末内に保存しました。クラウド未移行の場合は初回移行してください。';
+          return;
+        }
+        // Serialize writes, preserving the server revision across edits.
+        const snapshot = structuredClone(data);
+        syncMessage('クラウドへ保存中…');
+        saveChain = saveChain.then(async () => {
+          const saved = await cloudRequest('PUT', { items: snapshot, updatedAt: cloudRevision });
+          cloudRevision = saved.updatedAt;
+          syncMessage('クラウド保存完了：' + new Date().toLocaleTimeString('ja-JP'));
+        }).catch(error => {
+          cloudMode = false;
+          syncMessage('保存失敗：' + error.message + '。端末内には保存済みです。再読み込み前にJSONバックアップを取ってください。');
+        });
       }
 
       function showView(view) {
@@ -1086,7 +1212,7 @@
         cancelEdit();
         render();
 
-        $('formStatus').textContent = 'この端末に保存しました。';
+        $('formStatus').textContent = cloudMode && cloudInitialized ? '保存処理を実行しました。同期状態を確認してください。' : '端末内に保存しました。';
       };
 
       // ==========================================
