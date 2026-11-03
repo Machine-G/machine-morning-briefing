@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v0.9: RSS collector with normalized keyword matching.
+"""Machine Morning Briefing v1.0: keyword-first RSS + balanced category discovery.
 
-Cloudflare keyword authentication and existing static output are preserved.
+Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
+Does not modify index.html, GitHub Actions, or Cloudflare Worker.
 """
 import datetime as dt
 import html
@@ -21,7 +22,9 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/0.9 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.0 (+RSS reader)'
+MAX_ARTICLES = 30
+CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
 
 def read_json(path):
@@ -29,7 +32,6 @@ def read_json(path):
 
 
 def keywords():
-    """Prefer authenticated cloud settings; never silently fall back on API errors."""
     endpoint = os.environ.get('MMB_KEYWORDS_API', '').strip()
     if endpoint:
         token = os.environ.get('MMB_COLLECTOR_TOKEN', '').strip()
@@ -73,38 +75,31 @@ def clean(text):
     return re.sub(r'\s+', ' ', re.sub(r'<[^>]*>', ' ', text or '')).strip()
 
 
-def normalized_words(value):
-    """Normalize Unicode, case, and punctuation to comparable word tokens."""
-    value = unicodedata.normalize('NFKC', str(value)).casefold()
-    return re.findall(r'[^\W_]+', value, flags=re.UNICODE)
+def normalize_text(text):
+    text = unicodedata.normalize('NFKC', text or '').casefold()
+    return re.sub(r'[^\w\u3040-\u30ff\u3400-\u9fff]+', '', text)
 
 
-def matches_keyword(term, text_tokens):
-    """Match exact token sequences or their joined spelling (NAM-A2 vs NAM A2).
-
-    This intentionally does not use fuzzy matching or synonym guessing.
-    """
-    tokens = normalized_words(term)
-    if not tokens:
+def matches_keyword(term, text):
+    # Normalize spaces, punctuation, and hyphens (e.g. NAM A2 / NAM-A2).
+    # Use word boundaries for single short Latin words to reduce false positives.
+    normalized_term = normalize_text(term)
+    if not normalized_term:
         return False
-    n = len(tokens)
-    joined = ''.join(tokens)
-    for i in range(len(text_tokens)):
-        if text_tokens[i:i + n] == tokens:
-            return True
-        # Allow punctuation/space variation within a short sequence, while
-        # retaining token boundaries so 'NAM' doesn't match 'DYNAMICS'.
-        for span in range(1, min(n + 2, 5)):
-            if ''.join(text_tokens[i:i + span]) == joined:
-                return True
-    return False
+    if re.fullmatch(r'[a-z0-9]{1,3}', normalized_term):
+        return bool(re.search(r'(?<![a-z0-9])' + re.escape(normalized_term) + r'(?![a-z0-9])',
+                              unicodedata.normalize('NFKC', text).casefold()))
+    return normalized_term in normalize_text(text)
 
 
 def article_date(entry):
     for field in ('published_parsed', 'updated_parsed'):
         stamp = entry.get(field)
         if stamp:
-            return dt.datetime(*stamp[:6], tzinfo=dt.timezone.utc).astimezone(JST)
+            try:
+                return dt.datetime(*stamp[:6], tzinfo=dt.timezone.utc).astimezone(JST)
+            except (ValueError, TypeError):
+                pass
     return None
 
 
@@ -131,7 +126,7 @@ def normalize_url(url):
         params = [(k, v) for k, v in urllib.parse.parse_qsl(parts.query)
                   if not k.lower().startswith('utm_')]
         return urllib.parse.urlunsplit((parts.scheme, parts.netloc.lower(),
-                                       parts.path.rstrip('/'), urllib.parse.urlencode(params), ''))
+                                        parts.path.rstrip('/'), urllib.parse.urlencode(params), ''))
     except Exception:
         return url
 
@@ -140,53 +135,89 @@ def collect(feeds, terms):
     articles, seen = [], set()
     for feed in feeds:
         entries = fetch_feed(feed)
-        eligible = 0
-        matched_count = 0
+        in_window = matched_count = 0
         for entry in entries:
             title = clean(entry.get('title', ''))
             summary = clean(entry.get('summary', entry.get('description', '')))[:450]
             url = entry.get('link', '')
-            if not title or not url.startswith(('https://', 'http://')):
+            if not title or not isinstance(url, str) or not url.startswith(('https://', 'http://')):
                 continue
             published = article_date(entry)
-            if published and published < NOW - dt.timedelta(days=7):
+            if published and (published < NOW - dt.timedelta(days=7) or published > NOW + dt.timedelta(days=1)):
                 continue
-            eligible += 1
+            in_window += 1
             normalized = normalize_url(url)
             if normalized in seen:
                 continue
-            text_tokens = normalized_words(title + ' ' + summary)
-            matches = [kw for kw in terms if matches_keyword(kw['term'], text_tokens)]
-            if not matches:
-                continue
-            matched_count += 1
             seen.add(normalized)
-            articles.append({'title': title, 'summary': summary, 'url': url,
-                             'source': feed['name'], 'category': feed['category'],
-                             'published': published.isoformat() if published else None,
-                             'matched': [x['term'] for x in matches],
-                             'score': max(2 if x['priority'] in ('最重要', '高') else 1
-                                          for x in matches)})
-        print(f"INFO: feed {feed['name']}: {len(entries)} entries, "
-              f"{eligible} within date window/undated, {matched_count} matched")
-    articles.sort(key=lambda x: (x['score'], x['published'] or ''), reverse=True)
-    print(f'INFO: total matched {len(articles)}; publishing up to 45')
-    return articles[:45]
+            combined = title + ' ' + summary
+            found = [kw for kw in terms if matches_keyword(kw['term'], combined)]
+            if found:
+                matched_count += 1
+            articles.append({
+                'title': title, 'summary': summary, 'url': url,
+                'source': feed['name'], 'category': feed['category'],
+                'published': published.isoformat() if published else None,
+                'matched': [x['term'] for x in found],
+                'score': max((2 if x['priority'] in ('最重要', '高') else 1 for x in found), default=0),
+            })
+        print(f"INFO: feed {feed['name']}: {len(entries)} entries, {in_window} within date window/undated, {matched_count} matched")
+    articles.sort(key=lambda a: a['published'] or '', reverse=True)
+    priority = [a for a in articles if a['matched']]
+    priority.sort(key=lambda a: (a['score'], a['published'] or ''), reverse=True)
+    selected = priority[:MAX_ARTICLES]
+    selected_urls = {normalize_url(a['url']) for a in selected}
+    remaining = MAX_ARTICLES - len(selected)
+    if remaining:
+        discovery = [a for a in articles if not a['matched'] and normalize_url(a['url']) not in selected_urls]
+        groups = {category: [a for a in discovery if a['category'] == category] for category in CATEGORIES}
+        # Round-robin across categories, newest first within each category.
+        # Unknown categories are handled after the main three.
+        extras = [a for a in discovery if a['category'] not in groups]
+        while remaining and (any(groups.values()) or extras):
+            progressed = False
+            for category in CATEGORIES:
+                if remaining and groups[category]:
+                    selected.append(groups[category].pop(0))
+                    remaining -= 1
+                    progressed = True
+            if not progressed and remaining and extras:
+                selected.append(extras.pop(0))
+                remaining -= 1
+            elif not progressed:
+                break
+    print(f'INFO: total matched {len(priority)}; publishing {len(selected)} articles '
+          f'({sum(bool(a["matched"]) for a in selected)} keyword, '
+          f'{sum(not a["matched"] for a in selected)} discovery)')
+    return selected
 
 
 def render(articles, terms):
     esc = html.escape
-    cards = []
-    for article in articles:
-        date = (dt.datetime.fromisoformat(article['published']).strftime('%m/%d %H:%M JST')
-                if article['published'] else '公開日時不明')
-        url = esc(article['url'], quote=True)
-        tags = ''.join(f'<span class="tag">{esc(x)}</span>' for x in article['matched'][:4])
-        cards.append(f'''<article class="card"><div class="meta">{esc(article['category'])} · {esc(article['source'])} · {date}</div>
-<h2><a href="{url}" target="_blank" rel="noopener noreferrer">{esc(article['title'])}</a></h2>
+
+    def cards_for(items):
+        cards = []
+        for article in items:
+            date = (dt.datetime.fromisoformat(article['published']).strftime('%m/%d %H:%M JST')
+                    if article['published'] else '公開日時不明')
+            url = esc(article['url'], quote=True)
+            tags = ''.join(f'<span class="tag">{esc(x)}</span>' for x in article['matched'][:4])
+            badge = '<span class="highlight">最重要キーワード</span>' if article['score'] == 2 else ('<span class="highlight">キーワード一致</span>' if article['matched'] else '')
+            cards.append(f'''<article class="card"><div class="meta">{esc(article['category'])} · {esc(article['source'])} · {date}</div>
+<div>{badge}</div><h2><a href="{url}" target="_blank" rel="noopener noreferrer">{esc(article['title'])}</a></h2>
 <p>{esc(article['summary'][:240]) or '概要は元記事で確認してください。'}</p><div class="tags">{tags}</div>
 <a class="source" href="{url}" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>''')
-    body = '\n'.join(cards) if cards else '<div class="empty">該当する新着記事はありませんでした。RSS取得先やキーワードを見直してください。</div>'
+        return '\n'.join(cards)
+
+    sections = []
+    matched = [a for a in articles if a['matched']]
+    if matched:
+        sections.append(f'<section><h2 class="section-title">注目ニュース <small>{len(matched)}件</small></h2><div class="grid">{cards_for(matched)}</div></section>')
+    for category in CATEGORIES + sorted({a['category'] for a in articles} - set(CATEGORIES)):
+        items = [a for a in articles if not a['matched'] and a['category'] == category]
+        if items:
+            sections.append(f'<section><h2 class="section-title">{esc(category)} <small>{len(items)}件</small></h2><div class="grid">{cards_for(items)}</div></section>')
+    body = '\n'.join(sections) if sections else '<div class="empty">該当する新着記事はありませんでした。RSS取得先を確認してください。</div>'
     return f'''<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark"><title>Machine Morning Briefing | {NOW:%Y-%m-%d}</title>
@@ -197,14 +228,16 @@ header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-t
 .eyebrow{{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.12em}}h1{{font-size:clamp(29px,4vw,54px);line-height:1.2;margin:12px 0}}.sub{{color:var(--muted)}}
 .stats{{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}}
 .grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}.card{{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}}
-.meta{{font-size:12px;color:var(--gold);font-weight:700}}h2{{font-size:21px;line-height:1.5;margin:12px 0}}a{{color:inherit;text-decoration:none}}h2 a:hover,.source:hover{{text-decoration:underline}}
+.meta{{font-size:12px;color:var(--gold);font-weight:700}}.card h2{{font-size:21px;line-height:1.5;margin:12px 0}}a{{color:inherit;text-decoration:none}}.card h2 a:hover,.source:hover{{text-decoration:underline}}
 .card p{{color:var(--muted);font-size:15px;overflow-wrap:anywhere}}.tags{{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}}.tag{{font-size:11px;border:1px solid #47546b;padding:3px 9px;border-radius:99px}}
 .source{{font-size:13px;color:var(--gold);font-weight:700}}.empty{{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}}footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
-@media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}h2{{font-size:20px}}.card p{{font-size:16px}}}}
+section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.section-title small{{font-size:13px;color:var(--muted);font-weight:400}}
+.highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
+@media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v0.9</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
-<main><p class="sub">公開RSSの見出し・概要を掲載しています。AIによる要約ではありません。掲載情報は元記事で確認してください。</p>
-<div class="grid">{body}</div></main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.0</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。AIによる要約ではありません。</p>
+{body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
 
 def main():
@@ -212,7 +245,9 @@ def main():
     feeds = read_json(ROOT / 'feeds.json')['feeds']
     articles = collect(feeds, terms)
     OUT.write_text(render(articles, terms), encoding='utf-8')
-    (ROOT / 'articles.json').write_text(json.dumps({'generated_at': NOW.isoformat(), 'articles': articles}, ensure_ascii=False, indent=2), encoding='utf-8')
+    (ROOT / 'articles.json').write_text(json.dumps({
+        'generated_at': NOW.isoformat(), 'articles': articles
+    }, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f'Generated {OUT.name}: {len(articles)} articles, {len(terms)} keywords')
 
 
