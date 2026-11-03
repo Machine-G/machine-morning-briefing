@@ -1,9 +1,12 @@
 {
   "feeds": [
-    {"name":"Blabbermouth", "url":"https://www.blabbermouth.net/feed/", "category":"メタル"},
+    {"name":"Blabbermouth", "url":"https://www.blabbermouth.net/feed.rss", "category":"メタル"},
     {"name":"Loudwire", "url":"https://loudwire.com/feed/", "category":"メタル"},
-    {"name":"Neural DSP", "url":"https://neuraldsp.com/news.atom", "category":"ギター機材"},
+    {"name":"Guitar World", "url":"https://www.guitarworld.com/feeds/all", "category":"ギター機材"},
     {"name":"Federal Reserve", "url":"https://www.federalreserve.gov/feeds/press_all.xml", "category":"経済・トレード"},
-    {"name":"Reuters Business", "url":"https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best", "category":"経済・トレード"}
+    {"name":"Investing.com Forex", "url":"https://www.investing.com/rss/news_1.rss", "category":"経済・トレード"},
+    {"name":"Investing.com Commodities", "url":"https://www.investing.com/rss/news_11.rss", "category":"経済・トレード"},
+    {"name":"Investing.com Economic Indicators", "url":"https://www.investing.com/rss/news_95.rss", "category":"経済・トレード"},
+    {"name":"Investing.com Crypto", "url":"https://www.investing.com/rss/news_301.rss", "category":"経済・トレード"}
   ]
 }
