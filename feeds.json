@@ -1,0 +1,9 @@
+{
+  "feeds": [
+    {"name":"Blabbermouth", "url":"https://www.blabbermouth.net/feed/", "category":"メタル"},
+    {"name":"Loudwire", "url":"https://loudwire.com/feed/", "category":"メタル"},
+    {"name":"Neural DSP", "url":"https://neuraldsp.com/news.atom", "category":"ギター機材"},
+    {"name":"Federal Reserve", "url":"https://www.federalreserve.gov/feeds/press_all.xml", "category":"経済・トレード"},
+    {"name":"Reuters Business", "url":"https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best", "category":"経済・トレード"}
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  {"keyword":"Quad Cortex","category":"ギター機材","priority":"最重要","enabled":true},
+  {"keyword":"NAM A2","category":"ギター機材","priority":"通常","enabled":true},
+  {"keyword":"M-VAVE MATRX","category":"ギター機材","priority":"最重要","enabled":true},
+  {"keyword":"XAUUSD","category":"経済・トレード","priority":"最重要","enabled":true},
+  {"keyword":"FOMC","category":"経済・トレード","priority":"最重要","enabled":true}
+]
