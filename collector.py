@@ -257,7 +257,7 @@ def gemini_articles(articles):
 
     # Six calls at most for 30 articles. Avoid retries on quota exhaustion.
     calls = success = 0
-    model = 'gemini-2.5-flash-lite'
+    model = 'gemini-3.1-flash-lite'
     endpoint = ('https://generativelanguage.googleapis.com/v1beta/models/'
                 + model + ':generateContent')
     for start in range(0, len(pending), 5):
