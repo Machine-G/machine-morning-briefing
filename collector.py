@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.3: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.3.1: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.3 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.3.1 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
@@ -306,9 +306,21 @@ Input articles:
                     a['translation_engine'] = 'gemini-v1.3'
                     success += 1
         except urllib.error.HTTPError as exc:
-            print(f'WARN: Gemini HTTP {exc.code}; falling back for this batch', file=sys.stderr)
-            if exc.code in (401, 403, 429):
-                print('WARN: Gemini authorization/quota issue; skipping remaining batches', file=sys.stderr)
+            # Print Google's structured error message, not request headers or API key.
+            # The 404 message distinguishes unavailable model from other endpoint issues.
+            detail = ''
+            try:
+                error_payload = json.loads(exc.read(12000))
+                detail = str(error_payload.get('error', {}).get('message', ''))
+                # Never allow a credential to appear in diagnostic output.
+                detail = detail.replace(key, '[REDACTED]')[:500]
+            except (ValueError, TypeError, OSError, AttributeError):
+                pass
+            print(f'WARN: Gemini HTTP {exc.code}' + (f': {detail}' if detail else '')
+                  + '; falling back for this batch', file=sys.stderr)
+            if exc.code in (400, 401, 403, 404, 429):
+                print('WARN: Gemini configuration/authorization/quota issue; skipping remaining batches',
+                      file=sys.stderr)
                 break
         except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
             print(f'WARN: Gemini response unavailable ({type(exc).__name__}); fallback enabled', file=sys.stderr)
@@ -446,7 +458,7 @@ section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.se
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.1</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
