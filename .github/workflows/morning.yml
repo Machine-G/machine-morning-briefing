@@ -20,6 +20,7 @@ jobs:
         env:
           MMB_KEYWORDS_API: https://machine-morning-briefing-api.tnk929.workers.dev/api/collector/keywords
           MMB_COLLECTOR_TOKEN: ${{ secrets.MMB_COLLECTOR_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python collector.py
       - name: Commit generated edition
         run: |
