@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.3.6: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.3.7: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.3.6 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.3.7 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
@@ -261,21 +261,21 @@ def gemini_articles(articles):
     cached = 0
     for a in articles:
         prior = old.get(a['url'], {})
-        if (prior.get('translation_engine') == 'gemini-v1.3.6'
+        if (prior.get('translation_engine') in ('gemini-v1.3.6', 'gemini-v1.3.7')
                 and prior.get('title') == a['title']
                 and prior.get('summary') == a['summary']
                 and prior.get('title_ja')):
             a['title_ja'] = prior['title_ja']
             a['summary_ja'] = prior.get('summary_ja')
             a['summary_suppressed'] = bool(prior.get('summary_suppressed', False))
-            a['translation_engine'] = 'gemini-v1.3.6'
+            a['translation_engine'] = 'gemini-v1.3.7'
             cached += 1
         else:
             pending.append(a)
 
-    # Controlled rollout: at most nine uncached articles (three API calls).
-    pending = pending[:9]
-    print(f"INFO: Gemini v1.3.6 rollout: {len(pending)} uncached articles selected; max 3 API calls")
+    # Controlled rollout: at most twelve uncached articles (four API calls).
+    pending = pending[:12]
+    print(f"INFO: Gemini v1.3.7 rollout: {len(pending)} uncached articles selected; max 4 API calls")
     calls = success = 0
     model = 'gemini-3.1-flash-lite'
     endpoint = ('https://generativelanguage.googleapis.com/v1beta/models/'
@@ -309,7 +309,7 @@ Input articles:
                      'x-goog-api-key': key, 'User-Agent': USER_AGENT}, method='POST')
         calls += 1
         try:
-            with urllib.request.urlopen(request, timeout=70) as response:
+            with urllib.request.urlopen(request, timeout=30) as response:
                 http_status = response.status
                 response_bytes = response.read(200000)
             print(f'INFO: Gemini diagnostic: HTTP {http_status}, response bytes={len(response_bytes)}')
@@ -368,7 +368,7 @@ Input articles:
                         a['summary_ja'] = None
                     elif summary_ok:
                         a['summary_ja'] = normalize_glossary(summary.strip())
-                    a['translation_engine'] = 'gemini-v1.3.6'
+                    a['translation_engine'] = 'gemini-v1.3.7'
                     success += 1
                     accepted += 1
             print(f'INFO: Gemini diagnostic: accepted_articles={accepted}/{len(batch)}')
@@ -393,7 +393,7 @@ Input articles:
             print(f'WARN: Gemini diagnostic: response unavailable ({type(exc).__name__}); fallback enabled', file=sys.stderr)
         # Stay below 10 RPM even if additional calls are added in the future.
         if start + 3 < len(pending):
-            time.sleep(7)
+            time.sleep(6)
     print(f'INFO: Gemini: {success}/{len(articles)} new AI-edited, '
           f'{cached} cached AI-edited, {calls} API calls; remaining use fallback')
 
@@ -525,7 +525,7 @@ section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.se
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.6</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.7</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
