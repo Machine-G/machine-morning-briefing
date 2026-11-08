@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.3.2: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.3.3: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.3.2 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.3.3 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
@@ -257,7 +257,7 @@ def gemini_articles(articles):
 
     # Diagnostic mode: only the first three uncached articles, one API request.
     pending = pending[:3]
-    print(f"INFO: Gemini v1.3.2 test: {len(pending)} uncached articles selected; max 1 API call")
+    print(f"INFO: Gemini v1.3.3 diagnostic test: {len(pending)} uncached articles selected; max 1 API call")
     calls = success = 0
     model = 'gemini-3.1-flash-lite'
     endpoint = ('https://generativelanguage.googleapis.com/v1beta/models/'
@@ -289,14 +289,39 @@ Input articles:
         calls += 1
         try:
             with urllib.request.urlopen(request, timeout=70) as response:
-                response_json = json.loads(response.read(200000))
-            parts = response_json['candidates'][0]['content']['parts']
-            raw = ''.join(part.get('text', '') for part in parts)
-            results = json.loads(raw)
+                http_status = response.status
+                response_bytes = response.read(200000)
+            print(f'INFO: Gemini diagnostic: HTTP {http_status}, response bytes={len(response_bytes)}')
+            response_json = json.loads(response_bytes)
+            candidates = response_json.get('candidates', [])
+            prompt_feedback = response_json.get('promptFeedback', {})
+            print(f'INFO: Gemini diagnostic: candidates={len(candidates) if isinstance(candidates, list) else "invalid"}, '
+                  f'prompt_block_reason={prompt_feedback.get("blockReason", "none") if isinstance(prompt_feedback, dict) else "invalid"}')
+            if not isinstance(candidates, list) or not candidates:
+                raise ValueError('Gemini response has no candidates')
+            candidate = candidates[0]
+            finish_reason = candidate.get('finishReason', 'missing')
+            content = candidate.get('content') or {}
+            parts = content.get('parts') or []
+            raw = ''.join(part.get('text', '') for part in parts if isinstance(part, dict))
+            print(f'INFO: Gemini diagnostic: finish_reason={finish_reason}, '
+                  f'parts={len(parts)}, text_chars={len(raw)}')
+            if not raw.strip():
+                raise ValueError('Gemini response text is empty')
+            try:
+                results = json.loads(raw)
+            except json.JSONDecodeError as parse_exc:
+                print(f'WARN: Gemini diagnostic: JSON parse failed at char {parse_exc.pos}; '
+                      f'error={parse_exc.msg}; text content suppressed', file=sys.stderr)
+                raise ValueError('Gemini JSON parse failure') from parse_exc
             if not isinstance(results, list):
+                print(f'WARN: Gemini diagnostic: JSON root type={type(results).__name__}; expected list', file=sys.stderr)
                 raise ValueError('Gemini response is not a list')
+            print(f'INFO: Gemini diagnostic: JSON array items={len(results)}, '
+                  f'valid_id_objects={sum(isinstance(r, dict) and type(r.get("id")) is int for r in results)}')
             by_id = {r.get('id'): r for r in results if isinstance(r, dict)
                      and type(r.get('id')) is int}
+            accepted = 0
             for i, a in enumerate(batch):
                 result = by_id.get(i, {})
                 title = result.get('title_ja')
@@ -307,6 +332,8 @@ Input articles:
                         a['summary_ja'] = normalize_glossary(summary.strip())
                     a['translation_engine'] = 'gemini-v1.3'
                     success += 1
+                    accepted += 1
+            print(f'INFO: Gemini diagnostic: accepted_articles={accepted}/{len(batch)}')
         except urllib.error.HTTPError as exc:
             # Print Google's structured error message, not request headers or API key.
             # The 404 message distinguishes unavailable model from other endpoint issues.
@@ -325,7 +352,7 @@ Input articles:
                       file=sys.stderr)
                 break
         except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-            print(f'WARN: Gemini response unavailable ({type(exc).__name__}); fallback enabled', file=sys.stderr)
+            print(f'WARN: Gemini diagnostic: response unavailable ({type(exc).__name__}); fallback enabled', file=sys.stderr)
         # Stay below 10 RPM even if additional calls are added in the future.
         if start + 3 < len(pending):
             time.sleep(7)
@@ -460,7 +487,7 @@ section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.se
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.2</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.3</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
