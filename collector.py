@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.3.4: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.3.5: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.3.4 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.3.5 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
 
@@ -220,6 +220,23 @@ def normalize_glossary(text):
 
 
 
+def japanese_text(value):
+    """Accept a nonempty Japanese translation, not unchanged English text."""
+    return (isinstance(value, str) and bool(value.strip())
+            and bool(re.search(r'[\u3040-\u30ff\u3400-\u9fff]', value)))
+
+
+def gemini_field(result, preferred, alternate):
+    """Prefer explicit Japanese fields, but support Gemini's title/summary schema."""
+    value = result.get(preferred)
+    if japanese_text(value):
+        return value, preferred
+    value = result.get(alternate)
+    if japanese_text(value):
+        return value, alternate
+    return None, 'none'
+
+
 def gemini_articles(articles):
     """AI-edit public RSS headlines/summaries; keep existing AI edits when unchanged.
 
@@ -257,7 +274,7 @@ def gemini_articles(articles):
 
     # Diagnostic mode: only the first three uncached articles, one API request.
     pending = pending[:3]
-    print(f"INFO: Gemini v1.3.4 diagnostic test: {len(pending)} uncached articles selected; max 1 API call")
+    print(f"INFO: Gemini v1.3.5 diagnostic test: {len(pending)} uncached articles selected; max 1 API call")
     calls = success = 0
     model = 'gemini-3.1-flash-lite'
     endpoint = ('https://generativelanguage.googleapis.com/v1beta/models/'
@@ -321,33 +338,26 @@ Input articles:
                   f'valid_id_objects={sum(isinstance(r, dict) and type(r.get("id")) is int for r in results)}')
             by_id = {r.get('id'): r for r in results if isinstance(r, dict)
                      and type(r.get('id')) is int}
-            # Safe schema diagnostics: report only field names, types and lengths.
-            # Never print article text, raw response, API keys, or request headers.
-            for i in range(len(batch)):
-                result = by_id.get(i)
-                if not isinstance(result, dict):
-                    print(f'INFO: Gemini schema: requested_id={i}, matched=false; '
-                          f'available_ids={sorted(by_id)}')
-                    continue
-                field_names = sorted(str(k)[:60] for k in result.keys())[:20]
-                title_value = result.get('title_ja')
-                summary_value = result.get('summary_ja')
-                title_len = len(title_value) if isinstance(title_value, str) else -1
-                summary_len = len(summary_value) if isinstance(summary_value, str) else -1
-                title_ok = isinstance(title_value, str) and bool(title_value.strip()) and title_len <= 240
-                print(f'INFO: Gemini schema: requested_id={i}, matched=true, '
-                      f'keys={field_names}, '
-                      f'title_ja_type={type(title_value).__name__}, title_ja_chars={title_len}, '
-                      f'summary_ja_type={type(summary_value).__name__}, summary_ja_chars={summary_len}, '
-                      f'title_accepted={title_ok}')
+            # Log field names and acceptance flags only; never log article content.
             accepted = 0
             for i, a in enumerate(batch):
-                result = by_id.get(i, {})
-                title = result.get('title_ja')
-                summary = result.get('summary_ja')
-                if isinstance(title, str) and title.strip() and len(title) <= 240:
+                result = by_id.get(i)
+                if not isinstance(result, dict):
+                    print(f'INFO: Gemini schema: requested_id={i}, matched=false')
+                    continue
+                title, title_source = gemini_field(result, 'title_ja', 'title')
+                summary, summary_source = gemini_field(result, 'summary_ja', 'summary')
+                title_ok = title is not None and len(title.strip()) <= 240
+                summary_ok = summary is not None and len(summary.strip()) <= 500
+                field_names = sorted(str(k)[:60] for k in result.keys())[:20]
+                print(f'INFO: Gemini schema: requested_id={i}, matched=true, '
+                      f'keys={field_names}, title_source={title_source}, '
+                      f'title_japanese={title is not None}, title_accepted={title_ok}, '
+                      f'summary_source={summary_source}, summary_japanese={summary is not None}, '
+                      f'summary_accepted={summary_ok}')
+                if title_ok:
                     a['title_ja'] = normalize_glossary(title.strip())
-                    if isinstance(summary, str) and summary.strip() and len(summary) <= 500:
+                    if summary_ok:
                         a['summary_ja'] = normalize_glossary(summary.strip())
                     a['translation_engine'] = 'gemini-v1.3'
                     success += 1
@@ -506,7 +516,7 @@ section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.se
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.4</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.3.5</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
