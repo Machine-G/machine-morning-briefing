@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T20:56:06.753611+09:00",
+  "generated_at": "2026-11-08T21:02:14.432665+09:00",
   "articles": [
     {
       "title": "THE OBSESSED's SCOTT 'WINO' WEINRICH Explains Title Of Upcoming 'Live Fast - Love Hard - Die Free' Album",
@@ -13,7 +13,7 @@
       "title_ja": "THE OBSESSEDのScott 'Wino' Weinrich、新作アルバム『Live Fast - Love Hard - Die Free』のタイトルについて語る",
       "summary_ja": "THE OBSESSEDのフロントマンであるScott \"Wino\" Weinrichが、2027年初頭にHeavy Psych Sounds Recordsからリリース予定の新作アルバムについて語った。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Derek Frank on juggling gigs with Gwen Stefani and Shania Twain, and why rehearsals are overrated",
@@ -26,7 +26,8 @@
       "score": 0,
       "title_ja": "Derek Frankが語るGwen StefaniやShania Twainとのツアー、そしてリハーサル不要論",
       "summary_ja": "Don FelderとのツアーやTower of PowerのRocco Prestiaとの交流など、Derek Frankが自身のキャリアと愛機Music Man StingRayについて語る。",
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Saudi Aramco building in Riyadh damaged by falling debris after attempted attack, ministry says",
@@ -38,9 +39,9 @@
       "matched": [],
       "score": 0,
       "title_ja": "サウジアラビアのAramco施設、攻撃未遂による落下物で損傷",
-      "summary_suppressed": true,
       "summary_ja": null,
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": true,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "STAIND's AARON LEWIS On Upcoming 'The Space Between The Darkness And The Light' Album: 'It's A Pretty Heavy, Driving Record'",
@@ -54,7 +55,7 @@
       "title_ja": "STAINDのAaron Lewisが新作アルバム『The Space Between The Darkness And The Light』について語る",
       "summary_ja": "STAINDのフロントマンAaron Lewisが、ラジオ番組「Whiplash」にて新作アルバムと先行シングル「Ghosts」について言及した。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Richard Lloyd, guitarist of influential ’70s New York band Television, dies aged 75",
@@ -68,7 +69,7 @@
       "title_ja": "Televisionのギタリスト、Richard Lloydが75歳で死去",
       "summary_ja": "70年代のニューヨークで活躍したバンドTelevisionのギタリスト、Richard Lloydが死去した。今年初めに胆管がんと診断されていた。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Turkish villagers demand COP31 leaders see for themselves devastation caused by coal",
@@ -82,7 +83,7 @@
       "title_ja": "トルコの村人たちがCOP31のリーダーに対し、石炭による被害を直接視察するよう要求",
       "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "ADAM DUTKIEWICZ Already Has Enough Material For Second BURN ETERNAL Album",
@@ -96,7 +97,7 @@
       "title_ja": "Adam Dutkiewicz、BURN ETERNALの2ndアルバムに向けた楽曲制作が進行中",
       "summary_ja": "KILLSWITCH ENGAGEのAdam Dutkiewiczが、Howard Jonesと結成した新プロジェクトBURN ETERNALについて、デビュー作に続く2枚目のアルバムに向けた楽曲が既に揃っていることを明かした。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Eric Gales breaks down how jazz and classical influence his blues",
@@ -110,7 +111,7 @@
       "title_ja": "Eric Galesが語る、自身のブルースに影響を与えたジャズとクラシックの要素",
       "summary_ja": "Eric GalesがGuitar Worldのレッスン企画にて、ジャズやクラシック、ゴスペルが自身のブルーススタイルに与えた影響を解説している。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Bitcoin holds below $76K as Binance EU closures add to crypto market pressure",
@@ -124,7 +125,7 @@
       "title_ja": "Bitcoinは7万6000ドルを下回る水準で推移、BinanceのEU撤退が市場の重石に",
       "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Drummer JOHN TEMPESTA Exits THE CULT After 20-Year Run",
@@ -138,7 +139,7 @@
       "title_ja": "ドラマーのJOHN TEMPESTAが20年間在籍したTHE CULTを脱退",
       "summary_ja": "ドラマーのJOHN TEMPESTAが、20年間在籍したTHE CULTからの脱退を自身のSNSで発表しました。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "John 5 says he cried “uncontrollably” after making his live debut with Mötley Crüe",
@@ -152,7 +153,7 @@
       "title_ja": "John 5、Mötley Crüeでのライブデビュー後に「抑えきれないほど」泣いたと語る",
       "summary_ja": "John 5は、憧れのKissのメンバーが見守る中で巨大ロックバンドのステージに立つという、極めて非現実的なライブデビューを振り返った。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "US military says it disabled cargo vessel in Gulf of Oman",
@@ -166,7 +167,7 @@
       "title_ja": "米軍、オマーン湾で貨物船を無力化したと発表",
       "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "SUICIDE SILENCE Guitarist MARK HEYLMUN Is Sitting Out Fall 2026 Tour To Focus On His 'Sobriety And Mental Health'",
@@ -180,7 +181,7 @@
       "title_ja": "SUICIDE SILENCEのギタリストMark Heylmunが秋のツアーを欠席、自身の健康管理に専念",
       "summary_ja": "SUICIDE SILENCEのギタリストMark Heylmunが、自身の健康と断酒に専念するため2026年秋のツアーを欠席する。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Why John Martyn was an underrated guitar genius",
@@ -194,7 +195,7 @@
       "title_ja": "なぜJohn Martynは過小評価されたギターの天才だったのか",
       "summary_ja": "フォーク、ジャズ、ブルースの先駆者であるJohn Martynは、独自のチューニングを駆使した冒険的な演奏でThe EdgeやPaul Wellerらに影響を与えました。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Why gold is losing its shine: Goldman breaks down the recent sell-off",
@@ -208,7 +209,7 @@
       "title_ja": "金価格が輝きを失う理由：Goldman Sachsが最近の売り越しを分析",
       "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "ANTON KABANEN On BEAST IN BLACK's Upcoming Fourth Album 'Fear The Beast': 'It's Near Completion'",
@@ -222,7 +223,7 @@
       "title_ja": "BEAST IN BLACKのAnton Kabanenが語る、制作中の4thアルバムの進捗状況",
       "summary_ja": "BEAST IN BLACKのAnton Kabanenがインタビューに応じ、現在制作が進められているバンドの4枚目となるニューアルバムが完成間近であることを明かした。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "The best new gear this week, ft. a Tele for a session legend and yet more evidence that NAM is taking over",
@@ -236,7 +237,7 @@
       "title_ja": "今週の注目新製品：セッションレジェンド仕様のTelecasterやNAMの躍進など",
       "summary_ja": "Fender、Gibson、Positive Gridなど各社から発表された注目の新製品を紹介。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "French presidential hopeful Melenchon pledges economic stimulus, renews NATO exit call",
@@ -250,7 +251,7 @@
       "title_ja": "フランス大統領選候補のメランション氏、経済刺激策を公約しNATO脱退を再主張",
       "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Poison Albums Ranked Worst to Best",
@@ -262,9 +263,9 @@
       "matched": [],
       "score": 0,
       "title_ja": "Poisonの全アルバムをランキング形式で徹底解説",
-      "summary_suppressed": true,
       "summary_ja": null,
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": true,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "50 years ago, a teenage Joe Satriani and Steve Vai recorded a jam together – and you can hear it on their new joint album",
@@ -278,7 +279,7 @@
       "title_ja": "Joe SatrianiとSteve Vai、10代の頃の共演音源を収録した初のジョイント・アルバムをリリース",
       "summary_ja": "Joe SatrianiとSteve Vaiの初となるジョイント・アルバム『The Sea of Emotion』がリリース。本作には、二人が10代の頃に録音した貴重なジャムセッション音源も収録されている。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Slop Cash, From elizaOS Creator Shaw Walters, Opens Public Bidding on Umia After Passing Its $400K Minimum",
@@ -292,7 +293,7 @@
       "title_ja": "elizaOS開発者Shaw Waltersによる「Slop Cash」、Umiaの公開入札を開始",
       "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.8"
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "See RUSH's Second Concert At Mohegan Sun Arena During 'Fifty Something' Tour",
@@ -305,7 +306,8 @@
       "score": 0,
       "title_ja": "RUSHの「Fifty Something」ツアーより、11月1日のMohegan Sun Arena公演の全編映像が公開",
       "summary_ja": "YouTubeチャンネル「Ghost Video」にて、2026年11月1日にコネチカット州のMohegan Sun Arenaで行われたRUSHのライブ全編映像が公開された。",
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "\"A nitro finish nearly always comes with a high price tag - this changes that\": Patina PT-3 review",
@@ -318,7 +320,8 @@
       "score": 0,
       "title_ja": "高価なニトロフィニッシュを身近に。Patina PT-3ギターのレビュー",
       "summary_ja": "Patinaは、予算が限られているプレイヤーでもニトロセルロース・ラッカー仕上げのギターを手に入れられるよう、新たな選択肢を提示している。",
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Bitcoin rebounds to $76,000, but $1.3 billion ETF exodus tests recovery",
@@ -330,9 +333,9 @@
       "matched": [],
       "score": 0,
       "title_ja": "ビットコインが7万6000ドルまで回復するも、ETFから13億ドルの流出が相場を圧迫",
-      "summary_suppressed": true,
       "summary_ja": null,
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": true,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "DEEP PURPLE's IAN GILLAN Undergoes 'Successful Procedure': 'I Have To Rest In Order To Make A Complete Recovery'",
@@ -345,7 +348,8 @@
       "score": 0,
       "title_ja": "DEEP PURPLEのIan Gillanが手術を無事終了、完全回復に向け休養へ",
       "summary_ja": "欧州ツアーの残りの公演を中止したDEEP PURPLEのIan Gillanが、手術を無事に終えたことを報告。完全な回復を目指して現在休養中であることを明かした。",
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Martin honors Gram Parsons with a recreation of his workhorse 00-21 acoustic",
@@ -358,7 +362,8 @@
       "score": 0,
       "title_ja": "MartinがGram Parsonsの愛器「00-21」を再現した限定モデルを発表",
       "summary_ja": "MartinのチームがGram Parsonsの使い込まれたオリジナルモデルを詳細に分析し、限定生産のアコースティックギターとして再現した。",
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "As COP31 comes to Turkey, satellites reveal a landfill methane problem",
@@ -370,9 +375,9 @@
       "matched": [],
       "score": 0,
       "title_ja": "トルコでのCOP31開催を控え、衛星観測で埋立地のメタン問題が浮上",
-      "summary_suppressed": true,
       "summary_ja": null,
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": true,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "ICED EARTH's JON SCHAFFER Says STU BLOCK Displayed 'Weakness Under Pressure' By 'Changing His Whole Tune' About Events Of January 6, 2021",
@@ -384,9 +389,9 @@
       "matched": [],
       "score": 0,
       "title_ja": "ICED EARTHのJon Schaffer、元メンバーStu Blockの1月6日事件に関する言動を「圧力に屈した弱さ」と非難",
-      "summary_suppressed": true,
       "summary_ja": null,
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": true,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "Ronnie Wood says Keith Richards wants the Rolling Stones to take a break from touring",
@@ -399,7 +404,8 @@
       "score": 0,
       "title_ja": "Ronnie Woodが明かす、Keith RichardsがRolling Stonesのツアー休止を希望",
       "summary_ja": "現在南米ツアー中のRonnie Woodによると、Keith Richardsは当面の間、バンドのツアー活動を休止したい意向を示しているという。",
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.3.9"
     },
     {
       "title": "US Treasury sanctions Canadian money services firms over Iran-related transactions",
@@ -411,9 +417,9 @@
       "matched": [],
       "score": 0,
       "title_ja": "米財務省、イラン関連取引に関与したカナダの送金サービス企業に制裁を科す",
-      "summary_suppressed": true,
       "summary_ja": null,
-      "translation_engine": "gemini-v1.3.8"
+      "summary_suppressed": true,
+      "translation_engine": "gemini-v1.3.9"
     }
   ]
 }
