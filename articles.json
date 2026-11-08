@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T17:52:05.837994+09:00",
+  "generated_at": "2026-11-08T17:56:24.077166+09:00",
   "articles": [
     {
       "title": "THE OBSESSED's SCOTT 'WINO' WEINRICH Explains Title Of Upcoming 'Live Fast - Love Hard - Die Free' Album",
@@ -10,8 +10,9 @@
       "published": "2026-11-08T06:17:13+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "THE ObsessedのSCOTT 'wino' WEINRICHが、近日リリース予定のアルバム『Live Fast - Love Hard - Die Free』のタイトルを説明",
-      "summary_ja": "Electric Eyeの新しいインタビューで、執着しているフロントマンのScott \"Wino\" Weinrichがアメリカのドゥーについて語った"
+      "title_ja": "THE OBSESSEDのスコット・“ワイノ”・ワインリッヒ、新作アルバム『Live Fast - Love Hard - Die Free』のタイトルについて語る",
+      "summary_ja": "THE OBSESSEDのフロントマン、スコット・“ワイノ”・ワインリッヒがインタビューで、2027年初頭にHeavy Psych Sounds Recordsからリリース予定の新作について語った。",
+      "translation_engine": "gemini-v1.3"
     },
     {
       "title": "Richard Lloyd, guitarist of influential ’70s New York band Television, dies aged 75",
@@ -22,8 +23,9 @@
       "published": "2026-11-08T02:34:43+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "リチャード・ロイド、影響力のある70年代ニューヨークのバンドTelevisionのギタリスト、75歳で死去",
-      "summary_ja": "トム・ヴァーレインと共にテレビでのジャンルブレンドで最もよく知られているロイドは、"
+      "title_ja": "Televisionのギタリスト、リチャード・ロイドが75歳で死去",
+      "summary_ja": "70年代のニューヨークで活躍したバンドTelevisionのギタリスト、リチャード・ロイドが死去した。今年初めに胆管がんと診断されていた。",
+      "translation_engine": "gemini-v1.3"
     },
     {
       "title": "Turkish villagers demand COP31 leaders see for themselves devastation caused by coal",
@@ -34,7 +36,8 @@
       "published": "2026-11-08T16:12:17+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "トルコの村人たちは、COP 31の指導者たちに石炭が引き起こす荒廃を自分たちで見てほしいと要求して",
+      "title_ja": "トルコの村人たちがCOP31の指導者に石炭による被害の視察を要求",
+      "translation_engine": "gemini-v1.3",
       "summary_ja": null
     },
     {
