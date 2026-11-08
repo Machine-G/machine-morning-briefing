@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T21:02:14.432665+09:00",
+  "generated_at": "2026-11-08T21:07:12.428131+09:00",
   "articles": [
     {
       "title": "THE OBSESSED's SCOTT 'WINO' WEINRICH Explains Title Of Upcoming 'Live Fast - Love Hard - Die Free' Album",
@@ -13,21 +13,19 @@
       "title_ja": "THE OBSESSEDのScott 'Wino' Weinrich、新作アルバム『Live Fast - Love Hard - Die Free』のタイトルについて語る",
       "summary_ja": "THE OBSESSEDのフロントマンであるScott \"Wino\" Weinrichが、2027年初頭にHeavy Psych Sounds Recordsからリリース予定の新作アルバムについて語った。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Derek Frank on juggling gigs with Gwen Stefani and Shania Twain, and why rehearsals are overrated",
-      "summary": "From touring with Don Felder to a studio hang with Tower of Power bass great Rocco Prestia, Derek Frank has plenty of stories to tell – and a prized Music Man StingRay to show for it",
-      "url": "https://www.guitarworld.com/artists/bassists/derek-frank-on-life-as-a-working-bassist-and-why-rehearsals-are-overrated",
+      "title": "How Rory Gallagher found the love of his life – the ’61 Strat that would become his Excalibur",
+      "summary": "In this extract from Edged in Blue: A Rock ’n’ Roll Odyssey with Rory Gallagher, Dónal Gallagher shares the story of a legendary guitar purchase",
+      "url": "https://www.guitarworld.com/artists/guitarists/how-rory-gallagher-found-his-1961-fender-strat",
       "source": "Guitar World",
       "category": "ギター機材",
-      "published": "2026-11-08T20:00:00+09:00",
+      "published": "2026-11-08T21:00:00+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "Derek Frankが語るGwen StefaniやShania Twainとのツアー、そしてリハーサル不要論",
-      "summary_ja": "Don FelderとのツアーやTower of PowerのRocco Prestiaとの交流など、Derek Frankが自身のキャリアと愛機Music Man StingRayについて語る。",
-      "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "title_ja": "ロリー・ギャラガーが彼の人生の愛を見つけた方法–彼のエクスカリバーになる1961年のストラット",
+      "summary_ja": "Edged in Blue: A Rock ’n’ Roll Odyssey with Rory Gallagherからのこの抜粋では、Dónal Gallagherが伝説的なギター購入の物語を共有します"
     },
     {
       "title": "Saudi Aramco building in Riyadh damaged by falling debris after attempted attack, ministry says",
@@ -38,10 +36,10 @@
       "published": "2026-11-08T18:24:03+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "サウジアラビアのAramco施設、攻撃未遂による落下物で損傷",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "サウジアラビアの首都リヤドでサウジアラムコの施設が攻撃の破片により損傷",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "STAIND's AARON LEWIS On Upcoming 'The Space Between The Darkness And The Light' Album: 'It's A Pretty Heavy, Driving Record'",
@@ -55,21 +53,21 @@
       "title_ja": "STAINDのAaron Lewisが新作アルバム『The Space Between The Darkness And The Light』について語る",
       "summary_ja": "STAINDのフロントマンAaron Lewisが、ラジオ番組「Whiplash」にて新作アルバムと先行シングル「Ghosts」について言及した。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Richard Lloyd, guitarist of influential ’70s New York band Television, dies aged 75",
-      "summary": "Lloyd, best known for his genre-blending work in Television alongside Tom Verlaine, was diagnosed with bile duct cancer earlier this year",
-      "url": "https://www.guitarworld.com/artists/guitarists/richard-lloyd-guitarist-of-television-dies-aged-75",
+      "title": "Derek Frank on juggling gigs with Gwen Stefani and Shania Twain, and why rehearsals are overrated",
+      "summary": "From touring with Don Felder to a studio hang with Tower of Power bass great Rocco Prestia, Derek Frank has plenty of stories to tell – and a prized Music Man StingRay to show for it",
+      "url": "https://www.guitarworld.com/artists/bassists/derek-frank-on-life-as-a-working-bassist-and-why-rehearsals-are-overrated",
       "source": "Guitar World",
       "category": "ギター機材",
-      "published": "2026-11-08T02:34:43+09:00",
+      "published": "2026-11-08T20:00:00+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "Televisionのギタリスト、Richard Lloydが75歳で死去",
-      "summary_ja": "70年代のニューヨークで活躍したバンドTelevisionのギタリスト、Richard Lloydが死去した。今年初めに胆管がんと診断されていた。",
+      "title_ja": "Derek Frankが語るGwen StefaniやShania Twainとのツアー、そしてリハーサル不要論",
+      "summary_ja": "Don FelderとのツアーやTower of PowerのRocco Prestiaとの交流など、Derek Frankが自身のキャリアと愛機Music Man StingRayについて語る。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Turkish villagers demand COP31 leaders see for themselves devastation caused by coal",
@@ -80,10 +78,10 @@
       "published": "2026-11-08T18:18:20+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "トルコの村人たちがCOP31のリーダーに対し、石炭による被害を直接視察するよう要求",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "トルコの村人らがCOP31参加者に石炭採掘による環境破壊の視察を要求",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "ADAM DUTKIEWICZ Already Has Enough Material For Second BURN ETERNAL Album",
@@ -97,21 +95,21 @@
       "title_ja": "Adam Dutkiewicz、BURN ETERNALの2ndアルバムに向けた楽曲制作が進行中",
       "summary_ja": "KILLSWITCH ENGAGEのAdam Dutkiewiczが、Howard Jonesと結成した新プロジェクトBURN ETERNALについて、デビュー作に続く2枚目のアルバムに向けた楽曲が既に揃っていることを明かした。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Eric Gales breaks down how jazz and classical influence his blues",
-      "summary": "In his latest GW lesson, Eric Gales talks jazz, blues, classical and gospel and how it relates to blues",
-      "url": "https://www.guitarworld.com/lessons/artist-lessons/eric-gales-on-how-jazz-gospel-and-classical-music-influences-his-blues",
+      "title": "Richard Lloyd, guitarist of influential ’70s New York band Television, dies aged 75",
+      "summary": "Lloyd, best known for his genre-blending work in Television alongside Tom Verlaine, was diagnosed with bile duct cancer earlier this year",
+      "url": "https://www.guitarworld.com/artists/guitarists/richard-lloyd-guitarist-of-television-dies-aged-75",
       "source": "Guitar World",
       "category": "ギター機材",
-      "published": "2026-11-08T00:00:00+09:00",
+      "published": "2026-11-08T02:34:43+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "Eric Galesが語る、自身のブルースに影響を与えたジャズとクラシックの要素",
-      "summary_ja": "Eric GalesがGuitar Worldのレッスン企画にて、ジャズやクラシック、ゴスペルが自身のブルーススタイルに与えた影響を解説している。",
+      "title_ja": "Televisionのギタリスト、Richard Lloydが75歳で死去",
+      "summary_ja": "70年代のニューヨークで活躍したバンドTelevisionのギタリスト、Richard Lloydが死去した。今年初めに胆管がんと診断されていた。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Bitcoin holds below $76K as Binance EU closures add to crypto market pressure",
@@ -122,10 +120,10 @@
       "published": "2026-11-08T15:00:07+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "Bitcoinは7万6000ドルを下回る水準で推移、BinanceのEU撤退が市場の重石に",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "ビットコインは7万6000ドルを下回る水準で推移、BinanceのEU撤退が市場の重石に",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Drummer JOHN TEMPESTA Exits THE CULT After 20-Year Run",
@@ -139,21 +137,21 @@
       "title_ja": "ドラマーのJOHN TEMPESTAが20年間在籍したTHE CULTを脱退",
       "summary_ja": "ドラマーのJOHN TEMPESTAが、20年間在籍したTHE CULTからの脱退を自身のSNSで発表しました。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "John 5 says he cried “uncontrollably” after making his live debut with Mötley Crüe",
-      "summary": "Live debuts do not get much more surreal than playing in a mega-rock band and having your heroes from Kiss in the audience",
-      "url": "https://www.guitarworld.com/artists/guitarists/john-5-on-crying-uncontrollably-after-his-live-motley-crue-debut",
+      "title": "Eric Gales breaks down how jazz and classical influence his blues",
+      "summary": "In his latest GW lesson, Eric Gales talks jazz, blues, classical and gospel and how it relates to blues",
+      "url": "https://www.guitarworld.com/lessons/artist-lessons/eric-gales-on-how-jazz-gospel-and-classical-music-influences-his-blues",
       "source": "Guitar World",
       "category": "ギター機材",
-      "published": "2026-11-07T21:00:00+09:00",
+      "published": "2026-11-08T00:00:00+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "John 5、Mötley Crüeでのライブデビュー後に「抑えきれないほど」泣いたと語る",
-      "summary_ja": "John 5は、憧れのKissのメンバーが見守る中で巨大ロックバンドのステージに立つという、極めて非現実的なライブデビューを振り返った。",
+      "title_ja": "Eric Galesが語る、自身のブルースに影響を与えたジャズとクラシックの要素",
+      "summary_ja": "Eric GalesがGuitar Worldのレッスン企画にて、ジャズやクラシック、ゴスペルが自身のブルーススタイルに与えた影響を解説している。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "US military says it disabled cargo vessel in Gulf of Oman",
@@ -164,10 +162,10 @@
       "published": "2026-11-08T14:00:25+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "米軍、オマーン湾で貨物船を無力化したと発表",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "米軍、オマーン湾で貨物船を無力化したと発表",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "SUICIDE SILENCE Guitarist MARK HEYLMUN Is Sitting Out Fall 2026 Tour To Focus On His 'Sobriety And Mental Health'",
@@ -181,21 +179,21 @@
       "title_ja": "SUICIDE SILENCEのギタリストMark Heylmunが秋のツアーを欠席、自身の健康管理に専念",
       "summary_ja": "SUICIDE SILENCEのギタリストMark Heylmunが、自身の健康と断酒に専念するため2026年秋のツアーを欠席する。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Why John Martyn was an underrated guitar genius",
-      "summary": "The folk, jazz and blues pioneer influenced the Edge, Paul Weller and others with his endless adventurous playing – to the point that he essentially made two tunings his own personal property",
-      "url": "https://www.guitarworld.com/artists/guitarists/why-john-martyn-was-an-underrated-guitar-genius",
+      "title": "John 5 says he cried “uncontrollably” after making his live debut with Mötley Crüe",
+      "summary": "Live debuts do not get much more surreal than playing in a mega-rock band and having your heroes from Kiss in the audience",
+      "url": "https://www.guitarworld.com/artists/guitarists/john-5-on-crying-uncontrollably-after-his-live-motley-crue-debut",
       "source": "Guitar World",
       "category": "ギター機材",
-      "published": "2026-11-07T20:00:00+09:00",
+      "published": "2026-11-07T21:00:00+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "なぜJohn Martynは過小評価されたギターの天才だったのか",
-      "summary_ja": "フォーク、ジャズ、ブルースの先駆者であるJohn Martynは、独自のチューニングを駆使した冒険的な演奏でThe EdgeやPaul Wellerらに影響を与えました。",
+      "title_ja": "John 5、Mötley Crüeでのライブデビュー後に「抑えきれないほど」泣いたと語る",
+      "summary_ja": "John 5は、憧れのKissのメンバーが見守る中で巨大ロックバンドのステージに立つという、極めて非現実的なライブデビューを振り返った。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Why gold is losing its shine: Goldman breaks down the recent sell-off",
@@ -206,10 +204,10 @@
       "published": "2026-11-08T05:02:06+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "金価格が輝きを失う理由：Goldman Sachsが最近の売り越しを分析",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "ゴールドが輝きを失う理由：Goldman Sachsが最近の売り越しを分析",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "ANTON KABANEN On BEAST IN BLACK's Upcoming Fourth Album 'Fear The Beast': 'It's Near Completion'",
@@ -223,7 +221,49 @@
       "title_ja": "BEAST IN BLACKのAnton Kabanenが語る、制作中の4thアルバムの進捗状況",
       "summary_ja": "BEAST IN BLACKのAnton Kabanenがインタビューに応じ、現在制作が進められているバンドの4枚目となるニューアルバムが完成間近であることを明かした。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
+    },
+    {
+      "title": "Why John Martyn was an underrated guitar genius",
+      "summary": "The folk, jazz and blues pioneer influenced the Edge, Paul Weller and others with his endless adventurous playing – to the point that he essentially made two tunings his own personal property",
+      "url": "https://www.guitarworld.com/artists/guitarists/why-john-martyn-was-an-underrated-guitar-genius",
+      "source": "Guitar World",
+      "category": "ギター機材",
+      "published": "2026-11-07T20:00:00+09:00",
+      "matched": [],
+      "score": 0,
+      "title_ja": "なぜJohn Martynは過小評価されたギターの天才だったのか",
+      "summary_ja": "フォーク、ジャズ、ブルースの先駆者であるJohn Martynは、独自のチューニングを駆使した冒険的な演奏でThe EdgeやPaul Wellerらに影響を与えました。",
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.4.0"
+    },
+    {
+      "title": "French presidential hopeful Melenchon pledges economic stimulus, renews NATO exit call",
+      "summary": "",
+      "url": "https://www.investing.com/news/commodities-news/french-presidential-hopeful-melenchon-pledges-minimum-wage-rise-retirement-at-60-5009873",
+      "source": "Investing.com Commodities",
+      "category": "経済・トレード",
+      "published": "2026-11-08T03:06:39+09:00",
+      "matched": [],
+      "score": 0,
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "フランス大統領選候補メランション氏、経済刺激策を公約しNATO脱退を再主張",
+      "translation_engine": "gemini-v1.4.0"
+    },
+    {
+      "title": "Poison Albums Ranked Worst to Best",
+      "summary": "Capitol / Enigma , Cyanide",
+      "url": "https://loudwire.com/poison-albums-ranked/",
+      "source": "Loudwire",
+      "category": "メタル",
+      "published": "2026-11-08T01:10:40+09:00",
+      "matched": [],
+      "score": 0,
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "Poisonの全アルバムをワーストからベストまでランキング形式で徹底解説",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "The best new gear this week, ft. a Tele for a session legend and yet more evidence that NAM is taking over",
@@ -237,49 +277,7 @@
       "title_ja": "今週の注目新製品：セッションレジェンド仕様のTelecasterやNAMの躍進など",
       "summary_ja": "Fender、Gibson、Positive Gridなど各社から発表された注目の新製品を紹介。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
-    },
-    {
-      "title": "French presidential hopeful Melenchon pledges economic stimulus, renews NATO exit call",
-      "summary": "",
-      "url": "https://www.investing.com/news/commodities-news/french-presidential-hopeful-melenchon-pledges-minimum-wage-rise-retirement-at-60-5009873",
-      "source": "Investing.com Commodities",
-      "category": "経済・トレード",
-      "published": "2026-11-08T03:06:39+09:00",
-      "matched": [],
-      "score": 0,
-      "title_ja": "フランス大統領選候補のメランション氏、経済刺激策を公約しNATO脱退を再主張",
-      "summary_ja": null,
-      "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
-    },
-    {
-      "title": "Poison Albums Ranked Worst to Best",
-      "summary": "Capitol / Enigma , Cyanide",
-      "url": "https://loudwire.com/poison-albums-ranked/",
-      "source": "Loudwire",
-      "category": "メタル",
-      "published": "2026-11-08T01:10:40+09:00",
-      "matched": [],
-      "score": 0,
-      "title_ja": "Poisonの全アルバムをランキング形式で徹底解説",
-      "summary_ja": null,
-      "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
-    },
-    {
-      "title": "50 years ago, a teenage Joe Satriani and Steve Vai recorded a jam together – and you can hear it on their new joint album",
-      "summary": "The Sea of Emotion is Satriani and Vai’s long-awaited debut album together, and although they recorded it remotely, there were a couple of notable exceptions",
-      "url": "https://www.guitarworld.com/artists/guitarists/joe-satriani-and-steve-vai-on-their-50-year-old-teenage-jam-the-sea-of-emotion",
-      "source": "Guitar World",
-      "category": "ギター機材",
-      "published": "2026-11-07T02:24:54+09:00",
-      "matched": [],
-      "score": 0,
-      "title_ja": "Joe SatrianiとSteve Vai、10代の頃の共演音源を収録した初のジョイント・アルバムをリリース",
-      "summary_ja": "Joe SatrianiとSteve Vaiの初となるジョイント・アルバム『The Sea of Emotion』がリリース。本作には、二人が10代の頃に録音した貴重なジャムセッション音源も収録されている。",
-      "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Slop Cash, From elizaOS Creator Shaw Walters, Opens Public Bidding on Umia After Passing Its $400K Minimum",
@@ -290,10 +288,10 @@
       "published": "2026-11-08T02:00:13+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "elizaOS開発者Shaw Waltersによる「Slop Cash」、Umiaの公開入札を開始",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "elizaOS開発者Shaw Walters氏の「Slop Cash」、Umiaの公開入札を開始",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "See RUSH's Second Concert At Mohegan Sun Arena During 'Fifty Something' Tour",
@@ -307,21 +305,21 @@
       "title_ja": "RUSHの「Fifty Something」ツアーより、11月1日のMohegan Sun Arena公演の全編映像が公開",
       "summary_ja": "YouTubeチャンネル「Ghost Video」にて、2026年11月1日にコネチカット州のMohegan Sun Arenaで行われたRUSHのライブ全編映像が公開された。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "\"A nitro finish nearly always comes with a high price tag - this changes that\": Patina PT-3 review",
-      "summary": "Patina looks to open the door to nitro-finished guitars for those who are on a budget.",
-      "url": "https://www.guitarworld.com/gear/electric-guitars/patina-pt-3-review",
+      "title": "50 years ago, a teenage Joe Satriani and Steve Vai recorded a jam together – and you can hear it on their new joint album",
+      "summary": "The Sea of Emotion is Satriani and Vai’s long-awaited debut album together, and although they recorded it remotely, there were a couple of notable exceptions",
+      "url": "https://www.guitarworld.com/artists/guitarists/joe-satriani-and-steve-vai-on-their-50-year-old-teenage-jam-the-sea-of-emotion",
       "source": "Guitar World",
       "category": "ギター機材",
-      "published": "2026-11-07T02:13:09+09:00",
+      "published": "2026-11-07T02:24:54+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "高価なニトロフィニッシュを身近に。Patina PT-3ギターのレビュー",
-      "summary_ja": "Patinaは、予算が限られているプレイヤーでもニトロセルロース・ラッカー仕上げのギターを手に入れられるよう、新たな選択肢を提示している。",
+      "title_ja": "Joe SatrianiとSteve Vai、10代の頃の共演音源を収録した初のジョイント・アルバムをリリース",
+      "summary_ja": "Joe SatrianiとSteve Vaiの初となるジョイント・アルバム『The Sea of Emotion』がリリース。本作には、二人が10代の頃に録音した貴重なジャムセッション音源も収録されている。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Bitcoin rebounds to $76,000, but $1.3 billion ETF exodus tests recovery",
@@ -332,10 +330,10 @@
       "published": "2026-11-07T17:12:35+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "ビットコインが7万6000ドルまで回復するも、ETFから13億ドルの流出が相場を圧迫",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "Bitcoinが7万6000ドルまで回復するも、ETFから13億ドルの流出が発生",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "DEEP PURPLE's IAN GILLAN Undergoes 'Successful Procedure': 'I Have To Rest In Order To Make A Complete Recovery'",
@@ -349,7 +347,48 @@
       "title_ja": "DEEP PURPLEのIan Gillanが手術を無事終了、完全回復に向け休養へ",
       "summary_ja": "欧州ツアーの残りの公演を中止したDEEP PURPLEのIan Gillanが、手術を無事に終えたことを報告。完全な回復を目指して現在休養中であることを明かした。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
+    },
+    {
+      "title": "\"A nitro finish nearly always comes with a high price tag - this changes that\": Patina PT-3 review",
+      "summary": "Patina looks to open the door to nitro-finished guitars for those who are on a budget.",
+      "url": "https://www.guitarworld.com/gear/electric-guitars/patina-pt-3-review",
+      "source": "Guitar World",
+      "category": "ギター機材",
+      "published": "2026-11-07T02:13:09+09:00",
+      "matched": [],
+      "score": 0,
+      "title_ja": "高価なニトロフィニッシュを身近に。Patina PT-3ギターのレビュー",
+      "summary_ja": "Patinaは、予算が限られているプレイヤーでもニトロセルロース・ラッカー仕上げのギターを手に入れられるよう、新たな選択肢を提示している。",
+      "summary_suppressed": false,
+      "translation_engine": "gemini-v1.4.0"
+    },
+    {
+      "title": "As COP31 comes to Turkey, satellites reveal a landfill methane problem",
+      "summary": "",
+      "url": "https://www.investing.com/news/commodities-news/as-cop31-comes-to-turkey-satellites-reveal-a-landfill-methane-problem-5009712",
+      "source": "Investing.com Commodities",
+      "category": "経済・トレード",
+      "published": "2026-11-07T15:12:40+09:00",
+      "matched": [],
+      "score": 0,
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "COP31開催のトルコで衛星が埋め立て地のメタン排出問題を検知",
+      "translation_engine": "gemini-v1.4.0"
+    },
+    {
+      "title": "ICED EARTH's JON SCHAFFER Says STU BLOCK Displayed 'Weakness Under Pressure' By 'Changing His Whole Tune' About Events Of January 6, 2021",
+      "summary": "In a new interview with The Gallery metal web magazine, ICED EARTH guitarist Jon Schaffer addressed a possible return of his DEMONS & WIZARDS project, in which he was joined by BLIND GUARDIAN frontman Hansi Kürsch. Kürsch announced his departure from DEMONS & WIZARDS two weeks after Schaffer was arr...",
+      "url": "https://blabbermouth.net/news/iced-earths-jon-schaffer-says-stu-block-displayed-weakness-under-pressure-by-changing-his-whole-tune-about-events-of-january-6-2021",
+      "source": "Blabbermouth",
+      "category": "メタル",
+      "published": "2026-11-07T23:08:21+09:00",
+      "matched": [],
+      "score": 0,
+      "summary_ja": "ICED EARTHのギタリストJON SCHAFFERがインタビューに応じ、自身のプロジェクトDEMONS & WIZARDSの今後や、かつてのパートナーであるHansi Kürschの脱退について言及した。",
+      "title_ja": "ICED EARTHのJON SCHAFFER、元メンバーSTU BLOCKの1月6日事件に関する言動を「圧力に屈した弱さ」と批判",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Martin honors Gram Parsons with a recreation of his workhorse 00-21 acoustic",
@@ -363,49 +402,7 @@
       "title_ja": "MartinがGram Parsonsの愛器「00-21」を再現した限定モデルを発表",
       "summary_ja": "MartinのチームがGram Parsonsの使い込まれたオリジナルモデルを詳細に分析し、限定生産のアコースティックギターとして再現した。",
       "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
-    },
-    {
-      "title": "As COP31 comes to Turkey, satellites reveal a landfill methane problem",
-      "summary": "",
-      "url": "https://www.investing.com/news/commodities-news/as-cop31-comes-to-turkey-satellites-reveal-a-landfill-methane-problem-5009712",
-      "source": "Investing.com Commodities",
-      "category": "経済・トレード",
-      "published": "2026-11-07T15:12:40+09:00",
-      "matched": [],
-      "score": 0,
-      "title_ja": "トルコでのCOP31開催を控え、衛星観測で埋立地のメタン問題が浮上",
-      "summary_ja": null,
-      "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
-    },
-    {
-      "title": "ICED EARTH's JON SCHAFFER Says STU BLOCK Displayed 'Weakness Under Pressure' By 'Changing His Whole Tune' About Events Of January 6, 2021",
-      "summary": "In a new interview with The Gallery metal web magazine, ICED EARTH guitarist Jon Schaffer addressed a possible return of his DEMONS & WIZARDS project, in which he was joined by BLIND GUARDIAN frontman Hansi Kürsch. Kürsch announced his departure from DEMONS & WIZARDS two weeks after Schaffer was arr...",
-      "url": "https://blabbermouth.net/news/iced-earths-jon-schaffer-says-stu-block-displayed-weakness-under-pressure-by-changing-his-whole-tune-about-events-of-january-6-2021",
-      "source": "Blabbermouth",
-      "category": "メタル",
-      "published": "2026-11-07T23:08:21+09:00",
-      "matched": [],
-      "score": 0,
-      "title_ja": "ICED EARTHのJon Schaffer、元メンバーStu Blockの1月6日事件に関する言動を「圧力に屈した弱さ」と非難",
-      "summary_ja": null,
-      "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
-    },
-    {
-      "title": "Ronnie Wood says Keith Richards wants the Rolling Stones to take a break from touring",
-      "summary": "Ronnie Wood is on tour right now in South America but says his Stones colleague wants some time off from the road – for now",
-      "url": "https://www.guitarworld.com/artists/guitarists/ronnie-wood-says-keith-richards-wants-the-rolling-stones-to-take-a-break-from-touring",
-      "source": "Guitar World",
-      "category": "ギター機材",
-      "published": "2026-11-07T01:13:14+09:00",
-      "matched": [],
-      "score": 0,
-      "title_ja": "Ronnie Woodが明かす、Keith RichardsがRolling Stonesのツアー休止を希望",
-      "summary_ja": "現在南米ツアー中のRonnie Woodによると、Keith Richardsは当面の間、バンドのツアー活動を休止したい意向を示しているという。",
-      "summary_suppressed": false,
-      "translation_engine": "gemini-v1.3.9"
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "US Treasury sanctions Canadian money services firms over Iran-related transactions",
@@ -416,10 +413,10 @@
       "published": "2026-11-07T07:48:20+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "米財務省、イラン関連取引に関与したカナダの送金サービス企業に制裁を科す",
-      "summary_ja": null,
       "summary_suppressed": true,
-      "translation_engine": "gemini-v1.3.9"
+      "summary_ja": null,
+      "title_ja": "米財務省、イラン関連取引に関与したとしてカナダの送金業者に制裁を科す",
+      "translation_engine": "gemini-v1.4.0"
     }
   ]
 }
