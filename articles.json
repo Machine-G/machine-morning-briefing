@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T17:56:24.077166+09:00",
+  "generated_at": "2026-11-08T18:13:53.663298+09:00",
   "articles": [
     {
       "title": "THE OBSESSED's SCOTT 'WINO' WEINRICH Explains Title Of Upcoming 'Live Fast - Love Hard - Die Free' Album",
@@ -10,9 +10,9 @@
       "published": "2026-11-08T06:17:13+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "THE OBSESSEDのスコット・“ワイノ”・ワインリッヒ、新作アルバム『Live Fast - Love Hard - Die Free』のタイトルについて語る",
-      "summary_ja": "THE OBSESSEDのフロントマン、スコット・“ワイノ”・ワインリッヒがインタビューで、2027年初頭にHeavy Psych Sounds Recordsからリリース予定の新作について語った。",
-      "translation_engine": "gemini-v1.3"
+      "title_ja": "THE OBSESSEDのScott 'Wino' Weinrich、新作アルバム『Live Fast - Love Hard - Die Free』のタイトルについて語る",
+      "summary_ja": "THE OBSESSEDのフロントマンであるScott \"Wino\" Weinrichが、2027年初頭にHeavy Psych Sounds Recordsからリリース予定の新作アルバムについて語った。",
+      "translation_engine": "gemini-v1.3.6"
     },
     {
       "title": "Richard Lloyd, guitarist of influential ’70s New York band Television, dies aged 75",
@@ -23,9 +23,9 @@
       "published": "2026-11-08T02:34:43+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "Televisionのギタリスト、リチャード・ロイドが75歳で死去",
-      "summary_ja": "70年代のニューヨークで活躍したバンドTelevisionのギタリスト、リチャード・ロイドが死去した。今年初めに胆管がんと診断されていた。",
-      "translation_engine": "gemini-v1.3"
+      "title_ja": "Televisionのギタリスト、Richard Lloydが75歳で死去",
+      "summary_ja": "70年代のニューヨークで活躍したバンドTelevisionのギタリスト、Richard Lloydが死去した。今年初めに胆管がんと診断されていた。",
+      "translation_engine": "gemini-v1.3.6"
     },
     {
       "title": "Turkish villagers demand COP31 leaders see for themselves devastation caused by coal",
@@ -36,9 +36,10 @@
       "published": "2026-11-08T16:12:17+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "トルコの村人たちがCOP31の指導者に石炭による被害の視察を要求",
-      "translation_engine": "gemini-v1.3",
-      "summary_ja": null
+      "title_ja": "トルコの村人たちがCOP31のリーダーに対し、石炭による被害を直接視察するよう要求",
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "translation_engine": "gemini-v1.3.6"
     },
     {
       "title": "STAIND's AARON LEWIS On Upcoming 'The Space Between The Darkness And The Light' Album: 'It's A Pretty Heavy, Driving Record'",
@@ -85,8 +86,9 @@
       "published": "2026-11-08T04:51:40+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "ADAM DUTKIEWICZ、セカンド・バーン・エターナル・アルバムに十分な素材を既に持っている",
-      "summary_ja": "Metal On TapのJai \"Jaimunji\" Setrightとの新しいインタビューで、KILLSWITCHはギタリストのAdam Dutkiewicz s"
+      "title_ja": "Adam Dutkiewicz、BURN ETERNALの2ndアルバムに向けた楽曲制作が進行中",
+      "summary_ja": "KILLSWITCH ENGAGEのAdam Dutkiewiczが、Howard Jonesと結成した新プロジェクトBURN ETERNALについて、デビュー作に続く2枚目のアルバムに向けた楽曲が既に揃っていることを明かした。",
+      "translation_engine": "gemini-v1.3.6"
     },
     {
       "title": "John 5 says he cried “uncontrollably” after making his live debut with Mötley Crüe",
@@ -97,8 +99,9 @@
       "published": "2026-11-07T21:00:00+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "ジョン5は、MötleyCrüeとのライブデビュー後に「制御不能に」泣いたと言います",
-      "summary_ja": "ライブデビューは、メガロックバンドで演奏し、Kiss inのヒーローを迎えることほどシュールなものはありません。"
+      "title_ja": "John 5、Mötley Crüeでのライブデビュー後に「抑えきれないほど」泣いたと語る",
+      "summary_ja": "John 5は、憧れのKissのメンバーが見守る中で巨大ロックバンドのステージに立つという、極めて非現実的なライブデビューを振り返った。",
+      "translation_engine": "gemini-v1.3.6"
     },
     {
       "title": "US military says it disabled cargo vessel in Gulf of Oman",
@@ -109,8 +112,10 @@
       "published": "2026-11-08T14:00:25+09:00",
       "matched": [],
       "score": 0,
-      "title_ja": "米軍がオマーン湾の貨物船を航行不能にしたと発表",
-      "summary_ja": null
+      "title_ja": "米軍、オマーン湾で貨物船を無力化したと発表",
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "translation_engine": "gemini-v1.3.6"
     },
     {
       "title": "Drummer JOHN TEMPESTA Exits THE CULT After 20-Year Run",
