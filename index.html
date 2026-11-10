@@ -1065,7 +1065,7 @@
         );
       }
 
-      $('newsTab').onclick = () => showView('news');
+      $('newsTab').onclick = () => { window.location.assign('morning.html'); };
       $('settingsTab').onclick = () => showView('settings');
 
       function render() {
@@ -1410,6 +1410,7 @@
       // 起動
       // ==========================================
 
+      showView('settings');
       render();
       initializeAuth();
 
