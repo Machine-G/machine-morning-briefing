@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.4.0: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.4.1: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -24,9 +24,9 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.4.0 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.4.1 (+RSS reader)'
 MAX_ARTICLES = 30
-CATEGORIES = ['メタル', 'ギター機材', '経済・トレード']
+CATEGORIES = ['メタル', 'ギター機材', '経済・トレード', '音楽ニュース']
 
 
 def read_json(path):
@@ -50,6 +50,10 @@ def keywords():
         if not isinstance(data, dict) or not isinstance(data.get('items'), list):
             raise RuntimeError('Cloud keyword response is invalid')
         items = data['items']
+        global CATEGORIES
+        configured = data.get('categories')
+        if isinstance(configured, list) and configured and all(isinstance(x, str) for x in configured):
+            CATEGORIES = configured
         print(f'INFO: loaded {len(items)} keyword records from Cloudflare')
     else:
         path = pathlib.Path(os.environ.get('MMB_KEYWORDS_FILE', str(ROOT / 'keywords.json')))
@@ -165,6 +169,20 @@ def collect(feeds, terms):
                 continue
             seen.add(normalized)
             combined = title + ' ' + summary
+            category = feed['category']
+            if category == 'ギター機材':
+                gear_terms = (r'\b(?:guitar|amp|amplifier|pedal|effect|modeler|modeling|'
+                              r'pickup|cabinet|speaker|processor|firmware|plugin|'
+                              r'interface|telecaster|stratocaster|les paul|bass|'
+                              r'strings|fretboard|signature model|gear|rig|NAM A2|'
+                              r'quad cortex|tonex|kemper|helix|laney|fender|marshall)\b')
+                non_gear = (r'\b(?:movie|film|sequel|crossroads|tour|concert|'
+                            r'performance|interview|death|died|tribute|biopic|'
+                            r'album|song|recording|documentary)\b')
+                if not re.search(gear_terms, title, re.I) and re.search(non_gear, title, re.I):
+                    category = '音楽ニュース' if '音楽ニュース' in CATEGORIES else 'メタル'
+                elif not re.search(gear_terms, title + ' ' + summary[:100], re.I):
+                    category = '音楽ニュース' if '音楽ニュース' in CATEGORIES else 'メタル'
             found = [kw for kw in terms if matches_keyword(kw['term'], combined)]
             if found:
                 matched_count += 1
@@ -172,7 +190,7 @@ def collect(feeds, terms):
                     keyword_hits[kw['term']] = keyword_hits.get(kw['term'], 0) + 1
             articles.append({
                 'title': title, 'summary': summary, 'url': url,
-                'source': feed['name'], 'category': feed['category'],
+                'source': feed['name'], 'category': category,
                 'published': published.isoformat() if published else None,
                 'matched': [x['term'] for x in found],
                 'score': max((2 if x['priority'] in ('最重要', '高') else 1 for x in found), default=0),
@@ -581,8 +599,8 @@ section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.se
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
 @media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
 </style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.4.0</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
-<main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.4.1</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<main><p><a href="./index.html" style="color:var(--gold);font-weight:700">⚙ キーワード・カテゴリ管理 ↗</a></p><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
 
