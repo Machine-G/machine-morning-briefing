@@ -4,9 +4,10 @@
 ==================================================
  Machine Morning Briefing
  File    : index.html
- Version : v1.6.0
+ Version : v1.6.1
  Updated : 2026-11-10
  Purpose : キーワード・カテゴリ・優先収集サイト管理画面
+ Changes : サイトURLからRSS/Atom候補を自動検出
 ==================================================
 -->
 <html lang="ja">
@@ -581,11 +582,16 @@
 </section>
       <section class="panel" style="margin-top:20px">
         <h2>🌐 優先収集サイト管理</h2>
-        <p class="status">カテゴリごとにRSS/Atom配信URLを登録します。登録サイトの記事は通常の収集先より優先して朝刊に掲載します。RSSのない一般サイトURLは登録できません。</p>
+        <p class="status">サイトURLからRSS / Atomを検索して登録できます。直接RSS URLを入力することもできます。登録サイトの記事は優先して収集します。</p>
         <form id="sourceForm">
           <div class="settings" style="margin:12px 0">
             <div class="field"><label for="sourceCategory">カテゴリ</label><select id="sourceCategory"></select></div>
             <div class="field"><label for="sourceName">サイト名</label><input type="text" id="sourceName" maxlength="80" required placeholder="例：Blabbermouth"></div>
+          </div>
+          <div class="field"><label for="discoverSiteUrl">サイトURLからRSS / Atomを自動検索</label>
+            <div class="bottom"><input type="url" id="discoverSiteUrl" placeholder="https://example.com/" style="flex:1;min-width:220px;border:1px solid #536276;border-radius:9px;padding:12px;background:#0b1420;color:white" aria-label="RSSを検索するサイトURL"><button class="secondary" type="button" id="discoverFeedBtn">RSSを検索</button></div>
+            <p class="status" id="discoverStatus" role="status">サイトのトップページURLで検索できます（GitHubログインが必要）。</p>
+            <div id="discoverResults" aria-live="polite"></div>
           </div>
           <div class="field"><label for="sourceUrl">RSS / Atom URL（https://）</label><input type="url" id="sourceUrl" required placeholder="https://example.com/feed"></div>
           <div class="bottom"><button class="primary" type="submit" id="sourceSaveBtn">収集サイトを追加</button><button class="secondary" type="button" id="sourceCancelBtn" hidden>編集をキャンセル</button></div>
@@ -688,7 +694,7 @@
 
   <footer class="footer">
     <div class="wrap">
-      MACHINE MORNING BRIEFING · Settings v1.6.0
+      MACHINE MORNING BRIEFING · Settings v1.6.1
     </div>
   </footer>
 
@@ -1302,7 +1308,46 @@
         persist(); render();
       };
 
-             function renderSources() {
+             // v1.6.1: RSS / Atom discovery via authenticated Worker (no cross-origin browser scraping).
+       $('discoverFeedBtn').onclick = async () => {
+         const site = $('discoverSiteUrl').value.trim();
+         const results = $('discoverResults'); results.replaceChildren();
+         let parsed;
+         try { parsed = new URL(site); } catch { $('discoverStatus').textContent = 'サイトURLを確認してください。'; return; }
+         if (parsed.protocol !== 'https:') { $('discoverStatus').textContent = 'https:// のサイトURLを入力してください。'; return; }
+         const token = getToken();
+         if (!token) { $('discoverStatus').textContent = 'RSS検索にはGitHubログインが必要です。'; return; }
+         const button = $('discoverFeedBtn'); button.disabled = true;
+         $('discoverStatus').textContent = 'RSS / Atomを検索しています…';
+         try {
+           const response = await fetch(API + '/api/discover-feed?url=' + encodeURIComponent(site), {
+             method: 'GET', mode: 'cors', credentials: 'omit', cache: 'no-store',
+             headers: { Authorization: 'Bearer ' + token }
+           });
+           const payload = await response.json().catch(() => ({}));
+           if (!response.ok) throw new Error(payload.error || 'HTTP ' + response.status);
+           const feeds = Array.isArray(payload.feeds) ? payload.feeds : [];
+           $('discoverStatus').textContent = feeds.length ? feeds.length + ' 件のRSS / Atomを検出しました。登録する候補を選んでください。' : 'RSS / Atomが見つかりませんでした。RSSを提供していないサイトの可能性があります。';
+           feeds.forEach(feed => {
+             const row = document.createElement('div'); row.className = 'item';
+             const info = document.createElement('div'); info.className = 'details';
+             const name = document.createElement('div'); name.className = 'word'; name.textContent = feed.title || 'RSS / Atom';
+             const url = document.createElement('div'); url.className = 'sub'; url.textContent = feed.url;
+             info.append(name, url);
+             const choose = document.createElement('button'); choose.type = 'button'; choose.className = 'secondary'; choose.textContent = 'このRSSを選択';
+             choose.onclick = () => {
+               $('sourceUrl').value = feed.url;
+               if (!$('sourceName').value.trim()) $('sourceName').value = (payload.siteTitle || parsed.hostname).slice(0, 80);
+               $('discoverStatus').textContent = 'RSS URLを入力しました。カテゴリとサイト名を確認して「収集サイトを追加」を押してください。';
+               $('sourceUrl').focus();
+             };
+             row.append(info, choose); results.append(row);
+           });
+         } catch (error) { $('discoverStatus').textContent = '検索失敗：' + error.message; }
+         finally { button.disabled = false; }
+       };
+
+       function renderSources() {
          const selector = $('sourceCategory');
          const selected = selector.value;
          selector.replaceChildren();
