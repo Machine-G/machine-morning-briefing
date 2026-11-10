@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.4.1: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.4.2: keyword-first RSS + balanced category discovery.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.4.1 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.4.2 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード', '音楽ニュース']
 
@@ -589,6 +589,9 @@ def render(articles, terms):
 :root{{--bg:#0b101a;--panel:#171f2e;--line:#2b364b;--text:#f4f6fb;--muted:#b8c8df;--gold:#e8bc68}}
 *{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif;line-height:1.75}}
 header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-top:42px;border-bottom:1px solid var(--line)}}
+.header-top{{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}}
+.settings-link{{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border:1px solid #8e7140;border-radius:10px;background:#302719;color:var(--gold);font-size:13px;font-weight:700;white-space:nowrap}}
+.settings-link:hover{{background:#48371d;text-decoration:none}}
 .eyebrow{{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.12em}}h1{{font-size:clamp(29px,4vw,54px);line-height:1.2;margin:12px 0}}.sub{{color:var(--muted)}}
 .stats{{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}}
 .grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}.card{{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}}
@@ -597,9 +600,9 @@ header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-t
 .source{{font-size:13px;color:var(--gold);font-weight:700}}.empty{{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}}footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
 section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.section-title small{{font-size:13px;color:var(--muted);font-weight:400}}
 .highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
-@media(max-width:680px){{header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
-</style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.4.1</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+@media(max-width:680px){{.header-top{{align-items:flex-start}}.settings-link{{font-size:12px;padding:7px 11px}}header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
+</style></head><body><header><div class="header-top"><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><a class="settings-link" href="./index.html" aria-label="キーワード・カテゴリの設定と編集">⚙ 設定・編集 ↗</a></div><h1>MACHINE<br>MORNING BRIEFING</h1>
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.4.2</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
 <main><p><a href="./index.html" style="color:var(--gold);font-weight:700">⚙ キーワード・カテゴリ管理 ↗</a></p><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 {body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
 
