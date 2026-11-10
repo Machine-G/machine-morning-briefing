@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T18:17:59.651752+09:00",
+  "generated_at": "2026-11-10T18:32:00.180672+09:00",
   "articles": [
     {
       "title": "Former DRAGONFORCE And SKID ROW Singer ZP THEART Releases Re-Imagining Of NIGHTWISH's 'Nemo'",
@@ -62,9 +62,9 @@
       "image": "https://content-media.investing.com/news/LYNXMPEB4J19G_M.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "英ポンドが下落、米連邦準備制度理事会の引き締め観測でドルが安定",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -126,9 +126,9 @@
       "image": "https://content-media.investing.com/news/Eos_800x533_L_1556445015.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "暗号資産EOSが20%上昇、市場全体が堅調に推移",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -190,9 +190,9 @@
       "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA905M_L.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "原油先物が下落、トランプ氏がイランとの緊張激化の可能性を否定",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -254,9 +254,9 @@
       "image": "https://content-media.investing.com/news/LYNXMPECBE0OL_M.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "ノルウェーの10月コアインフレ率、予想を下回る上昇",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -318,9 +318,9 @@
       "image": "https://content-media.investing.com/news/LYNXNPEF0600R_M.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "米インフレ指標発表を控え、ドルは軟調な展開が続く",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -462,8 +462,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/QUtQgzYHKbYZQGhap4rzNd-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "summary_ja": "書籍『Edged in Blue: A Rock ’n’ Roll Odyssey with Rory Gallagher』より、Dónal Gallagherが伝説的なギター購入の物語を語る。",
       "title_ja": "Rory Gallagherの生涯の相棒となった「'61 Strat」の伝説的な購入秘話",
+      "summary_ja": "書籍『Edged in Blue: A Rock ’n’ Roll Odyssey with Rory Gallagher』より、Dónal Gallagherが伝説的なギター購入の物語を語る。",
+      "summary_suppressed": false,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -477,8 +478,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/r8knrbTvBUwhpa9FjJVTxS-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "summary_ja": "Minutemenのギタリスト兼ボーカリストが27歳で不慮の事故により急逝した後、影響力のあるベーシストであったMike Wattは音楽への意欲を完全に失ってしまった。",
       "title_ja": "Mike Watt、悲しみのあまり手放した愛用ベースについて語る",
+      "summary_ja": "Minutemenのギタリスト兼ボーカリストが27歳で不慮の事故により急逝した後、影響力のあるベーシストであったMike Wattは音楽への意欲を完全に失ってしまった。",
+      "summary_suppressed": false,
       "translation_engine": "gemini-v1.4.0"
     }
   ]
