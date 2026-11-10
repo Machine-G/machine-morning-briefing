@@ -98,6 +98,8 @@
     }
 
     .tab {
+      display: inline-block;
+      text-decoration: none;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 10px 18px;
@@ -411,9 +413,9 @@
       </p>
 
       <nav class="nav">
-        <button class="tab" id="newsTab" aria-selected="true">
+        <a class="tab" id="newsTab" href="./morning.html" aria-label="朝刊を見る">
           📰 朝刊を見る
-        </button>
+        </a>
 
         <button class="tab" id="settingsTab" aria-selected="false">
           ⚙️ キーワード・カテゴリ管理
@@ -663,7 +665,7 @@
 
   <footer class="footer">
     <div class="wrap">
-      MACHINE MORNING BRIEFING · Settings v1.4.2
+      MACHINE MORNING BRIEFING · Settings v1.4.4
     </div>
   </footer>
 
@@ -1065,7 +1067,7 @@
         );
       }
 
-      $('newsTab').onclick = () => { window.location.assign('morning.html'); };
+      // newsTab is a native link to morning.html; no JavaScript required.
       $('settingsTab').onclick = () => showView('settings');
 
       function render() {
