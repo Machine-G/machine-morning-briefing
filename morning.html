@@ -5,6 +5,9 @@
 :root{--bg:#0b101a;--panel:#171f2e;--line:#2b364b;--text:#f4f6fb;--muted:#b8c8df;--gold:#e8bc68}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif;line-height:1.75}
 header,main,footer{max-width:1160px;margin:auto;padding:24px}header{padding-top:42px;border-bottom:1px solid var(--line)}
+.header-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.settings-link{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border:1px solid #8e7140;border-radius:10px;background:#302719;color:var(--gold);font-size:13px;font-weight:700;white-space:nowrap}
+.settings-link:hover{background:#48371d;text-decoration:none}
 .eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.12em}h1{font-size:clamp(29px,4vw,54px);line-height:1.2;margin:12px 0}.sub{color:var(--muted)}
 .stats{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}
@@ -13,16 +16,56 @@ header,main,footer{max-width:1160px;margin:auto;padding:24px}header{padding-top:
 .source{font-size:13px;color:var(--gold);font-weight:700}.empty{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}footer{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
 section{margin:22px 0 40px}.section-title{font-size:23px;margin:0 0 18px}.section-title small{font-size:13px;color:var(--muted);font-weight:400}
 .highlight{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}
-@media(max-width:680px){header,main,footer{padding:22px 17px}.grid{grid-template-columns:1fr}.card{padding:20px}.card h2{font-size:20px}.card p{font-size:16px}}
-</style></head><body><header><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">2026年11月10日 · RSS収集版 v1.4.0</div><div class="stats"><span>関連記事 30 件</span><span>キーワード一致 1 件</span><span>有効キーワード 11 件</span><span>更新 08:44 JST</span></div></header>
-<main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
+@media(max-width:680px){.header-top{align-items:flex-start}.settings-link{font-size:12px;padding:7px 11px}header,main,footer{padding:22px 17px}.grid{grid-template-columns:1fr}.card{padding:20px}.card h2{font-size:20px}.card p{font-size:16px}}
+</style></head><body><header><div class="header-top"><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><a class="settings-link" href="./index.html" aria-label="キーワード・カテゴリの設定と編集">⚙ 設定・編集 ↗</a></div><h1>MACHINE<br>MORNING BRIEFING</h1>
+<div class="sub">2026年11月10日 · RSS収集版 v1.4.2</div><div class="stats"><span>関連記事 30 件</span><span>キーワード一致 1 件</span><span>有効キーワード 10 件</span><span>更新 10:47 JST</span></div></header>
+<main><p><a href="./index.html" style="color:var(--gold);font-weight:700">⚙ キーワード・カテゴリ管理 ↗</a></p><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
 <section><h2 class="section-title">注目ニュース <small>1件</small></h2><div class="grid"><article class="card"><div class="meta">メタル · Blabbermouth · 11/08 23:02 JST</div>
 <div><span class="highlight">キーワード一致</span></div><h2><a href="https://blabbermouth.net/news/former-dragonforce-and-skid-row-singer-zp-theart-releases-re-imagining-of-nightwishs-nemo" target="_blank" rel="noopener noreferrer">元DRAGONFORCE／SKID ROWのZP TheartがNIGHTWISH「Nemo」のカバーを公開</a></h2>
 <div class="original">Former DRAGONFORCE And SKID ROW Singer ZP THEART Releases Re-Imagining Of NIGHTWISH&#x27;s &#x27;Nemo&#x27;</div>
 <p>DRAGONFORCEの初代ボーカリストであり、元SKID ROWのZP Theartが、NIGHTWISHの名曲「Nemo」をカバー。自身のYouTubeチャンネルにてスタジオ・プレイ動画を公開した。</p><div class="tags"><span class="tag">Power Metal</span></div>
 <a class="source" href="https://blabbermouth.net/news/former-dragonforce-and-skid-row-singer-zp-theart-releases-re-imagining-of-nightwishs-nemo" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section>
-<section><h2 class="section-title">メタル <small>10件</small></h2><div class="grid"><article class="card"><div class="meta">メタル · Blabbermouth · 11/10 07:49 JST</div>
+<section><h2 class="section-title">ギター機材 <small>8件</small></h2><div class="grid"><article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 02:58 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/gear/combo-amps/laney-amplification-ironheart-foundry-irf60-112-review" target="_blank" rel="noopener noreferrer">Laney Ironheart Foundry IRF60-112レビュー：小型ながらタイトでパンチの効いたゲインを誇る実戦派コンボ</a></h2>
+<div class="original">“Despite its small stature, it’s not lacking in low-end, and has masses of tight, punchy gain on tap”: Laney Ironheart Foundry IRF60-112 review</div>
+<p>Laneyの「Ironheart Foundry」シリーズから、ライブでの使用にも適した1x12コンボアンプが登場。</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/gear/combo-amps/laney-amplification-ironheart-foundry-irf60-112-review" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 02:15 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/gear/electric-guitars/fender-japan-f-hole-telecaster-thinline-2026" target="_blank" rel="noopener noreferrer">Fender JapanがユニークなFホールを採用したThinline Telecasterを復刻</a></h2>
+<div class="original">Fender Japan gives ‘F-hole’ a new meaning as it releases a Thinline Telecaster with a twist</div>
+<p>Fenderの日本支社が、2021年の限定モデルで採用されたユニークなFホールデザインのThinline Telecasterを再びリリースした。</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/gear/electric-guitars/fender-japan-f-hole-telecaster-thinline-2026" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 01:51 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/joe-bonamassa-on-jeff-beck-at-crossroads-2010" target="_blank" rel="noopener noreferrer">Joe Bonamassaが回想、Jeff Beckのギターが嵐を呼んだ2010年Crossroadsの衝撃</a></h2>
+<div class="original">Joe Bonamassa on the day Jeff Beck’s guitar playing conjured a storm</div>
+<p>Joe Bonamassaが、2010年のCrossroads公演で目撃したJeff Beckの忘れがたいパフォーマンスについて語った。</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/artists/guitarists/joe-bonamassa-on-jeff-beck-at-crossroads-2010" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 00:14 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/gear/combo-amps/jimmy-page-sundragon-dragonette" target="_blank" rel="noopener noreferrer">Jimmy Pageのシグネチャー・アンプ「Dragonette」が登場、Led Zeppelinのデビュー作の音を再現</a></h2>
+<div class="original">Jimmy Page has a new 6W signature amp that recreates Led Zeppelin’s guitar tones – but it costs nearly $10k</div>
+<p>Led Zeppelinのデビュー・アルバムで使用されたSupro Coronadoを再現した、超限定生産の6Wアンプ「Dragonette」が発表された。価格は約1万ドル。</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/gear/combo-amps/jimmy-page-sundragon-dragonette" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 20:47 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/gear/guitar-pedals/wah-pedal-inventor-del-casher-dies-aged-88" target="_blank" rel="noopener noreferrer">ワウペダルの発明者Del Casherが88歳で死去</a></h2>
+<div class="original">Wah-wah pedal inventor Del Casher dead at 88</div>
+<p>1960年代後半に象徴的なエフェクトの誕生に貢献したCasherは、Voxに対し、それがトランペット用ではなくエレクトリック・ギター用であることを説得する必要があった。</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/gear/guitar-pedals/wah-pedal-inventor-del-casher-dies-aged-88" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 20:23 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/robin-finck-reverb-shop-interview" target="_blank" rel="noopener noreferrer">ロビン・フィンクが語る「ナイン・インチ・ネイルズ」のトーン・シークレットと、彼がギアコレクションの半分を売っている理由</a></h2>
+<div class="original">Robin Finck on his Nine Inch Nails tone secrets – and why he’s selling half his gear collection</div>
+<p>フィンクの公式リバーブストアには、ナイン・インチ・ネイルズ、ガンズ・アンド・ローゼズなどの冒険の道具が揃っています。彼は、あなたのものになる可能性のある宝物のいくつかと、それらに伴う物語について話します</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/artists/guitarists/robin-finck-reverb-shop-interview" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 20:03 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/richard-lloyd-final-guitar-world-interview" target="_blank" rel="noopener noreferrer">リチャード・ロイドは、テレビ、ツェッペリン、ヘンドリックスとの出会い、そしてトム・ヴァーレインとの苦い関係を、彼の最後のギターワールドのインタビューで振り返ります</a></h2>
+<div class="original">Richard Lloyd reflects on Television, Zeppelin and Hendrix encounters, and his bittersweet relationship with Tom Verlaine in his final Guitar World interview</div>
+<p>リチャード・ロイドは11月7日に亡くなりました。この幅広い会話の中で、彼はテレビのレガシー、ジミー・ペイジの技術とのバックステージのレッスン、そしてジョン・リー・フッカーとの舞台上のジャムを振り返ります</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/artists/guitarists/richard-lloyd-final-guitar-world-interview" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 02:00 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/bassists/mike-watt-on-the-prized-bass-that-he-gave-away-due-to-grief" target="_blank" rel="noopener noreferrer">マイク・ワットが悲しみのために贈った貴重なベースについて語る</a></h2>
+<div class="original">Mike Watt on the prized bass that he gave away due to grief</div>
+<p>ミニットメンのギタリスト/ヴォーカリストが27歳で自動車事故で悲劇的に殺された後、影響力のあるベーシストは音楽を演奏するすべての欲求を失いました</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/artists/bassists/mike-watt-on-the-prized-bass-that-he-gave-away-due-to-grief" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section>
+<section><h2 class="section-title">メタル <small>7件</small></h2><div class="grid"><article class="card"><div class="meta">メタル · Blabbermouth · 11/10 07:49 JST</div>
 <div></div><h2><a href="https://blabbermouth.net/reviews/age-of-quarrel-40-years-of-quarrel" target="_blank" rel="noopener noreferrer">CRO-MAGSのHarley Flanaganが名盤『The Age Of Quarrel』を再録音</a></h2>
 <div class="original">Age Of Quarrel: 40 Years Of Quarrel</div>
 <p>NYCハードコアの伝説的バンドCRO-MAGSのHarley Flanaganが、バンドの金字塔であるアルバム『The Age Of Quarrel』の再録音に挑む。</p><div class="tags"></div>
@@ -33,9 +76,9 @@ section{margin:22px 0 40px}.section-title{font-size:23px;margin:0 0 18px}.sectio
 <p>SLAYERのギタリストKERRY KINGが、近日発表予定の2ndソロ・アルバムからの先行シングル「My War」を11月17日にリリースする。</p><div class="tags"></div>
 <a class="source" href="https://blabbermouth.net/news/kerry-king-announces-my-war-first-single-from-upcoming-second-solo-album" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
 <article class="card"><div class="meta">メタル · Loudwire · 11/10 06:28 JST</div>
-<div></div><h2><a href="https://loudwire.com/least-played-metallica-songs-las-vegas-sphere-2026/" target="_blank" rel="noopener noreferrer">スフィア・レジデンシー期間中に最も再生されなかった5つのメタリカの曲</a></h2>
+<div></div><h2><a href="https://loudwire.com/least-played-metallica-songs-las-vegas-sphere-2026/" target="_blank" rel="noopener noreferrer">MetallicaのSphere公演で最も演奏回数が少なかった楽曲5選</a></h2>
 <div class="original">5 Least Played Metallica Songs During Their Sphere Residency</div>
-<p>Brett Murray/Live Nation、Monica Schipper、Getty Images</p><div class="tags"></div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
 <a class="source" href="https://loudwire.com/least-played-metallica-songs-las-vegas-sphere-2026/" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
 <article class="card"><div class="meta">メタル · Loudwire · 11/10 06:06 JST</div>
 <div></div><h2><a href="https://loudwire.com/better-rush-song-tom-sawyer-vs-limelight/" target="_blank" rel="noopener noreferrer">【投票】Rushの名曲対決：『Tom Sawyer』と『Limelight』、どちらが至高か？</a></h2>
@@ -56,114 +99,74 @@ section{margin:22px 0 40px}.section-title{font-size:23px;margin:0 0 18px}.sectio
 <div></div><h2><a href="https://blabbermouth.net/news/john-gallagher-says-working-with-his-brother-mark-in-raven-is-a-great-asset-we-dont-fight-like-those-other-idiot-gallagher-brothers-from-oasis" target="_blank" rel="noopener noreferrer">ジョン・ギャラガーが『レイヴン』で弟のマークと一緒に働くことは「偉大な資産」であると語る：オアシスの「他のばかなギャラガー兄弟のように戦うのではない」</a></h2>
 <div class="original">JOHN GALLAGHER Says Working With His Brother MARK In RAVEN Is &#x27;A Great Asset&#x27;: &#x27;We Don&#x27;t Fight Like Those Other Idiot GALLAGHER Brothers&#x27; From OASIS</div>
 <p>Innocents TornのBonny Freimuthとの新しいインタビューで、レイヴンのベーシスト/ヴォーカリストであるジョン・ギャラガーは、彼の兄弟であるレイヴンのギタリストであるマーク・ギャラガーと緊密に仕事をすることがどのようなものであるかを尋ねられました。</p><div class="tags"></div>
-<a class="source" href="https://blabbermouth.net/news/john-gallagher-says-working-with-his-brother-mark-in-raven-is-a-great-asset-we-dont-fight-like-those-other-idiot-gallagher-brothers-from-oasis" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">メタル · Loudwire · 11/10 04:13 JST</div>
-<div></div><h2><a href="https://loudwire.com/fall-out-boy-2027-tour-aces-song/" target="_blank" rel="noopener noreferrer">フォール・アウト・ボーイが2027年スタジアムツアーを発表+新曲「エース」をドロップ</a></h2>
-<div class="original">Fall Out Boy Announce 2027 Stadium Tour + Drop New Song &#x27;Aces&#x27;</div>
-<p>Matt Winkelmeyer、Getty Images、Live Nation</p><div class="tags"></div>
-<a class="source" href="https://loudwire.com/fall-out-boy-2027-tour-aces-song/" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">メタル · Blabbermouth · 11/10 03:27 JST</div>
-<div></div><h2><a href="https://blabbermouth.net/news/kittie-to-release-oracle-xxv-re-recorded-25th-anniversary-edition-of-oracle" target="_blank" rel="noopener noreferrer">KITTIE、「Oracle XXV」をリリース、「Oracle」の25周年記念エディションを再録音</a></h2>
-<div class="original">KITTIE To Release &#x27;Oracle XXV&#x27;, Re-Recorded 25th-Anniversary Edition Of &#x27;Oracle&#x27;</div>
-<p>KITTIEは2026年11月13日金曜日に、バンドのセカンドスタジオアルバム2001の「Oracle」からの曲の25周年記念版を再録音した「Oracle XXV」をリリースする予定です。</p><div class="tags"></div>
-<a class="source" href="https://blabbermouth.net/news/kittie-to-release-oracle-xxv-re-recorded-25th-anniversary-edition-of-oracle" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">メタル · Blabbermouth · 11/10 02:56 JST</div>
-<div></div><h2><a href="https://blabbermouth.net/news/watch-charlie-benante-joins-fozzy-for-cover-of-judas-priests-living-after-midnight" target="_blank" rel="noopener noreferrer">視聴：チャーリー・ベナンテがFOZZYに参加し、JUDAS PRIESTの「LIVING AFTER MIDNIGHT」をカバー</a></h2>
-<div class="original">Watch: CHARLIE BENANTE Joins FOZZY For Cover Of JUDAS PRIEST&#x27;s &#x27;Living After Midnight&#x27;</div>
-<p>ANTHRAXとPANTERAのドラマーCharlie Benanteは、今年のChris JerichoのRock &#x27;N&#x27; Wrestling Rager At SeaクルーズのステージでFOZZYに参加し、JUDAS Priestのクラシック「Living After Midnight」のカバーを披露しました。</p><div class="tags"></div>
-<a class="source" href="https://blabbermouth.net/news/watch-charlie-benante-joins-fozzy-for-cover-of-judas-priests-living-after-midnight" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section>
-<section><h2 class="section-title">ギター機材 <small>10件</small></h2><div class="grid"><article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 07:00 JST</div>
+<a class="source" href="https://blabbermouth.net/news/john-gallagher-says-working-with-his-brother-mark-in-raven-is-a-great-asset-we-dont-fight-like-those-other-idiot-gallagher-brothers-from-oasis" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section>
+<section><h2 class="section-title">経済・トレード <small>7件</small></h2><div class="grid"><article class="card"><div class="meta">経済・トレード · Investing.com Economic Indicators · 11/10 10:16 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/economic-indicators/japan-household-spending-drops-more-than-expected-in-september-5013857" target="_blank" rel="noopener noreferrer">日本の家計支出は9月に予想以上に減少</a></h2>
+<div class="original">Japan household spending drops more than expected in September</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/economic-indicators/japan-household-spending-drops-more-than-expected-in-september-5013857" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 10:12 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/commodities-news/gold-holds-near-4130-as-oil-retreat-eases-inflation-concerns-5013846" target="_blank" rel="noopener noreferrer">金価格は1オンス4,130ドル付近で推移、原油安がインフレ懸念を緩和</a></h2>
+<div class="original">Gold holds near $4,130 as oil retreat eases inflation concerns</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/commodities-news/gold-holds-near-4130-as-oil-retreat-eases-inflation-concerns-5013846" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">経済・トレード · Investing.com Economic Indicators · 11/10 09:25 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/economic-indicators/australia-consumer-sentiment-sinks-to-4yr-low-as-rate-fears-mount--westpac-5013795" target="_blank" rel="noopener noreferrer">オーストラリアの消費者信頼感指数が4年ぶりの低水準に、利上げ懸念が重石</a></h2>
+<div class="original">Australia consumer sentiment sinks to 4-yr low as rate fears mount - Westpac</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/economic-indicators/australia-consumer-sentiment-sinks-to-4yr-low-as-rate-fears-mount--westpac-5013795" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 09:12 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/commodities-news/democratic-us-senators-see-hope-for-permitting-bill-ahead-of-key-senate-vote-5013019" target="_blank" rel="noopener noreferrer">米上院、一部民主党議員や先住民団体が反対するエネルギー許認可法案を前進</a></h2>
+<div class="original">Senate advances energy permitting bill opposed by some Democrats, tribes</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/commodities-news/democratic-us-senators-see-hope-for-permitting-bill-ahead-of-key-senate-vote-5013019" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">経済・トレード · Investing.com Economic Indicators · 11/10 09:06 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/economic-indicators/uk-retail-spending-shows-modest-growth-ahead-black-friday-survey-show-5013757" target="_blank" rel="noopener noreferrer">調査によると、英国の小売支出はブラックフライデーを控えた緩やかな成長を示している</a></h2>
+<div class="original">UK retail spending shows modest growth ahead Black Friday, survey show</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/economic-indicators/uk-retail-spending-shows-modest-growth-ahead-black-friday-survey-show-5013757" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 09:03 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/commodities-news/oil-prices-dip-amid-iran-peace-hopes-improving-supplies-5013753" target="_blank" rel="noopener noreferrer">イランの平和への希望の中で原油価格が下落し、供給が改善</a></h2>
+<div class="original">Oil prices dip amid Iran peace hopes, improving supplies</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/commodities-news/oil-prices-dip-amid-iran-peace-hopes-improving-supplies-5013753" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">経済・トレード · Investing.com Crypto · 11/10 08:11 JST</div>
+<div></div><h2><a href="https://www.investing.com/news/cryptocurrency-news/bitcoin-slips-to-74k-as-regulatory-uncertainty-etf-outflows-weigh-5010570" target="_blank" rel="noopener noreferrer">ビットコインが上昇、ウォール街の株高と原油価格の下落が背景</a></h2>
+<div class="original">Bitcoin turns slightly higher amid Wall Street rally, slide in oil prices</div>
+<p>概要は元記事で確認してください。</p><div class="tags"></div>
+<a class="source" href="https://www.investing.com/news/cryptocurrency-news/bitcoin-slips-to-74k-as-regulatory-uncertainty-etf-outflows-weigh-5010570" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section>
+<section><h2 class="section-title">音楽ニュース <small>7件</small></h2><div class="grid"><article class="card"><div class="meta">音楽ニュース · Guitar World · 11/10 10:00 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/bassists/test-your-john-paul-jones-knowledge-with-our-quiz" target="_blank" rel="noopener noreferrer">クイズでジョン・ポール・ジョーンズの知識をテストする</a></h2>
+<div class="original">Test your John Paul Jones knowledge with our quiz</div>
+<p>象徴的なレッド・ツェッペリンのベースラインからバンドを超えた彼の作品まで、ロックの最も多才なミュージシャンの一人をどの程度知っていますか？</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/artists/bassists/test-your-john-paul-jones-knowledge-with-our-quiz" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">音楽ニュース · Guitar World · 11/10 07:00 JST</div>
 <div></div><h2><a href="https://www.guitarworld.com/gear/acoustic-guitars/100-off-taylor-guitars-black-friday-deal" target="_blank" rel="noopener noreferrer">Taylorがブラックフライデー先行セールを開始、対象モデルが100ドル値下げ</a></h2>
 <div class="original">Taylor just slashed $100 off a 4.5-star acoustic we declared &quot;shines like a gem on the live stage,&quot; alongside other amazing value guitars in this epic early Black Friday sale</div>
 <p>100、200、200 Plus、200 Deluxeシリーズに加え、300や400 Studioモデルなどがセールの対象となっている。</p><div class="tags"></div>
 <a class="source" href="https://www.guitarworld.com/gear/acoustic-guitars/100-off-taylor-guitars-black-friday-deal" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 02:58 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/gear/combo-amps/laney-amplification-ironheart-foundry-irf60-112-review" target="_blank" rel="noopener noreferrer">Laney Ironheart Foundry IRF60-112レビュー：小型ながらタイトでパンチの効いたゲインを誇る実戦派コンボ</a></h2>
-<div class="original">“Despite its small stature, it’s not lacking in low-end, and has masses of tight, punchy gain on tap”: Laney Ironheart Foundry IRF60-112 review</div>
-<p>Laneyの「Ironheart Foundry」シリーズから、ライブでの使用にも適した1x12コンボアンプが登場。</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/gear/combo-amps/laney-amplification-ironheart-foundry-irf60-112-review" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 02:49 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/steve-vai-clarifies-involvement-in-potential-crossroads-sequel" target="_blank" rel="noopener noreferrer">スティーブ・ヴァイがクロスロードの続編への関与を明らかに</a></h2>
+<article class="card"><div class="meta">音楽ニュース · Guitar World · 11/10 02:49 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/steve-vai-clarifies-involvement-in-potential-crossroads-sequel" target="_blank" rel="noopener noreferrer">Steve Vaiが映画『Crossroads』続編への関与を否定、出演の可能性は低いと示唆</a></h2>
 <div class="original">Steve Vai clarifies involvement in potential Crossroads sequel</div>
-<p>オリジナル映画のクライマックス・ギター・デュエルに参加したことでクラシックになったこの巨匠は、その潜在的な続編に関与しているように見えました</p><div class="tags"></div>
+<p>映画『Crossroads』の伝説的なギター・デュエルで知られるSteve Vaiが、制作が噂される続編への参加を否定する見解を示した。</p><div class="tags"></div>
 <a class="source" href="https://www.guitarworld.com/artists/guitarists/steve-vai-clarifies-involvement-in-potential-crossroads-sequel" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 02:15 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/gear/electric-guitars/fender-japan-f-hole-telecaster-thinline-2026" target="_blank" rel="noopener noreferrer">Fender JapanがユニークなFホールを採用したThinline Telecasterを復刻</a></h2>
-<div class="original">Fender Japan gives ‘F-hole’ a new meaning as it releases a Thinline Telecaster with a twist</div>
-<p>Fenderの日本支社が、2021年の限定モデルで採用されたユニークなFホールデザインのThinline Telecasterを再びリリースした。</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/gear/electric-guitars/fender-japan-f-hole-telecaster-thinline-2026" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 01:51 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/joe-bonamassa-on-jeff-beck-at-crossroads-2010" target="_blank" rel="noopener noreferrer">ジョー・ボナマッサは、ジェフ・ベックのギター演奏が嵐を呼び起こした日に</a></h2>
-<div class="original">Joe Bonamassa on the day Jeff Beck’s guitar playing conjured a storm</div>
-<p>Bonamassaはこの象徴的な2010 Crossroadsパフォーマンスに出席しました、そしてそれは彼が決して忘れないショーです</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/artists/guitarists/joe-bonamassa-on-jeff-beck-at-crossroads-2010" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/10 00:14 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/gear/combo-amps/jimmy-page-sundragon-dragonette" target="_blank" rel="noopener noreferrer">ジミー・ペイジには、レッド・ツェッペリンのギタートーンを再現する新しい6 Wシグネチャーアンプがありますが、1万$近くかかります</a></h2>
-<div class="original">Jimmy Page has a new 6W signature amp that recreates Led Zeppelin’s guitar tones – but it costs nearly $10k</div>
-<p>ドラゴネットは、バンドのデビューアルバム全体で聞くことができるスプロ・コロナドの超限定レクリエーションです</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/gear/combo-amps/jimmy-page-sundragon-dragonette" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 22:09 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/donita-sparks-l7-last-hurrah" target="_blank" rel="noopener noreferrer">ドニータ・スパークス、サブポップへのサイン、ジェニファー・フィンチの喪失、そしてなぜ誰もが間違ってL 7をカバーするのか</a></h2>
+<article class="card"><div class="meta">音楽ニュース · Guitar World · 11/09 22:09 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/donita-sparks-l7-last-hurrah" target="_blank" rel="noopener noreferrer">L7のDonita Sparksが語るSub Popとの契約、Jennifer Finchの脱退、そしてカバー曲への苦言</a></h2>
 <div class="original">Donita Sparks on signing to Sub Pop, the loss of Jennifer Finch and why everyone covers L7 wrong</div>
-<p>オルトロックのアイコンは、バンドの最後の騒ぎであるパールジャムを台無しにしたこと、そしてニルヴァーナが彼女のソングライティングゲームを強化するためにどのようにインスピレーションを与えたかを反映しています</p><div class="tags"></div>
+<p>オルタナティブ・ロックのアイコンであるDonita Sparksが、Pearl Jamとの共演の失敗やバンドの終焉、そしてNirvanaから受けたソングライティングへの刺激について振り返る。</p><div class="tags"></div>
 <a class="source" href="https://www.guitarworld.com/artists/guitarists/donita-sparks-l7-last-hurrah" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 20:47 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/gear/guitar-pedals/wah-pedal-inventor-del-casher-dies-aged-88" target="_blank" rel="noopener noreferrer">ワーワペダル発明家デル・キャッシャー死去88歳</a></h2>
-<div class="original">Wah-wah pedal inventor Del Casher dead at 88</div>
-<p>キャッシャーは1960年代後半に象徴的な効果を実現するのに貢献しましたが、Voxにトランペットではなくエレキギターであることを納得させなければなりませんでした...</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/gear/guitar-pedals/wah-pedal-inventor-del-casher-dies-aged-88" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 20:23 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/robin-finck-reverb-shop-interview" target="_blank" rel="noopener noreferrer">ロビン・フィンクが語る「ナイン・インチ・ネイルズ」のトーン・シークレットと、彼がギアコレクションの半分を売っている理由</a></h2>
-<div class="original">Robin Finck on his Nine Inch Nails tone secrets – and why he’s selling half his gear collection</div>
-<p>フィンクの公式リバーブストアには、ナイン・インチ・ネイルズ、ガンズ・アンド・ローゼズなどの冒険の道具が揃っています。彼は、あなたのものになる可能性のある宝物のいくつかと、それらに伴う物語について話します</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/artists/guitarists/robin-finck-reverb-shop-interview" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">ギター機材 · Guitar World · 11/09 20:03 JST</div>
-<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/richard-lloyd-final-guitar-world-interview" target="_blank" rel="noopener noreferrer">リチャード・ロイドは、テレビ、ツェッペリン、ヘンドリックスとの出会い、そしてトム・ヴァーレインとの苦い関係を、彼の最後のギターワールドのインタビューで振り返ります</a></h2>
-<div class="original">Richard Lloyd reflects on Television, Zeppelin and Hendrix encounters, and his bittersweet relationship with Tom Verlaine in his final Guitar World interview</div>
-<p>リチャード・ロイドは11月7日に亡くなりました。この幅広い会話の中で、彼はテレビのレガシー、ジミー・ペイジの技術とのバックステージのレッスン、そしてジョン・リー・フッカーとの舞台上のジャムを振り返ります</p><div class="tags"></div>
-<a class="source" href="https://www.guitarworld.com/artists/guitarists/richard-lloyd-final-guitar-world-interview" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section>
-<section><h2 class="section-title">経済・トレード <small>9件</small></h2><div class="grid"><article class="card"><div class="meta">経済・トレード · Investing.com Crypto · 11/10 08:11 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/cryptocurrency-news/bitcoin-slips-to-74k-as-regulatory-uncertainty-etf-outflows-weigh-5010570" target="_blank" rel="noopener noreferrer">ビットコインが上昇、ウォール街の株高と原油価格の下落が背景</a></h2>
-<div class="original">Bitcoin turns slightly higher amid Wall Street rally, slide in oil prices</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/cryptocurrency-news/bitcoin-slips-to-74k-as-regulatory-uncertainty-etf-outflows-weigh-5010570" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 07:47 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/commodities-news/gold-rebounds-above-4100-as-traders-await-us-inflation-data-after-jobs-beat-5010397" target="_blank" rel="noopener noreferrer">ドル安と原油価格の下落を受け、金相場が約2%上昇</a></h2>
-<div class="original">Gold rises almost 2% amid sliding dollar, slumping oil prices a day ahead of CPI</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/commodities-news/gold-rebounds-above-4100-as-traders-await-us-inflation-data-after-jobs-beat-5010397" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 07:36 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/commodities-news/democratic-us-senators-see-hope-for-permitting-bill-ahead-of-key-senate-vote-5013019" target="_blank" rel="noopener noreferrer">民主党の米国上院議員、上院の重要な投票に先立ってエネルギー許可法案を推進</a></h2>
-<div class="original">Democratic US senators push for energy permitting bill ahead of key Senate vote</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/commodities-news/democratic-us-senators-see-hope-for-permitting-bill-ahead-of-key-senate-vote-5013019" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Forex · 11/10 07:32 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/forex-news/asia-fx-gains-as-dollar-steadies-after-strong-us-jobs-data-china-cpi-in-focus-5010449" target="_blank" rel="noopener noreferrer">米CPI発表を控え、ドルは先週の上昇から一服し小幅に下落</a></h2>
-<div class="original">Dollar slips, taking a breather after last week’s advance a day ahead of CPI test</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/forex-news/asia-fx-gains-as-dollar-steadies-after-strong-us-jobs-data-china-cpi-in-focus-5010449" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 06:48 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/commodities-news/oil-prices-dip-as-trump-says-new-iran-attacks-unlikely-if-talks-progress-5010370" target="_blank" rel="noopener noreferrer">イランのストライキに対するトランプの抑制、カタールの調停努力の中で原油価格が下落</a></h2>
-<div class="original">Oil prices slide amid Trump’s restraint on Iran strikes, Qatar mediation efforts</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/commodities-news/oil-prices-dip-as-trump-says-new-iran-attacks-unlikely-if-talks-progress-5010370" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Federal Reserve · 11/10 06:00 JST</div>
-<div></div><h2><a href="https://www.federalreserve.gov/newsevents/pressreleases/orders20261109a.htm" target="_blank" rel="noopener noreferrer">連邦準備制度理事会は、Mutual Federal Bancorp、MHC、およびMFB Bancorp、Inc.による2つの申請の承認を発表します。</a></h2>
-<div class="original">Federal Reserve Board announces approval of two applications by Mutual Federal Bancorp, MHC, and MFB Bancorp, Inc.</div>
-<p>連邦準備制度理事会は、Mutual Federal Bancorp、MHC、およびMFB Bancorp、Inc.による2つの申請の承認を発表します。</p><div class="tags"></div>
-<a class="source" href="https://www.federalreserve.gov/newsevents/pressreleases/orders20261109a.htm" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 05:54 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/commodities-news/court-blocks-california-from-enforcingclimate-disclosure-laws-5013147" target="_blank" rel="noopener noreferrer">裁判所がカリフォルニア州の気候情報開示法の執行を阻止</a></h2>
-<div class="original">Court blocks California from enforcing climate disclosure laws</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/commodities-news/court-blocks-california-from-enforcingclimate-disclosure-laws-5013147" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 05:07 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/commodities-news/oil-falls-on-open-as-trump-says-fresh-iran-attacks-unlikely-5010359" target="_blank" rel="noopener noreferrer">トランプ大統領がイランに対する抑制を示唆しているため、決済後の取引で1バレルあたり7 $以上の原油を削減</a></h2>
-<div class="original">Oil down more than $7 a barrel in post settlement trade as Trump signals restraint on Iran</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/commodities-news/oil-falls-on-open-as-trump-says-fresh-iran-attacks-unlikely-5010359" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
-<article class="card"><div class="meta">経済・トレード · Investing.com Commodities · 11/10 04:27 JST</div>
-<div></div><h2><a href="https://www.investing.com/news/commodities-news/natural-gas-surges-8-as-record-short-position-unwinds-on-cooler-forecasts-93CH-5013049" target="_blank" rel="noopener noreferrer">記録的なショートポジションが涼しい予測に巻き戻すため、天然ガスは8 ％急増</a></h2>
-<div class="original">Natural gas surges 8% as record short position unwinds on cooler forecasts</div>
-<p>概要は元記事で確認してください。</p><div class="tags"></div>
-<a class="source" href="https://www.investing.com/news/commodities-news/natural-gas-surges-8-as-record-short-position-unwinds-on-cooler-forecasts-93CH-5013049" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section></main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>
+<article class="card"><div class="meta">音楽ニュース · Guitar World · 11/09 04:28 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/gear/effects-pedals/warm-audio-the-black-keys-peach-fuzz-review" target="_blank" rel="noopener noreferrer">“A wild thing, and we think you &#x27;ll love it ”: Warm Audio The Black Keys Peach Fuzzレビュー</a></h2>
+<div class="original">“A wild thing, and we think you’ll love it”: Warm Audio The Black Keys Peach Fuzz review</div>
+<p>Black KeysはWarm Audioと協力して、切り替え可能なオクターブで毛むくじゃらのファズを作ります。fOXXが実行されるかどうか見てみましょう</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/gear/effects-pedals/warm-audio-the-black-keys-peach-fuzz-review" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">音楽ニュース · Guitar World · 11/09 01:00 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/gear/electric-guitars/patrick-james-eggle-oz-t-carved-top-review" target="_blank" rel="noopener noreferrer">「あなたは本当に何も非難することはできません...非の打ちどころのない」： Patrick James Eggle Oz Carvedトップレビュー</a></h2>
+<div class="original">“You really can’t fault anything… unimpeachable”: Patrick James Eggle Oz Carved Top review</div>
+<p>PJEカブロニタオズのこのいとこは、ワイドレンジハムバッカー、「グレインマホガニー」仕上げを特徴とし、まだエグルの驚くべき細部へのこだわりを誇っています</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/gear/electric-guitars/patrick-james-eggle-oz-t-carved-top-review" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>
+<article class="card"><div class="meta">音楽ニュース · Guitar World · 11/08 21:00 JST</div>
+<div></div><h2><a href="https://www.guitarworld.com/artists/guitarists/how-rory-gallagher-found-his-1961-fender-strat" target="_blank" rel="noopener noreferrer">ロリー・ギャラガーが彼の人生の愛を見つけた方法–彼のエクスカリバーになる1961年のストラット</a></h2>
+<div class="original">How Rory Gallagher found the love of his life – the ’61 Strat that would become his Excalibur</div>
+<p>Edged in Blue: A Rock ’n’ Roll Odyssey with Rory Gallagherからのこの抜粋では、Dónal Gallagherが伝説的なギター購入の物語を共有します</p><div class="tags"></div>
+<a class="source" href="https://www.guitarworld.com/artists/guitarists/how-rory-gallagher-found-his-1961-fender-strat" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article></div></section></main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>
