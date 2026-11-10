@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.5.2: interactive newspaper and article thumbnails.
+"""Machine Morning Briefing v1.6.0: interactive newspaper and article thumbnails.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
@@ -7,9 +7,9 @@ Does not modify index.html, GitHub Actions, or Cloudflare Worker.
 # ==================================================
 # Machine Morning Briefing
 # File    : collector.py
-# Version : v1.5.2
+# Version : v1.6.0
 # Updated : 2026-11-10
-# Changes : ヘッダーを左右2カラム化、右側に統計カード・設定ボタン配置
+# Changes : カテゴリ別登録RSSを優先収集（既定RSSは補完）
 # ==================================================
 import datetime as dt
 import html
@@ -41,6 +41,8 @@ def read_json(path):
     return json.loads(path.read_text(encoding='utf-8'))
 
 
+USER_SOURCES = []
+
 def keywords():
     endpoint = os.environ.get('MMB_KEYWORDS_API', '').strip()
     if endpoint:
@@ -58,10 +60,14 @@ def keywords():
         if not isinstance(data, dict) or not isinstance(data.get('items'), list):
             raise RuntimeError('Cloud keyword response is invalid')
         items = data['items']
-        global CATEGORIES
+        global CATEGORIES, USER_SOURCES
         configured = data.get('categories')
         if isinstance(configured, list) and configured and all(isinstance(x, str) for x in configured):
             CATEGORIES = configured
+        USER_SOURCES = [dict(name=x['name'], url=x['url'], category=x['category'], preferred=True)
+                        for x in data.get('sources', []) if isinstance(x, dict) and x.get('enabled') is True
+                        and isinstance(x.get('url'), str) and x.get('url', '').startswith('https://')
+                        and isinstance(x.get('name'), str) and x.get('category') in CATEGORIES][:50]
         print(f'INFO: loaded {len(items)} keyword records from Cloudflare')
     else:
         path = pathlib.Path(os.environ.get('MMB_KEYWORDS_FILE', str(ROOT / 'keywords.json')))
@@ -286,7 +292,7 @@ def collect(feeds, terms):
                     keyword_hits[kw['term']] = keyword_hits.get(kw['term'], 0) + 1
             articles.append({
                 'title': title, 'summary': summary, 'url': url,
-                'source': feed['name'], 'category': category,
+                'source': feed['name'], 'category': category, 'preferred_source': bool(feed.get('preferred')), 
                 'published': published.isoformat() if published else None,
                 'image': rss_image(entry, url),
                 'matched': [x['term'] for x in found],
@@ -296,13 +302,15 @@ def collect(feeds, terms):
     print(f'INFO: keyword diagnostics: {len(keyword_hits)}/{len(terms)} enabled terms matched at least one RSS article')
     articles.sort(key=lambda a: a['published'] or '', reverse=True)
     priority = [a for a in articles if a['matched']]
-    priority.sort(key=lambda a: (a['score'], a['published'] or ''), reverse=True)
+    priority.sort(key=lambda a: (a['score'], int(a.get('preferred_source', False)), a['published'] or ''), reverse=True)
     selected = priority[:MAX_ARTICLES]
     selected_urls = {normalize_url(a['url']) for a in selected}
     remaining = MAX_ARTICLES - len(selected)
     if remaining:
         discovery = [a for a in articles if not a['matched'] and normalize_url(a['url']) not in selected_urls]
-        groups = {category: [a for a in discovery if a['category'] == category] for category in CATEGORIES}
+        groups = {category: sorted([a for a in discovery if a['category'] == category],
+                                  key=lambda a: (int(a.get('preferred_source', False)), a['published'] or ''), reverse=True)
+                  for category in CATEGORIES}
         # Round-robin across categories, newest first within each category.
         # Unknown categories are handled after the main three.
         extras = [a for a in discovery if a['category'] not in groups]
@@ -667,6 +675,8 @@ def render(articles, terms):
             tags = ''.join(f'<span class="tag">{esc(x)}</span>' for x in article['matched'][:4])
             badge = ('<span class="highlight">最重要キーワード</span>' if article['score'] == 2
                      else '<span class="highlight">キーワード一致</span>' if article['matched'] else '')
+            if article.get('preferred_source'):
+                badge += '<span class="highlight">登録サイト</span>'
             image = valid_image_url(article.get('image'), article['url'])
             thumbnail = (f'<a class="thumb" href="{url}" target="_blank" rel="noopener noreferrer">'
                          f'<img src="{esc(image, quote=True)}" loading="lazy" referrerpolicy="no-referrer" '
@@ -680,7 +690,7 @@ def render(articles, terms):
             search_text = esc(' '.join([article['category'], article['source'], article['title'],
                                        article.get('title_ja') or '', article.get('summary_ja') or '',
                                        article['summary'], *article['matched']]), quote=True)
-            cards.append(f'''<article class="card" data-category="{category}" data-matched="{int(bool(article['matched']))}" data-score="{article['score']}" data-published="{esc(published or '', quote=True)}" data-search="{search_text}">
+            cards.append(f'''<article class="card" data-category="{category}" data-matched="{int(bool(article['matched']))}" data-score="{article['score']}" data-preferred="{int(bool(article.get('preferred_source')))}" data-published="{esc(published or '', quote=True)}" data-search="{search_text}">
 <div class="meta">{category} · {source} · {date}</div>
 <div class="card-content">{thumbnail}<div class="card-copy"><div>{badge}</div><h2><a href="{url}" target="_blank" rel="noopener noreferrer">{title}</a></h2>
 <div class="original">{original}</div><p>{summary}</p><div class="tags">{tags}</div>
@@ -698,9 +708,9 @@ def render(articles, terms):
 ==================================================
  Machine Morning Briefing
  File    : morning.html (generated by collector.py)
- Version : v1.5.2
+ Version : v1.6.0
  Updated : 2026-11-10
- Changes : ヘッダー2カラム化・右側に統計パネルと設定リンクを配置
+ Changes : 登録RSSを優先収集・右側に統計パネル
 ==================================================
 -->
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -726,7 +736,7 @@ header,main,footer{{width:100%;max-width:2560px;margin:auto;padding:24px clamp(2
 @media(min-width:2100px){{.grid{{grid-template-columns:repeat(4,minmax(0,1fr))}}}}
 @media(min-width:681px) and (max-width:1050px){{.thumb{{flex-basis:140px;width:140px}}}}
 @media(max-width:680px){{.header-layout{{gap:18px}}.stats{{grid-template-columns:repeat(2,minmax(0,1fr))}}.settings-link{{font-size:12px;padding:7px 11px}}header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:16px}}.card h2{{font-size:18px}}.card p{{font-size:14px}}.thumb{{flex-basis:94px;width:94px}}.card-content{{gap:12px}}}}
-</style></head><body><header><div class="header-layout"><div class="header-left"><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1><div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.5.2</div></div>
+</style></head><body><header><div class="header-layout"><div class="header-left"><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><h1>MACHINE<br>MORNING BRIEFING</h1><div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.6.0</div></div>
 <div class="header-right"><a class="settings-link" href="./index.html" aria-label="キーワード・カテゴリの設定と編集">⚙ 設定・編集 ↗</a><div class="stats"><div class="stat"><span class="stat-label">関連記事</span><span class="stat-value">{len(articles)} <small>件</small></span></div><div class="stat"><span class="stat-label">キーワード一致</span><span class="stat-value">{matched_count} <small>件</small></span></div><div class="stat"><span class="stat-label">有効キーワード</span><span class="stat-value">{len(terms)} <small>件</small></span></div><div class="stat"><span class="stat-label">最終更新</span><span class="stat-value">{NOW:%H:%M} <small>JST</small></span></div></div></div></div></header>
 <main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。翻訳に誤りが含まれる可能性があります。</p>
 <div class="controls"><div class="filters"><button type="button" class="filter active" data-filter="すべて">すべて</button>{category_buttons}</div>
@@ -781,6 +791,16 @@ header,main,footer{{width:100%;max-width:2560px;margin:auto;padding:24px clamp(2
 def main():
     terms = keywords()
     feeds = read_json(ROOT / 'feeds.json')['feeds']
+    # Registered RSS feeds are fetched first. Avoid duplicates against built-in feeds.
+    urls = set()
+    merged = []
+    for feed in USER_SOURCES + feeds:
+        url = normalize_url(feed['url'])
+        if url not in urls:
+            urls.add(url)
+            merged.append(feed)
+    feeds = merged
+    print(f'INFO: {len(USER_SOURCES)} enabled preferred RSS feeds; {len(feeds)} unique feeds total')
     articles = collect(feeds, terms)
     fill_images(articles)
     gemini_articles(articles)
