@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T15:23:23.893209+09:00",
+  "generated_at": "2026-11-10T15:36:48.669429+09:00",
   "articles": [
     {
       "title": "Former DRAGONFORCE And SKID ROW Singer ZP THEART Releases Re-Imagining Of NIGHTWISH's 'Nemo'",
@@ -49,16 +49,16 @@
       "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Bitcoin pinned below $75k as regulatory uncertainty, ETF outflows persist",
+      "title": "Gold slips as investors await U.S. inflation data for Fed rate clues",
       "summary": "",
-      "url": "https://www.investing.com/news/cryptocurrency-news/bitcoin-pinned-below-75k-as-regulatory-uncertainty-etf-outflows-persist-5014179",
-      "source": "Investing.com Crypto",
+      "url": "https://www.investing.com/news/commodities-news/gold-holds-near-4130-as-oil-retreat-eases-inflation-concerns-5013846",
+      "source": "Investing.com Commodities",
       "category": "経済・トレード",
-      "published": "2026-11-10T15:04:03+09:00",
-      "image": "https://content-media.investing.com/news/moved_LYNXMPEHB508M_L.jpg",
+      "published": "2026-11-10T15:22:59+09:00",
+      "image": "https://content-media.investing.com/news/LYNXNPEC0O0JM_M.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "規制の不確実性によりビットコインは7万5000 $を下回り、ETFの流出は続く",
+      "title_ja": "投資家が米国のインフレデータを待ってFRB金利の手がかりを得る中、金は下落する",
       "summary_ja": null
     },
     {
@@ -105,16 +105,16 @@
       "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Dutch inflation rises to 3.7% in October as gas prices climb",
+      "title": "Myanmar lobbies US to invest in its rare earths sector, dominated by China",
       "summary": "",
-      "url": "https://www.investing.com/news/economic-indicators/dutch-inflation-rises-to-37-in-october-as-gas-prices-climb-93CH-5014163",
-      "source": "Investing.com Economic Indicators",
+      "url": "https://www.investing.com/news/commodities-news/myanmar-lobbies-us-to-invest-in-its-rare-earths-sector-dominated-by-china-5014199",
+      "source": "Investing.com Commodities",
       "category": "経済・トレード",
-      "published": "2026-11-10T14:57:16+09:00",
-      "image": "https://content-media.investing.com/news/LYNXNPEC180BO_M.jpg",
+      "published": "2026-11-10T15:18:05+09:00",
+      "image": "https://content-media.investing.com/news/LYNXMPEM0S1F0_1200_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "ガソリン価格の上昇に伴い、オランダのインフレ率は10月に3.7 ％に上昇",
+      "title_ja": "ミャンマーは、中国が支配するレアアース部門に投資するよう米国に働きかけている",
       "summary_ja": null
     },
     {
@@ -163,17 +163,19 @@
       "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "China’s October crude oil imports rise to highest level since March",
+      "title": "Bitcoin pinned below $75k as regulatory uncertainty, ETF outflows persist",
       "summary": "",
-      "url": "https://www.investing.com/news/commodities-news/chinas-october-crude-oil-imports-rise-to-highest-level-since-march-amid-middle-east-war-5014020",
-      "source": "Investing.com Commodities",
+      "url": "https://www.investing.com/news/cryptocurrency-news/bitcoin-pinned-below-75k-as-regulatory-uncertainty-etf-outflows-persist-5014179",
+      "source": "Investing.com Crypto",
       "category": "経済・トレード",
-      "published": "2026-11-10T14:19:07+09:00",
-      "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA909N_L.jpg",
+      "published": "2026-11-10T15:04:03+09:00",
+      "image": "https://content-media.investing.com/news/moved_LYNXMPEHB508M_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "中国の10月の原油輸入は3月以来の高水準に上昇",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "ビットコインは7万5000ドルを下回る水準で推移、規制の不透明感とETF流出が重石に",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Steve Vai clarifies involvement in potential Crossroads sequel",
@@ -221,17 +223,19 @@
       "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "Asia FX subdued, dollar holds losses ahead of U.S. inflation data",
+      "title": "Dutch inflation rises to 3.7% in October as gas prices climb",
       "summary": "",
-      "url": "https://www.investing.com/news/forex-news/asia-fx-subdued-dollar-holds-losses-ahead-of-us-inflation-data-5014050",
-      "source": "Investing.com Forex",
+      "url": "https://www.investing.com/news/economic-indicators/dutch-inflation-rises-to-37-in-october-as-gas-prices-climb-93CH-5014163",
+      "source": "Investing.com Economic Indicators",
       "category": "経済・トレード",
-      "published": "2026-11-10T13:21:27+09:00",
-      "image": "https://content-media.investing.com/news/LYNXNPEF0600R_M.jpg",
+      "published": "2026-11-10T14:57:16+09:00",
+      "image": "https://content-media.investing.com/news/LYNXNPEC180BO_M.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "アジアのFXは抑制され、ドルは米国のインフレデータに先行して損失を保持している",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "オランダの10月インフレ率は3.7%に上昇、ガス価格の高騰が影響",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Donita Sparks on signing to Sub Pop, the loss of Jennifer Finch and why everyone covers L7 wrong",
@@ -273,20 +277,21 @@
       "image": "https://assets.blabbermouth.net/media/UdoWolfNov2026_420x237.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "UDO DIRKSCHNEIDER、ACCEPTの50周年記念アルバム「He Never Asked Me」にウルフ・ホフマンが招待されたことを否定",
-      "summary_ja": null
+      "summary_ja": "Udo Dirkschneiderはインタビューで、ACCEPTの50周年記念アルバムへの参加をWolf Hoffmannから打診されたという主張を否定した。",
+      "title_ja": "Udo DirkschneiderがACCEPTの50周年記念アルバムへの参加を否定、「Wolf Hoffmannから誘いはなかった」",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
-      "title": "China extends US trade truce by two months",
+      "title": "China’s October crude oil imports rise to highest level since March",
       "summary": "",
-      "url": "https://www.investing.com/news/commodities-news/china-extends-suspension-of-24-tariff-on-us-imports-for-two-months-5010427",
+      "url": "https://www.investing.com/news/commodities-news/chinas-october-crude-oil-imports-rise-to-highest-level-since-march-amid-middle-east-war-5014020",
       "source": "Investing.com Commodities",
       "category": "経済・トレード",
-      "published": "2026-11-10T13:12:41+09:00",
-      "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA807D_L.jpg",
+      "published": "2026-11-10T14:19:07+09:00",
+      "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA909N_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "中国、米国の貿易休戦を2カ月延長",
+      "title_ja": "中国の10月の原油輸入は3月以来の高水準に上昇",
       "summary_ja": null
     },
     {
@@ -329,16 +334,16 @@
       "summary_ja": "Mike Coppola、Getty Images、Graham Denholm、Getty Images、Amy Sussman、Getty Images、Matt Winkelmeyer、Getty Images"
     },
     {
-      "title": "China October rare earth exports jump 2.7% from prior month",
+      "title": "Asia FX subdued, dollar holds losses ahead of U.S. inflation data",
       "summary": "",
-      "url": "https://www.investing.com/news/commodities-news/china-october-rare-earth-exports-jump-27-from-prior-month-5014019",
-      "source": "Investing.com Commodities",
+      "url": "https://www.investing.com/news/forex-news/asia-fx-subdued-dollar-holds-losses-ahead-of-us-inflation-data-5014050",
+      "source": "Investing.com Forex",
       "category": "経済・トレード",
-      "published": "2026-11-10T12:42:59+09:00",
-      "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA90A0_L.jpg",
+      "published": "2026-11-10T13:21:27+09:00",
+      "image": "https://content-media.investing.com/news/LYNXNPEF0600R_M.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "中国10月のレアアース輸出は前月比2.7 ％増",
+      "title_ja": "アジアのFXは抑制され、ドルは米国のインフレデータに先行して損失を保持している",
       "summary_ja": null
     },
     {
@@ -381,16 +386,16 @@
       "summary_ja": "Innocents TornのBonny Freimuthとの新しいインタビューで、レイヴンのベーシスト/ヴォーカリストであるジョン・ギャラガーは、彼の兄弟であるレイヴンのギタリストであるマーク・ギャラガーと緊密に仕事をすることがどのようなものであるかを尋ねられました。"
     },
     {
-      "title": "Indonesia’s September retail sales rise 0.6% y/y, survey shows",
+      "title": "China extends US trade truce by two months",
       "summary": "",
-      "url": "https://www.investing.com/news/economic-indicators/indonesias-september-retail-sales-rise-06-yy-survey-shows-5013996",
-      "source": "Investing.com Economic Indicators",
+      "url": "https://www.investing.com/news/commodities-news/china-extends-suspension-of-24-tariff-on-us-imports-for-two-months-5010427",
+      "source": "Investing.com Commodities",
       "category": "経済・トレード",
-      "published": "2026-11-10T12:12:28+09:00",
-      "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA909M_L.jpg",
+      "published": "2026-11-10T13:12:41+09:00",
+      "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA807D_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "調査によると、インドネシア9月の小売売上高は前年同期比0.6 ％増",
+      "title_ja": "中国、米国の貿易休戦を2カ月延長",
       "summary_ja": null
     },
     {
