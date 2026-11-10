@@ -4,9 +4,9 @@
 ==================================================
  Machine Morning Briefing
  File    : index.html
- Version : v1.4.4
+ Version : v1.6.0
  Updated : 2026-11-10
- Purpose : キーワード・カテゴリ管理画面
+ Purpose : キーワード・カテゴリ・優先収集サイト管理画面
 ==================================================
 -->
 <html lang="ja">
@@ -579,7 +579,21 @@
 <div id="categoryList" style="margin-top:14px"></div>
 <p class="status" id="categoryStatus"></p>
 </section>
-<div class="settings">
+      <section class="panel" style="margin-top:20px">
+        <h2>🌐 優先収集サイト管理</h2>
+        <p class="status">カテゴリごとにRSS/Atom配信URLを登録します。登録サイトの記事は通常の収集先より優先して朝刊に掲載します。RSSのない一般サイトURLは登録できません。</p>
+        <form id="sourceForm">
+          <div class="settings" style="margin:12px 0">
+            <div class="field"><label for="sourceCategory">カテゴリ</label><select id="sourceCategory"></select></div>
+            <div class="field"><label for="sourceName">サイト名</label><input type="text" id="sourceName" maxlength="80" required placeholder="例：Blabbermouth"></div>
+          </div>
+          <div class="field"><label for="sourceUrl">RSS / Atom URL（https://）</label><input type="url" id="sourceUrl" required placeholder="https://example.com/feed"></div>
+          <div class="bottom"><button class="primary" type="submit" id="sourceSaveBtn">収集サイトを追加</button><button class="secondary" type="button" id="sourceCancelBtn" hidden>編集をキャンセル</button></div>
+        </form>
+        <p class="status" id="sourceStatus"></p>
+        <div id="sourceList"></div>
+      </section>
+      <div class="settings">
 
         <section class="panel">
           <h2>＋ キーワード追加・編集</h2>
@@ -674,7 +688,7 @@
 
   <footer class="footer">
     <div class="wrap">
-      MACHINE MORNING BRIEFING · Settings v1.4.4
+      MACHINE MORNING BRIEFING · Settings v1.6.0
     </div>
   </footer>
 
@@ -921,6 +935,10 @@
       const DEFAULT_CATEGORIES = ['ギター機材', 'メタル', '経済・トレード', '音楽ニュース'];
       let categories = [...DEFAULT_CATEGORIES];
       const CATEGORY_KEY = 'mmb-categories-v01';
+       const SOURCES_KEY = 'mmb-sources-v01';
+       let sources = [];
+       try { const s = JSON.parse(localStorage.getItem(SOURCES_KEY)); if (Array.isArray(s)) sources = s; } catch {}
+       let editingSource = null;
       try { const saved = JSON.parse(localStorage.getItem(CATEGORY_KEY));
         if (Array.isArray(saved) && saved.length && saved.every(x => typeof x === 'string')) categories = saved;
       } catch {}
@@ -950,6 +968,7 @@
 
       function persistLocal() {
         try { localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories)); } catch {}
+         try { localStorage.setItem(SOURCES_KEY, JSON.stringify(sources)); } catch {}
         try { localStorage.setItem(KEY, JSON.stringify(data)); }
         catch { $('formStatus').textContent = '端末への保存に失敗しました。JSONでバックアップしてください。'; }
       }
@@ -962,6 +981,8 @@
         $('importBtn').disabled = busy;
         $('resetBtn').disabled = busy;
         $('addCategoryBtn').disabled = busy;
+         $('sourceSaveBtn').disabled = busy;
+         $('sourceList').style.pointerEvents = busy ? 'none' : '';
         $('categoryList').style.pointerEvents = busy ? 'none' : '';
         $('list').style.pointerEvents = busy ? 'none' : '';
       }
@@ -997,6 +1018,7 @@
           if (cloudInitialized) {
             data = remote.items;
             categories = Array.isArray(remote.categories) && remote.categories.length ? remote.categories : [...DEFAULT_CATEGORIES];
+             sources = Array.isArray(remote.sources) ? remote.sources : [];
             persistLocal();
             cancelEdit();
             render();
@@ -1032,7 +1054,7 @@
         if (!confirm('この端末の ' + data.length + ' 件をクラウドへ初回保存しますか？')) return;
         setBusy(true);
         try {
-          const saved = await cloudRequest('PUT', { items: data, categories, updatedAt: cloudRevision });
+          const saved = await cloudRequest('PUT', { items: data, categories, sources, updatedAt: cloudRevision });
           cloudRevision = saved.updatedAt;
           cloudInitialized = true;
           $('syncUploadBtn').hidden = true;
@@ -1050,9 +1072,10 @@
         // Serialize writes, preserving the server revision across edits.
         const snapshot = structuredClone(data);
         const categorySnapshot = [...categories];
+         const sourceSnapshot = structuredClone(sources);
         syncMessage('クラウドへ保存中…');
         saveChain = saveChain.then(async () => {
-          const saved = await cloudRequest('PUT', { items: snapshot, categories: categorySnapshot, updatedAt: cloudRevision });
+          const saved = await cloudRequest('PUT', { items: snapshot, categories: categorySnapshot, sources: sourceSnapshot, updatedAt: cloudRevision });
           cloudRevision = saved.updatedAt;
           syncMessage('クラウド保存完了：' + new Date().toLocaleTimeString('ja-JP'));
         }).catch(error => {
@@ -1094,6 +1117,7 @@
           $('category').append(option);
         });
         renderCategories();
+         renderSources();
         ['すべて', ...categories].forEach(category => {
           const button = document.createElement('button');
 
@@ -1245,6 +1269,7 @@
             }
             categories[i] = value;
             data.forEach(item => { if (item.category === name) item.category = value; });
+             sources.forEach(item => { if (item.category === name) item.category = value; });
             if (filter === name) filter = value;
             persist(); render();
           }), makeButton('↑', () => {
@@ -1257,8 +1282,8 @@
             persist(); render();
           }), makeButton('削除', () => {
             if (categories.length === 1) { $('categoryStatus').textContent = '最後のカテゴリは削除できません。'; return; }
-            if (data.some(item => item.category === name)) {
-              $('categoryStatus').textContent = 'このカテゴリにはキーワードがあります。先にキーワードを移動または削除してください。'; return;
+            if (data.some(item => item.category === name) || sources.some(item => item.category === name)) {
+              $('categoryStatus').textContent = 'このカテゴリにはキーワードまたは収集サイトがあります。先に移動または削除してください。'; return;
             }
             if (!confirm('カテゴリ「' + name + '」を削除しますか？')) return;
             categories.splice(i, 1); if (filter === name) filter = 'すべて';
@@ -1277,7 +1302,45 @@
         persist(); render();
       };
 
-      function cancelEdit() {
+             function renderSources() {
+         const selector = $('sourceCategory');
+         const selected = selector.value;
+         selector.replaceChildren();
+         categories.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.textContent = c; selector.append(opt); });
+         if (categories.includes(selected)) selector.value = selected;
+         const list = $('sourceList'); list.replaceChildren();
+         sources.forEach((item, i) => {
+           const row = document.createElement('div'); row.className = 'item';
+           const check = document.createElement('input'); check.type = 'checkbox'; check.checked = item.enabled !== false;
+           check.setAttribute('aria-label', item.name + ' を有効化');
+           check.onchange = () => { if (mutationLocked) return; item.enabled = check.checked; persist(); renderSources(); };
+           const info = document.createElement('div'); info.className = 'details';
+           const name = document.createElement('div'); name.className = 'word'; name.textContent = item.name;
+           const url = document.createElement('div'); url.className = 'sub'; url.textContent = item.category + ' · ' + item.url;
+           info.append(name, url);
+           const actions = document.createElement('div'); actions.className = 'actions';
+           const action = (label, fn, cls = 'secondary') => { const b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = label; b.onclick = () => { if (!mutationLocked) fn(); }; return b; };
+           actions.append(action('編集', () => { editingSource = i; $('sourceName').value = item.name; $('sourceUrl').value = item.url; $('sourceCategory').value = item.category; $('sourceSaveBtn').textContent = '変更を保存'; $('sourceCancelBtn').hidden = false; $('sourceName').focus(); }), action('削除', () => { if (confirm('「' + item.name + '」を削除しますか？')) { sources.splice(i, 1); persist(); renderSources(); } }, 'danger'));
+           row.append(check, info, actions); list.append(row);
+         });
+         $('sourceStatus').textContent = sources.length + ' 件登録（有効 ' + sources.filter(x => x.enabled !== false).length + ' 件）';
+       }
+       function cancelSourceEdit() { editingSource = null; $('sourceForm').reset(); $('sourceSaveBtn').textContent = '収集サイトを追加'; $('sourceCancelBtn').hidden = true; }
+       $('sourceCancelBtn').onclick = cancelSourceEdit;
+       $('sourceForm').onsubmit = event => {
+         event.preventDefault(); if (mutationLocked) return;
+         const name = $('sourceName').value.trim(), category = $('sourceCategory').value, url = $('sourceUrl').value.trim();
+         let parsed;
+         try { parsed = new URL(url); } catch { $('sourceStatus').textContent = 'URLを確認してください。'; return; }
+         if (parsed.protocol !== 'https:' || parsed.username || parsed.password || !parsed.hostname || !categories.includes(category)) { $('sourceStatus').textContent = 'https:// のRSS URLを指定してください。'; return; }
+         if (sources.some((s, i) => i !== editingSource && s.url === url)) { $('sourceStatus').textContent = '同じURLが登録されています。'; return; }
+         if (editingSource === null && sources.length >= 50) { $('sourceStatus').textContent = '最大50件です。'; return; }
+         const entry = {name, url, category, enabled: editingSource === null ? true : sources[editingSource].enabled !== false};
+         if (editingSource === null) sources.push(entry); else sources[editingSource] = entry;
+         cancelSourceEdit(); persist(); renderSources();
+       };
+
+function cancelEdit() {
         editing = null;
 
         $('editForm').reset();
