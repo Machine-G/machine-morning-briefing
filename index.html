@@ -416,7 +416,7 @@
         </button>
 
         <button class="tab" id="settingsTab" aria-selected="false">
-          ⚙️ キーワード管理
+          ⚙️ キーワード・カテゴリ管理
         </button>
       </nav>
 
@@ -560,7 +560,15 @@
         </div>
         <p class="status">初回移行時以外、クラウドに既存設定がある場合はそちらを優先します。端末間の同時編集は避けてください。</p>
       </div>
-      <div class="settings">
+      <section class="panel" style="margin-top:20px">
+<h2>カテゴリ管理</h2>
+<p class="status">カテゴリの追加、名称変更、削除、表示順の変更ができます。カテゴリ名の変更は登録キーワードにも反映されます。</p>
+<div class="field"><label for="newCategory">新しいカテゴリ名</label><input type="text" id="newCategory" maxlength="30" placeholder="例：音楽ニュース"></div>
+<button class="primary" id="addCategoryBtn" type="button">カテゴリを追加</button>
+<div id="categoryList" style="margin-top:14px"></div>
+<p class="status" id="categoryStatus"></p>
+</section>
+<div class="settings">
 
         <section class="panel">
           <h2>＋ キーワード追加・編集</h2>
@@ -570,9 +578,7 @@
             <div class="field">
               <label for="category">カテゴリ</label>
               <select id="category">
-                <option>ギター機材</option>
-                <option>メタル</option>
-                <option>経済・トレード</option>
+
               </select>
             </div>
 
@@ -656,7 +662,7 @@
 
   <footer class="footer">
     <div class="wrap">
-      MACHINE MORNING BRIEFING · UI Prototype v0.6
+      MACHINE MORNING BRIEFING · Settings v1.4.1
     </div>
   </footer>
 
@@ -900,12 +906,12 @@
 
       const $ = id => document.getElementById(id);
 
-      const categories = [
-        'すべて',
-        'ギター機材',
-        'メタル',
-        '経済・トレード'
-      ];
+      const DEFAULT_CATEGORIES = ['ギター機材', 'メタル', '経済・トレード', '音楽ニュース'];
+      let categories = [...DEFAULT_CATEGORIES];
+      const CATEGORY_KEY = 'mmb-categories-v01';
+      try { const saved = JSON.parse(localStorage.getItem(CATEGORY_KEY));
+        if (Array.isArray(saved) && saved.length && saved.every(x => typeof x === 'string')) categories = saved;
+      } catch {}
 
       let data;
       let editing = null;
@@ -931,6 +937,7 @@
       }
 
       function persistLocal() {
+        try { localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories)); } catch {}
         try { localStorage.setItem(KEY, JSON.stringify(data)); }
         catch { $('formStatus').textContent = '端末への保存に失敗しました。JSONでバックアップしてください。'; }
       }
@@ -942,6 +949,8 @@
         $('saveBtn').disabled = busy;
         $('importBtn').disabled = busy;
         $('resetBtn').disabled = busy;
+        $('addCategoryBtn').disabled = busy;
+        $('categoryList').style.pointerEvents = busy ? 'none' : '';
         $('list').style.pointerEvents = busy ? 'none' : '';
       }
 
@@ -975,6 +984,7 @@
           cloudMode = true;
           if (cloudInitialized) {
             data = remote.items;
+            categories = Array.isArray(remote.categories) && remote.categories.length ? remote.categories : [...DEFAULT_CATEGORIES];
             persistLocal();
             cancelEdit();
             render();
@@ -1010,7 +1020,7 @@
         if (!confirm('この端末の ' + data.length + ' 件をクラウドへ初回保存しますか？')) return;
         setBusy(true);
         try {
-          const saved = await cloudRequest('PUT', { items: data, updatedAt: cloudRevision });
+          const saved = await cloudRequest('PUT', { items: data, categories, updatedAt: cloudRevision });
           cloudRevision = saved.updatedAt;
           cloudInitialized = true;
           $('syncUploadBtn').hidden = true;
@@ -1027,9 +1037,10 @@
         }
         // Serialize writes, preserving the server revision across edits.
         const snapshot = structuredClone(data);
+        const categorySnapshot = [...categories];
         syncMessage('クラウドへ保存中…');
         saveChain = saveChain.then(async () => {
-          const saved = await cloudRequest('PUT', { items: snapshot, updatedAt: cloudRevision });
+          const saved = await cloudRequest('PUT', { items: snapshot, categories: categorySnapshot, updatedAt: cloudRevision });
           cloudRevision = saved.updatedAt;
           syncMessage('クラウド保存完了：' + new Date().toLocaleTimeString('ja-JP'));
         }).catch(error => {
@@ -1064,7 +1075,14 @@
 
         $('filters').replaceChildren();
 
+        $('category').replaceChildren();
         categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category; option.textContent = category;
+          $('category').append(option);
+        });
+        renderCategories();
+        ['すべて', ...categories].forEach(category => {
           const button = document.createElement('button');
 
           button.className =
@@ -1164,6 +1182,57 @@
         });
       }
 
+      function renderCategories() {
+        $('categoryList').replaceChildren();
+        categories.forEach((name, i) => {
+          const row = document.createElement('div'); row.className = 'item';
+          const label = document.createElement('div'); label.className = 'details'; label.textContent = name;
+          const actions = document.createElement('div'); actions.className = 'actions';
+          const makeButton = (title, handler, cls = 'secondary') => {
+            const b = document.createElement('button'); b.type = 'button'; b.className = cls;
+            b.textContent = title; b.onclick = handler; return b;
+          };
+          actions.append(makeButton('名称変更', () => {
+            const next = prompt('新しいカテゴリ名', name);
+            if (next === null) return;
+            const value = next.trim();
+            if (!value || value.length > 30 || (value !== name && categories.includes(value))) {
+              $('categoryStatus').textContent = 'カテゴリ名が無効、または重複しています。'; return;
+            }
+            categories[i] = value;
+            data.forEach(item => { if (item.category === name) item.category = value; });
+            if (filter === name) filter = value;
+            persist(); render();
+          }), makeButton('↑', () => {
+            if (i < 1) return;
+            [categories[i - 1], categories[i]] = [categories[i], categories[i - 1]];
+            persist(); render();
+          }), makeButton('↓', () => {
+            if (i >= categories.length - 1) return;
+            [categories[i + 1], categories[i]] = [categories[i], categories[i + 1]];
+            persist(); render();
+          }), makeButton('削除', () => {
+            if (categories.length === 1) { $('categoryStatus').textContent = '最後のカテゴリは削除できません。'; return; }
+            if (data.some(item => item.category === name)) {
+              $('categoryStatus').textContent = 'このカテゴリにはキーワードがあります。先にキーワードを移動または削除してください。'; return;
+            }
+            if (!confirm('カテゴリ「' + name + '」を削除しますか？')) return;
+            categories.splice(i, 1); if (filter === name) filter = 'すべて';
+            persist(); render();
+          }, 'danger'));
+          row.append(label, actions); $('categoryList').append(row);
+        });
+      }
+      $('addCategoryBtn').onclick = () => {
+        const value = $('newCategory').value.trim();
+        if (!value || value.length > 30 || categories.includes(value) || categories.length >= 20) {
+          $('categoryStatus').textContent = 'カテゴリ名の重複・文字数（30字以内）・最大20件を確認してください。'; return;
+        }
+        categories.push(value); $('newCategory').value = '';
+        $('categoryStatus').textContent = 'カテゴリを追加しました。';
+        persist(); render();
+      };
+
       function cancelEdit() {
         editing = null;
 
@@ -1259,7 +1328,7 @@
             incoming.every(item =>
               typeof item.word === 'string' &&
               item.word.length <= 100 &&
-              categories.slice(1).includes(item.category) &&
+              categories.includes(item.category) &&
               ['最重要', '通常', '参考'].includes(item.priority)
             );
 
@@ -1297,6 +1366,7 @@
         }
 
         data = structuredClone(defaults);
+        categories = [...DEFAULT_CATEGORIES];
 
         persist();
         cancelEdit();
