@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
-"""Machine Morning Briefing v1.4.2: keyword-first RSS + balanced category discovery.
+"""Machine Morning Briefing v1.5.0: interactive newspaper and article thumbnails.
 
 Uses existing authenticated Cloudflare keyword endpoint and existing feeds.json.
 Does not modify index.html, GitHub Actions, or Cloudflare Worker.
 """
+# ==================================================
+# Machine Morning Briefing
+# File    : collector.py
+# Version : v1.5.0
+# Updated : 2026-11-10
+# Changes : カテゴリ絞り込み・検索・注目記事優先・記事画像・公開日時表示
+# ==================================================
 import datetime as dt
 import html
+from html.parser import HTMLParser
 import json
 import time
 import urllib.error
@@ -24,7 +32,7 @@ ROOT = pathlib.Path(__file__).resolve().parent
 JST = dt.timezone(dt.timedelta(hours=9))
 NOW = dt.datetime.now(JST)
 OUT = ROOT / 'morning.html'
-USER_AGENT = 'MachineMorningBriefing/1.4.2 (+RSS reader)'
+USER_AGENT = 'MachineMorningBriefing/1.5.0 (+RSS reader)'
 MAX_ARTICLES = 30
 CATEGORIES = ['メタル', 'ギター機材', '経済・トレード', '音楽ニュース']
 
@@ -148,6 +156,94 @@ def normalize_url(url):
         return url
 
 
+def valid_image_url(value, base=''):
+    if not isinstance(value, str) or not value.strip():
+        return None
+    url = urllib.parse.urljoin(base, html.unescape(value.strip()))
+    parsed = urllib.parse.urlsplit(url)
+    if parsed.scheme not in ('http', 'https') or not parsed.hostname or parsed.username or parsed.password:
+        return None
+    if parsed.hostname.lower() in ('localhost',) or parsed.hostname.endswith(('.local', '.internal')):
+        return None
+    return url[:2000]
+
+
+def rss_image(entry, base):
+    for field in ('media_content', 'media_thumbnail'):
+        for item in entry.get(field, []) or []:
+            if isinstance(item, dict):
+                url = valid_image_url(item.get('url'), base)
+                if url and (field == 'media_thumbnail' or
+                            str(item.get('type', '')).startswith('image/') or
+                            not item.get('type')):
+                    return url
+    for item in entry.get('links', []) or []:
+        if isinstance(item, dict) and item.get('rel') == 'enclosure' and str(item.get('type', '')).startswith('image/'):
+            url = valid_image_url(item.get('href'), base)
+            if url:
+                return url
+    for field in ('summary', 'description'):
+        match = re.search(r'<img\b[^>]*\bsrc=[\"\']([^\"\']+)', str(entry.get(field, '')), re.I)
+        if match:
+            url = valid_image_url(match.group(1), base)
+            if url:
+                return url
+    return None
+
+
+class OGImageParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.image = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag.lower() != 'meta' or self.image:
+            return
+        attrs = dict(attrs)
+        if (attrs.get('property', '').lower() in ('og:image', 'og:image:url') or
+                attrs.get('name', '').lower() == 'twitter:image'):
+            self.image = attrs.get('content')
+
+
+def fill_images(articles):
+    # Reuse images from previous runs; limit page fetches to avoid slowing GitHub Actions.
+    old = {}
+    previous = ROOT / 'articles.json'
+    if previous.exists():
+        try:
+            old = {a['url']: a.get('image') for a in read_json(previous).get('articles', [])
+                   if isinstance(a, dict) and a.get('url') and a.get('image')}
+        except (ValueError, OSError, TypeError):
+            pass
+    attempts = 0
+    for article in articles:
+        if article.get('image'):
+            continue
+        cached = valid_image_url(old.get(article['url']), article['url'])
+        if cached:
+            article['image'] = cached
+            continue
+        if attempts >= 12:
+            continue
+        attempts += 1
+        try:
+            req = urllib.request.Request(article['url'], headers={
+                'User-Agent': USER_AGENT,
+                'Accept': 'text/html,application/xhtml+xml',
+            })
+            with urllib.request.urlopen(req, timeout=5) as response:
+                if 'html' not in response.headers.get('Content-Type', '').lower():
+                    continue
+                raw = response.read(150_000)
+                base = response.geturl()
+            parser = OGImageParser()
+            parser.feed(raw.decode('utf-8', errors='replace'))
+            article['image'] = valid_image_url(parser.image, base)
+        except (OSError, ValueError, UnicodeError, TypeError) as exc:
+            print(f'INFO: thumbnail skipped ({type(exc).__name__})')
+    print(f'INFO: thumbnails {sum(bool(a.get("image")) for a in articles)}/{len(articles)}, OGP requests {attempts}')
+
+
 def collect(feeds, terms):
     articles, seen = [], set()
     keyword_hits = {}
@@ -192,6 +288,7 @@ def collect(feeds, terms):
                 'title': title, 'summary': summary, 'url': url,
                 'source': feed['name'], 'category': category,
                 'published': published.isoformat() if published else None,
+                'image': rss_image(entry, url),
                 'matched': [x['term'] for x in found],
                 'score': max((2 if x['priority'] in ('最重要', '高') else 1 for x in found), default=0),
             })
@@ -561,28 +658,51 @@ def render(articles, terms):
     def cards_for(items):
         cards = []
         for article in items:
-            date = (dt.datetime.fromisoformat(article['published']).strftime('%m/%d %H:%M JST')
-                    if article['published'] else '公開日時不明')
+            published = article.get('published')
+            date = (dt.datetime.fromisoformat(published).strftime('%Y/%m/%d %H:%M JST')
+                    if published else '公開日時不明')
             url = esc(article['url'], quote=True)
+            category = esc(article['category'])
+            source = esc(article['source'])
             tags = ''.join(f'<span class="tag">{esc(x)}</span>' for x in article['matched'][:4])
-            badge = '<span class="highlight">最重要キーワード</span>' if article['score'] == 2 else ('<span class="highlight">キーワード一致</span>' if article['matched'] else '')
-            cards.append(f'''<article class="card"><div class="meta">{esc(article['category'])} · {esc(article['source'])} · {date}</div>
-<div>{badge}</div><h2><a href="{url}" target="_blank" rel="noopener noreferrer">{esc(article.get('title_ja') or article['title'])}</a></h2>
-<div class="original">{esc(article['title']) if article.get('title_ja') else ''}</div>
-<p>{'概要は元記事で確認してください。' if article.get('summary_suppressed') else (esc(article.get('summary_ja') or article['summary'][:240]) or '概要は元記事で確認してください。')}</p><div class="tags">{tags}</div>
-<a class="source" href="{url}" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></article>''')
+            badge = ('<span class="highlight">最重要キーワード</span>' if article['score'] == 2
+                     else '<span class="highlight">キーワード一致</span>' if article['matched'] else '')
+            image = valid_image_url(article.get('image'), article['url'])
+            thumbnail = (f'<a class="thumb" href="{url}" target="_blank" rel="noopener noreferrer">'
+                         f'<img src="{esc(image, quote=True)}" loading="lazy" referrerpolicy="no-referrer" '
+                         f'alt="記事の代表画像" onerror="this.parentElement.style.display=\'none\'"></a>'
+                         if image else '')
+            title = esc(article.get('title_ja') or article['title'])
+            summary = ('概要は元記事で確認してください。' if article.get('summary_suppressed')
+                       else (esc(article.get('summary_ja') or article['summary'][:240])
+                             or '概要は元記事で確認してください。'))
+            original = esc(article['title']) if article.get('title_ja') else ''
+            search_text = esc(' '.join([article['category'], article['source'], article['title'],
+                                       article.get('title_ja') or '', article.get('summary_ja') or '',
+                                       article['summary'], *article['matched']]), quote=True)
+            cards.append(f'''<article class="card" data-category="{category}" data-matched="{int(bool(article['matched']))}" data-score="{article['score']}" data-published="{esc(published or '', quote=True)}" data-search="{search_text}">
+<div class="meta">{category} · {source} · {date}</div>
+<div class="card-content">{thumbnail}<div class="card-copy"><div>{badge}</div><h2><a href="{url}" target="_blank" rel="noopener noreferrer">{title}</a></h2>
+<div class="original">{original}</div><p>{summary}</p><div class="tags">{tags}</div>
+<a class="source" href="{url}" target="_blank" rel="noopener noreferrer">元記事を読む ↗</a></div></div></article>''')
         return '\n'.join(cards)
 
-    sections = []
-    matched = [a for a in articles if a['matched']]
-    if matched:
-        sections.append(f'<section><h2 class="section-title">注目ニュース <small>{len(matched)}件</small></h2><div class="grid">{cards_for(matched)}</div></section>')
-    for category in CATEGORIES + sorted({a['category'] for a in articles} - set(CATEGORIES)):
-        items = [a for a in articles if not a['matched'] and a['category'] == category]
-        if items:
-            sections.append(f'<section><h2 class="section-title">{esc(category)} <small>{len(items)}件</small></h2><div class="grid">{cards_for(items)}</div></section>')
-    body = '\n'.join(sections) if sections else '<div class="empty">該当する新着記事はありませんでした。RSS取得先を確認してください。</div>'
+    categories = list(dict.fromkeys(CATEGORIES + [a['category'] for a in articles]))
+    category_buttons = ''.join('<button type="button" class="filter" data-filter="' + esc(c, quote=True) + '">' + esc(c) + '</button>' for c in categories)
+    matched_count = sum(bool(a['matched']) for a in articles)
+    body = cards_for(articles)
+    if not body:
+        body = '<div class="empty">該当する新着記事はありませんでした。RSS取得先を確認してください。</div>'
     return f'''<!doctype html>
+<!--
+==================================================
+ Machine Morning Briefing
+ File    : morning.html (generated by collector.py)
+ Version : v1.5.0
+ Updated : 2026-11-10
+ Changes : カテゴリ絞り込み・検索・注目記事優先・代表画像表示
+==================================================
+-->
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark"><title>Machine Morning Briefing | {NOW:%Y-%m-%d}</title>
 <style>
@@ -594,23 +714,71 @@ header,main,footer{{max-width:1160px;margin:auto;padding:24px}}header{{padding-t
 .settings-link:hover{{background:#48371d;text-decoration:none}}
 .eyebrow{{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.12em}}h1{{font-size:clamp(29px,4vw,54px);line-height:1.2;margin:12px 0}}.sub{{color:var(--muted)}}
 .stats{{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}}
-.grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}.card{{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;min-width:0}}
-.meta{{font-size:12px;color:var(--gold);font-weight:700}}.card h2{{font-size:21px;line-height:1.5;margin:12px 0}}a{{color:inherit;text-decoration:none}}.card h2 a:hover,.source:hover{{text-decoration:underline}}
-.original{{color:#8f9db3;font-size:12px;line-height:1.5;margin:0 0 8px}}.card p{{color:var(--muted);font-size:15px;overflow-wrap:anywhere}}.tags{{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}}.tag{{font-size:11px;border:1px solid #47546b;padding:3px 9px;border-radius:99px}}
+.grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}.card{{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}}
+.meta{{font-size:12px;color:var(--gold);font-weight:700}}.card h2{{font-size:19px;line-height:1.5;margin:8px 0}}a{{color:inherit;text-decoration:none}}.card h2 a:hover,.source:hover{{text-decoration:underline}}
+.card-content{{display:flex;align-items:flex-start;gap:15px;margin-top:10px}}.card-copy{{flex:1;min-width:0}}.thumb{{display:block;flex:0 0 130px;width:130px;aspect-ratio:4/3;border-radius:9px;overflow:hidden;background:#253247}}.thumb img{{width:100%;height:100%;object-fit:cover;display:block}}
+.original{{color:#8f9db3;font-size:12px;line-height:1.5;margin:0 0 8px}}.card p{{color:var(--muted);font-size:14px;overflow-wrap:anywhere;margin:9px 0}}.tags{{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}}.tag{{font-size:11px;border:1px solid #47546b;padding:3px 9px;border-radius:99px}}
 .source{{font-size:13px;color:var(--gold);font-weight:700}}.empty{{padding:30px;border:1px solid var(--line);border-radius:14px;color:var(--muted)}}footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line)}}
-section{{margin:22px 0 40px}}.section-title{{font-size:23px;margin:0 0 18px}}.section-title small{{font-size:13px;color:var(--muted);font-weight:400}}
-.highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px;margin-top:9px}}
-@media(max-width:680px){{.header-top{{align-items:flex-start}}.settings-link{{font-size:12px;padding:7px 11px}}header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:20px}}.card h2{{font-size:20px}}.card p{{font-size:16px}}}}
+.highlight{{display:inline-block;color:var(--gold);border:1px solid #8e7140;border-radius:6px;font-size:11px;padding:1px 7px}}
+.controls{{margin:26px 0 18px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:14px}}.filters{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}}.filter,.sort-btn{{border:1px solid #526073;background:#243449;color:var(--text);border-radius:9px;padding:8px 12px;cursor:pointer;font:inherit;font-size:13px}}.filter.active,.sort-btn.active{{border-color:var(--gold);color:var(--gold);background:#352b20}}.control-row{{display:flex;flex-wrap:wrap;gap:12px;align-items:center}}.search{{flex:1;min-width:180px;background:#0b101a;color:var(--text);border:1px solid #526073;border-radius:9px;padding:10px;font:inherit}}.check{{font-size:13px;display:flex;gap:7px;align-items:center;cursor:pointer}}.count{{font-size:13px;color:var(--muted);margin:14px 0}}
+@media(max-width:680px){{.header-top{{align-items:flex-start}}.settings-link{{font-size:12px;padding:7px 11px}}header,main,footer{{padding:22px 17px}}.grid{{grid-template-columns:1fr}}.card{{padding:16px}}.card h2{{font-size:18px}}.card p{{font-size:14px}}.thumb{{flex-basis:94px;width:94px}}.card-content{{gap:12px}}}}
 </style></head><body><header><div class="header-top"><div class="eyebrow">YOUR DAILY INTELLIGENCE</div><a class="settings-link" href="./index.html" aria-label="キーワード・カテゴリの設定と編集">⚙ 設定・編集 ↗</a></div><h1>MACHINE<br>MORNING BRIEFING</h1>
-<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.4.2</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {len(matched)} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
-<main><p><a href="./index.html" style="color:var(--gold);font-weight:700">⚙ キーワード・カテゴリ管理 ↗</a></p><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。元記事にない情報は追加しない方針ですが、翻訳に誤りが含まれる可能性があります。</p>
-{body}</main><footer>Machine Morning Briefing · RSS prototype · 公開日時不明の記事を含む場合があります。</footer></body></html>'''
+<div class="sub">{NOW:%Y年%m月%d日} · RSS収集版 v1.5.0</div><div class="stats"><span>関連記事 {len(articles)} 件</span><span>キーワード一致 {matched_count} 件</span><span>有効キーワード {len(terms)} 件</span><span>更新 {NOW:%H:%M} JST</span></div></header>
+<main><p class="sub">キーワード一致記事を優先し、ジャンル別の新着記事を補完しています。公開RSSの見出し・概要を掲載しています。日本語の見出し・概要はRSSの公開情報を基にAIで翻訳・整形しています。AIが利用できない場合は機械翻訳または英語原文を表示します。翻訳に誤りが含まれる可能性があります。</p>
+<div class="controls"><div class="filters"><button type="button" class="filter active" data-filter="すべて">すべて</button>{category_buttons}</div>
+<div class="control-row"><input class="search" id="articleSearch" type="search" placeholder="記事を検索（タイトル・要約・情報源）" aria-label="記事を検索"><label class="check"><input id="matchedOnly" type="checkbox"> キーワード一致記事のみ</label><button type="button" class="sort-btn active" id="prioritySort">注目記事を優先</button><button type="button" class="sort-btn" id="newestSort">新着順</button></div></div>
+<div class="count" id="resultCount" role="status"></div><div class="grid" id="articleGrid">{body}</div>
+</main><footer>Machine Morning Briefing · 公開日時不明の記事を含む場合があります。記事画像は外部サイトから読み込みます。</footer>
+<script>
+// Client-side display only. No authentication or cloud settings are modified.
+(() => {{
+  const cards = Array.from(document.querySelectorAll('#articleGrid .card'));
+  const grid = document.getElementById('articleGrid');
+  const filters = Array.from(document.querySelectorAll('.filter'));
+  const search = document.getElementById('articleSearch');
+  const matchedOnly = document.getElementById('matchedOnly');
+  const count = document.getElementById('resultCount');
+  const prioritySort = document.getElementById('prioritySort');
+  const newestSort = document.getElementById('newestSort');
+  let category = 'すべて', order = 'priority';
+  function refresh() {{
+    const q = search.value.trim().toLocaleLowerCase();
+    const visible = cards.filter(card =>
+      (category === 'すべて' || card.dataset.category === category) &&
+      (!matchedOnly.checked || card.dataset.matched === '1') &&
+      (!q || card.dataset.search.toLocaleLowerCase().includes(q)));
+    visible.sort((a, b) => {{
+      if (order === 'priority') {{
+        const score = Number(b.dataset.score) - Number(a.dataset.score);
+        if (score) return score;
+      }}
+      return (b.dataset.published || '').localeCompare(a.dataset.published || '');
+    }});
+    const fragment = document.createDocumentFragment();
+    visible.forEach(card => {{ card.hidden = false; fragment.appendChild(card); }});
+    cards.filter(card => !visible.includes(card)).forEach(card => {{ card.hidden = true; fragment.appendChild(card); }});
+    grid.appendChild(fragment);
+    count.textContent = visible.length + ' / ' + cards.length + ' 件を表示';
+  }}
+  filters.forEach(button => button.addEventListener('click', () => {{
+    category = button.dataset.filter;
+    filters.forEach(b => b.classList.toggle('active', b === button));
+    refresh();
+  }}));
+  search.addEventListener('input', refresh);
+  matchedOnly.addEventListener('change', refresh);
+  prioritySort.addEventListener('click', () => {{ order = 'priority'; prioritySort.classList.add('active'); newestSort.classList.remove('active'); refresh(); }});
+  newestSort.addEventListener('click', () => {{ order = 'newest'; newestSort.classList.add('active'); prioritySort.classList.remove('active'); refresh(); }});
+  refresh();
+}})();
+</script></body></html>'''
 
 
 def main():
     terms = keywords()
     feeds = read_json(ROOT / 'feeds.json')['feeds']
     articles = collect(feeds, terms)
+    fill_images(articles)
     gemini_articles(articles)
     translate_articles(articles)
     OUT.write_text(render(articles, terms), encoding='utf-8')
