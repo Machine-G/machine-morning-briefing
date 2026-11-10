@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T15:36:48.669429+09:00",
+  "generated_at": "2026-11-10T15:44:47.489430+09:00",
   "articles": [
     {
       "title": "Former DRAGONFORCE And SKID ROW Singer ZP THEART Releases Re-Imagining Of NIGHTWISH's 'Nemo'",
@@ -58,8 +58,10 @@
       "image": "https://content-media.investing.com/news/LYNXNPEC0O0JM_M.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "投資家が米国のインフレデータを待ってFRB金利の手がかりを得る中、金は下落する",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "米インフレ指標の発表を控え、金相場は下落",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Test your John Paul Jones knowledge with our quiz",
@@ -71,8 +73,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/PZhAZtjzth4MffJ62hAWBX-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "クイズでジョン・ポール・ジョーンズの知識をテストする",
-      "summary_ja": "象徴的なレッド・ツェッペリンのベースラインからバンドを超えた彼の作品まで、ロックの最も多才なミュージシャンの一人をどの程度知っていますか？"
+      "summary_ja": "Led Zeppelinの象徴的なベースラインからバンド外の活動まで、ロック界屈指の多才なミュージシャンである彼の知識を問うクイズが登場しました。",
+      "title_ja": "Led ZeppelinのJohn Paul Jonesに関する知識を試すクイズが公開",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Fender Japan gives ‘F-hole’ a new meaning as it releases a Thinline Telecaster with a twist",
@@ -114,8 +117,10 @@
       "image": "https://content-media.investing.com/news/LYNXMPEM0S1F0_1200_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "ミャンマーは、中国が支配するレアアース部門に投資するよう米国に働きかけている",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "ミャンマー、中国が支配するレアアース分野への米投資を要請",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Taylor just slashed $100 off a 4.5-star acoustic we declared \"shines like a gem on the live stage,\" alongside other amazing value guitars in this epic early Black Friday sale",
@@ -172,9 +177,9 @@
       "image": "https://content-media.investing.com/news/moved_LYNXMPEHB508M_L.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "ビットコインは7万5000ドルを下回る水準で推移、規制の不透明感とETF流出が重石に",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -232,9 +237,9 @@
       "image": "https://content-media.investing.com/news/LYNXNPEC180BO_M.jpg",
       "matched": [],
       "score": 0,
-      "summary_suppressed": true,
-      "summary_ja": null,
       "title_ja": "オランダの10月インフレ率は3.7%に上昇、ガス価格の高騰が影響",
+      "summary_ja": null,
+      "summary_suppressed": true,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -277,8 +282,9 @@
       "image": "https://assets.blabbermouth.net/media/UdoWolfNov2026_420x237.jpg",
       "matched": [],
       "score": 0,
-      "summary_ja": "Udo Dirkschneiderはインタビューで、ACCEPTの50周年記念アルバムへの参加をWolf Hoffmannから打診されたという主張を否定した。",
       "title_ja": "Udo DirkschneiderがACCEPTの50周年記念アルバムへの参加を否定、「Wolf Hoffmannから誘いはなかった」",
+      "summary_ja": "Udo Dirkschneiderはインタビューで、ACCEPTの50周年記念アルバムへの参加をWolf Hoffmannから打診されたという主張を否定した。",
+      "summary_suppressed": false,
       "translation_engine": "gemini-v1.4.0"
     },
     {
@@ -291,8 +297,10 @@
       "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA909N_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "中国の10月の原油輸入は3月以来の高水準に上昇",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "中国の10月原油輸入量、3月以来の高水準を記録",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "“A wild thing, and we think you’ll love it”: Warm Audio The Black Keys Peach Fuzz review",
@@ -304,8 +312,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/SgrJaimZTFwSGrEejTUzem-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "“A wild thing, and we think you 'll love it ”: Warm Audio The Black Keys Peach Fuzzレビュー",
-      "summary_ja": "Black KeysはWarm Audioと協力して、切り替え可能なオクターブで毛むくじゃらのファズを作ります。fOXXが実行されるかどうか見てみましょう"
+      "summary_ja": "The Black KeysとWarm Audioが共同開発した、オクターブ切替機能を搭載するファズ・ペダル「Peach Fuzz」のレビュー。",
+      "title_ja": "Warm AudioとThe Black Keysがコラボ、オクターブ切替可能なファズ・ペダル「Peach Fuzz」が登場",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Robin Finck on his Nine Inch Nails tone secrets – and why he’s selling half his gear collection",
@@ -317,8 +326,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/wBDKxBsjv8p9hyHZAqEFpJ-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "ロビン・フィンクが語る「ナイン・インチ・ネイルズ」のトーン・シークレットと、彼がギアコレクションの半分を売っている理由",
-      "summary_ja": "フィンクの公式リバーブストアには、ナイン・インチ・ネイルズ、ガンズ・アンド・ローゼズなどの冒険の道具が揃っています。彼は、あなたのものになる可能性のある宝物のいくつかと、それらに伴う物語について話します"
+      "summary_ja": "Nine Inch NailsやGuns N' Rosesでの活動で使用した機材を、Robin Finckが自身のReverb公式ストアで販売する。",
+      "title_ja": "Nine Inch NailsのRobin Finckが機材コレクションを放出、Reverb公式ストアで販売へ",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Mammoth's Wolfgang Van Halen Names His 3 Most Influential Albums",
@@ -330,8 +340,10 @@
       "image": "https://townsquare.media/site/366/files/2026/11/attachment-social-image-366-2026-11-09-12-38-26.jpg?format=natural",
       "matched": [],
       "score": 0,
-      "title_ja": "マンモスのヴォルフガング・ヴァン・ヘイレンが最も影響力のある3枚のアルバムを発表",
-      "summary_ja": "Mike Coppola、Getty Images、Graham Denholm、Getty Images、Amy Sussman、Getty Images、Matt Winkelmeyer、Getty Images"
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "Mammoth WVHのWolfgang Van Halenが選ぶ、自身に影響を与えた3枚のアルバム",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Asia FX subdued, dollar holds losses ahead of U.S. inflation data",
@@ -343,8 +355,10 @@
       "image": "https://content-media.investing.com/news/LYNXNPEF0600R_M.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "アジアのFXは抑制され、ドルは米国のインフレデータに先行して損失を保持している",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "米インフレ指標発表を控え、アジア市場の通貨は小動きでドルは軟調",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "“You really can’t fault anything… unimpeachable”: Patrick James Eggle Oz Carved Top review",
@@ -356,8 +370,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/eSzCQktncY5bheSW8y3wtC-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "「あなたは本当に何も非難することはできません...非の打ちどころのない」： Patrick James Eggle Oz Carvedトップレビュー",
-      "summary_ja": "PJEカブロニタオズのこのいとこは、ワイドレンジハムバッカー、「グレインマホガニー」仕上げを特徴とし、まだエグルの驚くべき細部へのこだわりを誇っています"
+      "summary_ja": "WideRangeハムバッカーを搭載し、グレインド・マホガニー仕上げを施した本機は、Eggle特有の驚異的なこだわりが随所に感じられる仕上がりとなっている。",
+      "title_ja": "Patrick James Eggle Oz Carved Top：細部まで妥協なき職人技が光る逸品をレビュー",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "Richard Lloyd reflects on Television, Zeppelin and Hendrix encounters, and his bittersweet relationship with Tom Verlaine in his final Guitar World interview",
@@ -369,8 +384,9 @@
       "image": "https://cdn.mos.cms.futurecdn.net/KMq9MQjcysNnt5W4SAjjuP-1920-80.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "リチャード・ロイドは、テレビ、ツェッペリン、ヘンドリックスとの出会い、そしてトム・ヴァーレインとの苦い関係を、彼の最後のギターワールドのインタビューで振り返ります",
-      "summary_ja": "リチャード・ロイドは11月7日に亡くなりました。この幅広い会話の中で、彼はテレビのレガシー、ジミー・ペイジの技術とのバックステージのレッスン、そしてジョン・リー・フッカーとの舞台上のジャムを振り返ります"
+      "summary_ja": "11月7日に逝去したRichard Lloydが、Televisionの功績やJimmy Pageのテックから学んだ教訓、John Lee Hookerとの共演を振り返る。",
+      "title_ja": "Richard Lloydが語るTelevisionの軌跡と伝説的ギタリストたちとの邂逅：生前最後のインタビュー",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "JOHN GALLAGHER Says Working With His Brother MARK In RAVEN Is 'A Great Asset': 'We Don't Fight Like Those Other Idiot GALLAGHER Brothers' From OASIS",
@@ -382,8 +398,9 @@
       "image": "https://assets.blabbermouth.net/media/johnmarkgallaghernov2026_420x237.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "ジョン・ギャラガーが『レイヴン』で弟のマークと一緒に働くことは「偉大な資産」であると語る：オアシスの「他のばかなギャラガー兄弟のように戦うのではない」",
-      "summary_ja": "Innocents TornのBonny Freimuthとの新しいインタビューで、レイヴンのベーシスト/ヴォーカリストであるジョン・ギャラガーは、彼の兄弟であるレイヴンのギタリストであるマーク・ギャラガーと緊密に仕事をすることがどのようなものであるかを尋ねられました。"
+      "summary_ja": "RAVENのJohn Gallagherが、ギタリストである兄Markとの活動について、兄弟であることは大きな強みであり、OASISのGallagher兄弟のような喧嘩はしないと語った。",
+      "title_ja": "RAVENのJohn Gallagherが語る兄弟でのバンド活動：OASISのGallagher兄弟とは違うと強調",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "China extends US trade truce by two months",
@@ -395,8 +412,10 @@
       "image": "https://content-media.investing.com/trkd-images/LYNXNPEMA807D_L.jpg",
       "matched": [],
       "score": 0,
-      "title_ja": "中国、米国の貿易休戦を2カ月延長",
-      "summary_ja": null
+      "summary_suppressed": true,
+      "summary_ja": null,
+      "title_ja": "中国、対米貿易休戦を2ヶ月延長",
+      "translation_engine": "gemini-v1.4.0"
     },
     {
       "title": "How Rory Gallagher found the love of his life – the ’61 Strat that would become his Excalibur",
