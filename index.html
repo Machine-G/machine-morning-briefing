@@ -626,6 +626,7 @@
           </h2>
 
           <div class="filters" id="filters"></div>
+          <p class="status">↑ ↓ ボタンで表示順を変更できます。カテゴリで絞り込んだ場合は、そのカテゴリ内で並び替えます。</p>
           <div id="list"></div>
 
           <div class="bottom">
@@ -662,7 +663,7 @@
 
   <footer class="footer">
     <div class="wrap">
-      MACHINE MORNING BRIEFING · Settings v1.4.1
+      MACHINE MORNING BRIEFING · Settings v1.4.2
     </div>
   </footer>
 
@@ -1175,11 +1176,43 @@
             render();
           };
 
-          actions.append(editButton, deleteButton);
+          const upButton = document.createElement('button');
+          upButton.type = 'button';
+          upButton.className = 'secondary';
+          upButton.textContent = '↑';
+          upButton.title = item.word + ' を上へ';
+          upButton.setAttribute('aria-label', item.word + ' を上へ');
+          upButton.disabled = visibleItems.indexOf(item) === 0;
+          upButton.onclick = () => moveKeyword(item.id, -1);
+
+          const downButton = document.createElement('button');
+          downButton.type = 'button';
+          downButton.className = 'secondary';
+          downButton.textContent = '↓';
+          downButton.title = item.word + ' を下へ';
+          downButton.setAttribute('aria-label', item.word + ' を下へ');
+          downButton.disabled = visibleItems.indexOf(item) === visibleItems.length - 1;
+          downButton.onclick = () => moveKeyword(item.id, 1);
+
+          actions.append(upButton, downButton, editButton, deleteButton);
           row.append(checkbox, details, actions);
 
           $('list').append(row);
         });
+      }
+
+      function moveKeyword(id, direction) {
+        if (mutationLocked) return;
+        const visible = data.filter(item => filter === 'すべて' || item.category === filter);
+        const index = visible.findIndex(item => item.id === id);
+        const target = visible[index + direction];
+        if (index < 0 || !target) return;
+        const a = data.findIndex(item => item.id === id);
+        const b = data.findIndex(item => item.id === target.id);
+        if (a < 0 || b < 0) return;
+        [data[a], data[b]] = [data[b], data[a]];
+        persist();
+        render();
       }
 
       function renderCategories() {
